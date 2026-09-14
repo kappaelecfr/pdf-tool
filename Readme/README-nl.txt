@@ -66,6 +66,28 @@ bestand; het wordt niet alleen afgedekt.
 
 Wat de rand van de rechthoek alleen raakt, blijft heel, zodat paginakaders
 en tabellijnen niet breken. Neem de zone 2-3 mm ruimer dan de code.
+EEN ZONE VAN DE ENE PDF NAAR DE ANDERE KOPIËREN
+-----------------------------------------------
+U hebt een bedrijfshoofd, een handtekening of een tabel in een pdf en u
+wilt ze in een andere. Fotografeer ze niet: kopieer ze.
+
+In het tabblad Toevoegen, onderaan, drukt u op „Een zone kopiëren” en
+sleept u een rechthoek over wat u wilt. Open dan de pdf waarin ze moet
+komen, druk op „Plakken door op de pagina te klikken” en klik op de
+juiste plek.
+
+De zone gaat mee met haar tekst: het blijft tekst, doorzoekbaar en
+selecteerbaar na het plakken. Het bestand groeit met enkele kilobytes,
+niet met honderden.
+
+Wilt u toch een afbeelding — zodat niemand de tekst eruit kan kopiëren,
+bijvoorbeeld — vink dan „Als afbeelding plakken” aan. De grootte komt dan
+uit de kwaliteitsinstelling van het tabblad Uitnemen.
+
+Alleen wat binnen de rechthoek ligt, wordt gekopieerd. De rest van de
+bronpagina blijft achter.
+
+
 
 
 ZOOMEN EN VERSCHUIVEN

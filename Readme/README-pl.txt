@@ -64,6 +64,28 @@ tekst, obrazy i rysunki — znika z pliku; nie zostaje tylko zasłonięte.
 To, co jedynie dotyka krawędzi prostokąta, pozostaje nienaruszone, więc
 ramki strony i linie tabel się nie rwą. Weź obszar 2-3 mm szerszy niż
 kod.
+KOPIOWANIE OBSZARU Z JEDNEGO PDF-A DO DRUGIEGO
+----------------------------------------------
+Masz w jednym PDF-ie nagłówek firmy, podpis albo tabelę i chcesz to
+mieć w innym. Nie fotografuj tego: skopiuj.
+
+W zakładce Dodaj, na dole, naciśnij „Skopiuj obszar” i przeciągnij
+prostokąt nad tym, co cię interesuje. Potem otwórz PDF, w którym ma się
+znaleźć, naciśnij „Wklej, klikając na stronie” i kliknij we właściwym
+miejscu.
+
+Obszar idzie razem ze swoim tekstem: pozostaje tekstem, można go po
+wklejeniu wyszukać i zaznaczyć. Plik rośnie o kilka kilobajtów, nie o
+setki.
+
+Jeśli mimo to chcesz obrazek — żeby nikt nie mógł stamtąd przepisać
+tekstu, na przykład — zaznacz „Wklej jako obrazek”. Rozmiar bierze się
+wtedy z ustawienia jakości w zakładce Wyodrębnij.
+
+Kopiuje się tylko to, co jest w prostokącie. Reszta strony źródłowej
+zostaje.
+
+
 
 
 POWIĘKSZANIE I PRZESUWANIE

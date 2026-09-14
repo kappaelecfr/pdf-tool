@@ -10,6 +10,17 @@
   "pt": "%d selecionadas",
   "ru": "выбрано: %d"
  },
+ "(fără nume)": {
+  "de": "(ohne Namen)",
+  "en": "(unnamed)",
+  "es": "(sin nombre)",
+  "fr": "(sans nom)",
+  "it": "(senza nome)",
+  "nl": "(zonder naam)",
+  "pl": "(bez nazwy)",
+  "pt": "(sem nome)",
+  "ru": "(без имени)"
+ },
  "(nimic)": {
   "de": "(nichts)",
   "en": "(nothing)",
@@ -153,6 +164,17 @@
   "pt": "Ocultei definitivamente %d ocorrências.",
   "ru": "Навсегда скрыто совпадений: %d."
  },
+ "Am lipit zona pe pagina %d.": {
+  "de": "Der Bereich wurde auf Seite %d eingefügt.",
+  "en": "The area has been pasted on page %d.",
+  "es": "La zona se ha pegado en la página %d.",
+  "fr": "La zone a été collée sur la page %d.",
+  "it": "L'area è stata incollata sulla pagina %d.",
+  "nl": "De zone is op pagina %d geplakt.",
+  "pl": "Obszar został wklejony na stronie %d.",
+  "pt": "A zona foi colada na página %d.",
+  "ru": "Область вставлена на страницу %d."
+ },
  "Am mutat paginile.": {
   "de": "Seiten verschoben.",
   "en": "Pages moved.",
@@ -263,6 +285,17 @@
   "pt": "A zona escolhida foi apagada da página %d.",
   "ru": "Выбранная область удалена со страницы %d."
  },
+ "Anulează lipirea": {
+  "de": "Einfügen abbrechen",
+  "en": "Cancel pasting",
+  "es": "Cancelar el pegado",
+  "fr": "Annuler le collage",
+  "it": "Annulla l'incollatura",
+  "nl": "Plakken annuleren",
+  "pl": "Anuluj wklejanie",
+  "pt": "Cancelar a colagem",
+  "ru": "Отменить вставку"
+ },
  "Arunc toate modificările și aduc documentul cum era când l-ai deschis?\n\nPoți reveni cu butonul de anulare.": {
   "de": "Alle Änderungen verwerfen und das Dokument so wiederherstellen, wie es beim Öffnen war?\n\nMit der Rückgängig-Schaltfläche können Sie zurück.",
   "en": "Throw away every change and bring the document back as it was when you opened it?\n\nYou can come back with the undo button.",
@@ -329,6 +362,50 @@
   "pt": "O que faço com\n%s?",
   "ru": "Что сделать с\n%s?"
  },
+ "Click unde vrei zona copiată": {
+  "de": "Klicken Sie dorthin, wo der kopierte Bereich hin soll",
+  "en": "Click where you want the copied area",
+  "es": "Haz clic donde quieres la zona copiada",
+  "fr": "Cliquez où vous voulez la zone copiée",
+  "it": "Fai clic dove vuoi l'area copiata",
+  "nl": "Klik waar u de gekopieerde zone wilt",
+  "pl": "Kliknij tam, gdzie ma trafić skopiowany obszar",
+  "pt": "Clique onde quer a zona copiada",
+  "ru": "Щёлкните там, где нужна скопированная область"
+ },
+ "Copiază o zonă": {
+  "de": "Bereich kopieren",
+  "en": "Copy an area",
+  "es": "Copiar una zona",
+  "fr": "Copier une zone",
+  "it": "Copia un'area",
+  "nl": "Een zone kopiëren",
+  "pl": "Skopiuj obszar",
+  "pt": "Copiar uma zona",
+  "ru": "Скопировать область"
+ },
+ "Copiază o zonă dintr-un PDF în altul": {
+  "de": "Einen Bereich aus einem PDF in ein anderes kopieren",
+  "en": "Copy an area from one PDF into another",
+  "es": "Copiar una zona de un PDF a otro",
+  "fr": "Copier une zone d'un PDF vers un autre",
+  "it": "Copiare un'area da un PDF a un altro",
+  "nl": "Een zone van de ene pdf naar de andere kopiëren",
+  "pl": "Skopiuj obszar z jednego PDF-a do drugiego",
+  "pt": "Copiar uma zona de um PDF para outro",
+  "ru": "Скопировать область из одного PDF в другой"
+ },
+ "Copiază întâi o zonă dintr-un PDF.": {
+  "de": "Kopieren Sie zuerst einen Bereich aus einem PDF.",
+  "en": "Copy an area from a PDF first.",
+  "es": "Copia primero una zona de un PDF.",
+  "fr": "Copiez d'abord une zone depuis un PDF.",
+  "it": "Copia prima un'area da un PDF.",
+  "nl": "Kopieer eerst een zone uit een pdf.",
+  "pl": "Najpierw skopiuj obszar z jakiegoś PDF-a.",
+  "pt": "Copie primeiro uma zona de um PDF.",
+  "ru": "Сначала скопируйте область из какого-нибудь PDF."
+ },
  "Cum era la început": {
   "de": "Wie am Anfang",
   "en": "As it was at the start",
@@ -383,6 +460,17 @@
   "pl": "Otwórz",
   "pt": "Abri-lo",
   "ru": "Открыть его"
+ },
+ "Deschizi PDF-ul sursă, tragi un dreptunghi peste zona care te interesează, apoi deschizi PDF-ul în care vrei s-o pui și dai click. Zona se lipește cu text cu tot, nu ca poză.": {
+  "de": "Öffnen Sie das Quell-PDF, ziehen Sie ein Rechteck über den gewünschten Bereich, öffnen Sie dann das PDF, in das er soll, und klicken Sie. Der Bereich wird mitsamt seinem Text eingefügt, nicht als Bild.",
+  "en": "Open the PDF you are taking from, drag a rectangle over the area you want, then open the PDF you want it in and click. The area is pasted with its text intact, not as a picture.",
+  "es": "Abre el PDF de origen, arrastra un rectángulo sobre la zona que te interesa, luego abre el PDF donde quieres ponerla y haz clic. La zona se pega con su texto, no como una imagen.",
+  "fr": "Ouvrez le PDF d'origine, tracez un rectangle sur la zone qui vous intéresse, puis ouvrez le PDF où la mettre et cliquez. La zone est collée avec son texte, pas comme une image.",
+  "it": "Apri il PDF di origine, traccia un rettangolo sull'area che ti interessa, poi apri il PDF in cui metterla e fai clic. L'area si incolla con il suo testo, non come immagine.",
+  "nl": "Open de bron-pdf, sleep een rechthoek over de zone die u wilt, open dan de pdf waarin ze moet komen en klik. De zone wordt met haar tekst geplakt, niet als afbeelding.",
+  "pl": "Otwórz PDF źródłowy, przeciągnij prostokąt nad interesującym cię obszarem, potem otwórz PDF, w którym ma się znaleźć, i kliknij. Obszar wkleja się razem z tekstem, nie jako obrazek.",
+  "pt": "Abra o PDF de origem, arraste um retângulo sobre a zona que lhe interessa, depois abra o PDF onde a quer pôr e clique. A zona é colada com o seu texto, não como imagem.",
+  "ru": "Откройте исходный PDF, обведите прямоугольником нужную область, затем откройте PDF, куда её поместить, и щёлкните. Область вставляется вместе с текстом, а не картинкой."
  },
  "Descărcarea nu a reușit.": {
   "de": "Der Download ist nicht gelungen.",
@@ -571,6 +659,28 @@
   "pt": "Língua",
   "ru": "Язык"
  },
+ "Lipește ca poză (text necăutabil, fișier mai mare)": {
+  "de": "Als Bild einfügen (Text nicht durchsuchbar, größere Datei)",
+  "en": "Paste as a picture (text not searchable, larger file)",
+  "es": "Pegar como imagen (texto no buscable, archivo más grande)",
+  "fr": "Coller comme image (texte non cherchable, fichier plus lourd)",
+  "it": "Incolla come immagine (testo non cercabile, file più grande)",
+  "nl": "Als afbeelding plakken (tekst niet doorzoekbaar, groter bestand)",
+  "pl": "Wklej jako obrazek (tekst nie do wyszukania, większy plik)",
+  "pt": "Colar como imagem (texto não pesquisável, ficheiro maior)",
+  "ru": "Вставить как картинку (текст не найти поиском, файл больше)"
+ },
+ "Lipește prin click pe pagină": {
+  "de": "Durch Klicken auf die Seite einfügen",
+  "en": "Paste by clicking on the page",
+  "es": "Pegar haciendo clic en la página",
+  "fr": "Coller en cliquant sur la page",
+  "it": "Incolla con un clic sulla pagina",
+  "nl": "Plakken door op de pagina te klikken",
+  "pl": "Wklej, klikając na stronie",
+  "pt": "Colar clicando na página",
+  "ru": "Вставить щелчком по странице"
+ },
  "Micșorează": {
   "de": "Verkleinern",
   "en": "Zoom out",
@@ -615,6 +725,28 @@
   "pt": "Sem sugestões",
   "ru": "Нет вариантов"
  },
+ "Nicio zonă copiată": {
+  "de": "Kein Bereich kopiert",
+  "en": "No area copied",
+  "es": "Ninguna zona copiada",
+  "fr": "Aucune zone copiée",
+  "it": "Nessuna area copiata",
+  "nl": "Geen zone gekopieerd",
+  "pl": "Nie skopiowano obszaru",
+  "pt": "Nenhuma zona copiada",
+  "ru": "Область не скопирована"
+ },
+ "Nu am putut lipi zona:\n\n%s": {
+  "de": "Der Bereich konnte nicht eingefügt werden:\n\n%s",
+  "en": "The area could not be pasted:\n\n%s",
+  "es": "No se pudo pegar la zona:\n\n%s",
+  "fr": "La zone n'a pas pu être collée :\n\n%s",
+  "it": "Non ho potuto incollare l'area:\n\n%s",
+  "nl": "De zone kon niet worden geplakt:\n\n%s",
+  "pl": "Nie udało się wkleić obszaru:\n\n%s",
+  "pt": "Não foi possível colar a zona:\n\n%s",
+  "ru": "Не удалось вставить область:\n\n%s"
+ },
  "Nu am putut lua versiunea nouă. Încearcă mai târziu.": {
   "de": "Die neue Version konnte nicht geholt werden. Versuchen Sie es später.",
   "en": "The new version could not be fetched. Try again later.",
@@ -648,6 +780,17 @@
   "pt": "Não foi possível verificar. Está sem ligação, ou o servidor não responde.",
   "ru": "Проверить не удалось. Вы не в сети, либо сервер не отвечает."
  },
+ "Nu mai găsesc fișierul din care ai copiat:\n\n%s": {
+  "de": "Die Datei, aus der Sie kopiert haben, ist nicht mehr da:\n\n%s",
+  "en": "The file you copied from is no longer there:\n\n%s",
+  "es": "Ya no encuentro el archivo del que copiaste:\n\n%s",
+  "fr": "Le fichier depuis lequel vous avez copié est introuvable :\n\n%s",
+  "it": "Non trovo più il file da cui hai copiato:\n\n%s",
+  "nl": "Het bestand waaruit u kopieerde is er niet meer:\n\n%s",
+  "pl": "Nie ma już pliku, z którego kopiowałeś:\n\n%s",
+  "pt": "Já não encontro o ficheiro de onde copiou:\n\n%s",
+  "ru": "Файла, из которого вы копировали, больше нет:\n\n%s"
+ },
  "Pagina %d: „%s” → „%s”": {
   "de": "Seite %d: „%s“ → „%s“",
   "en": "Page %d: „%s” → „%s”",
@@ -658,6 +801,17 @@
   "pl": "Strona %d: „%s” → „%s”",
   "pt": "Página %d: «%s» → «%s»",
   "ru": "Страница %d: «%s» → «%s»"
+ },
+ "Pagina din care ai copiat nu mai există.": {
+  "de": "Die Seite, aus der Sie kopiert haben, gibt es nicht mehr.",
+  "en": "The page you copied from no longer exists.",
+  "es": "La página de la que copiaste ya no existe.",
+  "fr": "La page depuis laquelle vous avez copié n'existe plus.",
+  "it": "La pagina da cui hai copiato non esiste più.",
+  "nl": "De pagina waaruit u kopieerde bestaat niet meer.",
+  "pl": "Strona, z której kopiowałeś, już nie istnieje.",
+  "pt": "A página de onde copiou já não existe.",
+  "ru": "Страницы, с которой вы копировали, больше нет."
  },
  "Pentru ce nu e text: cod QR, siglă, ștampilă. Trage un dreptunghi peste zonă în previzualizare și dispare din fișier cu totul — nu e doar acoperit.": {
   "de": "Für alles, was kein Text ist: QR-Code, Logo, Stempel. Ziehen Sie in der Vorschau ein Rechteck über den Bereich, und er verschwindet vollständig aus der Datei — er wird nicht nur überdeckt.",
@@ -714,6 +868,17 @@
   "pt": "O programa verifica se saiu uma versão mais recente. É tudo o que sai do computador: uma pergunta. Nada sobre si e nada sobre os seus ficheiros. Nada é descarregado enquanto não premir Atualizar.",
   "ru": "Программа проверяет, вышла ли более новая версия. Это всё, что покидает компьютер: один вопрос. Ничего о вас и ничего о ваших файлах. Ничего не загружается, пока вы не нажмёте «Обновить»."
  },
+ "Renunță la copiere": {
+  "de": "Kopieren abbrechen",
+  "en": "Cancel copying",
+  "es": "Cancelar la copia",
+  "fr": "Annuler la copie",
+  "it": "Annulla la copia",
+  "nl": "Kopiëren annuleren",
+  "pl": "Anuluj kopiowanie",
+  "pt": "Cancelar a cópia",
+  "ru": "Отменить копирование"
+ },
  "Renunță la ștergere": {
   "de": "Löschen abbrechen",
   "en": "Cancel erasing",
@@ -769,6 +934,17 @@
   "pt": "Arraste um retângulo sobre o que quer apagar",
   "ru": "Выделите прямоугольником то, что нужно удалить"
  },
+ "Trage un dreptunghi peste zona de copiat": {
+  "de": "Ziehen Sie ein Rechteck über den zu kopierenden Bereich",
+  "en": "Drag a rectangle over the area to copy",
+  "es": "Arrastra un rectángulo sobre la zona que copiar",
+  "fr": "Tracez un rectangle sur la zone à copier",
+  "it": "Traccia un rettangolo sull'area da copiare",
+  "nl": "Sleep een rechthoek over de te kopiëren zone",
+  "pl": "Przeciągnij prostokąt nad obszarem do skopiowania",
+  "pt": "Arraste um retângulo sobre a zona a copiar",
+  "ru": "Обведите прямоугольником область для копирования"
+ },
  "Verific…": {
   "de": "Wird geprüft…",
   "en": "Checking…",
@@ -802,6 +978,17 @@
   "pt": "Quer que abra a página onde pode descarregar você mesmo a versão nova?",
   "ru": "Открыть страницу, где вы сможете сами загрузить новую версию?"
  },
+ "Zona e prea mică. Trage un dreptunghi peste ce vrei să copiezi.": {
+  "de": "Der Bereich ist zu klein. Ziehen Sie ein Rechteck über das, was kopiert werden soll.",
+  "en": "The area is too small. Drag a rectangle over what you want to copy.",
+  "es": "La zona es demasiado pequeña. Arrastra un rectángulo sobre lo que quieras copiar.",
+  "fr": "La zone est trop petite. Tracez un rectangle sur ce que vous voulez copier.",
+  "it": "L'area è troppo piccola. Traccia un rettangolo su ciò che vuoi copiare.",
+  "nl": "De zone is te klein. Sleep een rechthoek over wat u wilt kopiëren.",
+  "pl": "Obszar jest za mały. Przeciągnij prostokąt nad tym, co chcesz skopiować.",
+  "pt": "A zona é demasiado pequena. Arraste um retângulo sobre o que quer copiar.",
+  "ru": "Область слишком мала. Обведите прямоугольником то, что нужно скопировать."
+ },
  "Zona e prea mică. Trage un dreptunghi peste ce vrei să ștergi.": {
   "de": "Der Bereich ist zu klein. Ziehen Sie ein Rechteck über das, was gelöscht werden soll.",
   "en": "The area is too small. Drag a rectangle over what you want to erase.",
@@ -813,6 +1000,17 @@
   "pt": "A zona é demasiado pequena. Arraste um retângulo sobre o que quer apagar.",
   "ru": "Область слишком мала. Выделите прямоугольником то, что нужно удалить."
  },
+ "Zona e reținută. Deschide celălalt PDF și dă click unde o vrei.": {
+  "de": "Der Bereich ist gemerkt. Öffnen Sie das andere PDF und klicken Sie dorthin, wo er hin soll.",
+  "en": "The area is held. Open the other PDF and click where you want it.",
+  "es": "La zona está guardada. Abre el otro PDF y haz clic donde la quieras.",
+  "fr": "La zone est gardée. Ouvrez l'autre PDF et cliquez où vous la voulez.",
+  "it": "L'area è tenuta da parte. Apri l'altro PDF e fai clic dove la vuoi.",
+  "nl": "De zone is bewaard. Open de andere pdf en klik waar u ze wilt.",
+  "pl": "Obszar jest zapamiętany. Otwórz drugi PDF i kliknij tam, gdzie ma trafić.",
+  "pt": "A zona ficou guardada. Abra o outro PDF e clique onde a quer.",
+  "ru": "Область запомнена. Откройте другой PDF и щёлкните там, где она нужна."
+ },
  "Zonele de text sunt marcate. Dă click pe una ca s-o modifici.": {
   "de": "Die Textbereiche sind markiert. Klicken Sie einen an, um ihn zu ändern.",
   "en": "Text areas are highlighted. Click one to change it.",
@@ -823,6 +1021,17 @@
   "pl": "Obszary tekstu są podświetlone. Kliknij jeden, aby go zmienić.",
   "pt": "As zonas de texto estão marcadas. Clique numa para a alterar.",
   "ru": "Области текста подсвечены. Нажмите на одну, чтобы изменить её."
+ },
+ "Zonă copiată: %s, pagina %d, %.0f × %.0f mm": {
+  "de": "Bereich kopiert: %s, Seite %d, %.0f × %.0f mm",
+  "en": "Area copied: %s, page %d, %.0f × %.0f mm",
+  "es": "Zona copiada: %s, página %d, %.0f × %.0f mm",
+  "fr": "Zone copiée : %s, page %d, %.0f × %.0f mm",
+  "it": "Area copiata: %s, pagina %d, %.0f × %.0f mm",
+  "nl": "Zone gekopieerd: %s, pagina %d, %.0f × %.0f mm",
+  "pl": "Skopiowany obszar: %s, strona %d, %.0f × %.0f mm",
+  "pt": "Zona copiada: %s, página %d, %.0f × %.0f mm",
+  "ru": "Область скопирована: %s, страница %d, %.0f × %.0f мм"
  },
  "mută textul scris": {
   "de": "verschiebt den eben geschriebenen Text",

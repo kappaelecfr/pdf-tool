@@ -65,6 +65,26 @@ and drawings alike — leaves the file; it is not merely covered up.
 Whatever only touches the edge of the rectangle stays whole, so page
 borders and table rules do not break. Take the area 2-3 mm wider than the
 code.
+COPY AN AREA FROM ONE PDF INTO ANOTHER
+--------------------------------------
+You have a company header, a signature or a table in one PDF and you
+want it in another. Do not photograph it: copy it.
+
+In the Add tab, at the bottom, press "Copy an area" and drag a rectangle
+over what you want. Then open the PDF you want it in, press "Paste by
+clicking on the page" and click where it belongs.
+
+The area travels with its text: it stays text, and can be searched and
+selected after pasting. The file grows by a few kilobytes, not hundreds.
+
+If you do want a picture — so that nobody can copy the text out of it,
+say — tick "Paste as a picture". The size then comes from the quality
+setting in the Extract tab.
+
+Only what is inside the rectangle is copied. The rest of the source page
+stays behind.
+
+
 
 
 ZOOM AND MOVING AROUND

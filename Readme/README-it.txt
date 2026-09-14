@@ -67,6 +67,27 @@ coperto.
 Ciò che sfiora soltanto il bordo del rettangolo resta intatto, così le
 cornici della pagina e le righe delle tabelle non si spezzano. Prendi
 l'area 2-3 mm più larga del codice.
+COPIARE UN'AREA DA UN PDF A UN ALTRO
+------------------------------------
+Hai un'intestazione aziendale, una firma o una tabella in un PDF e la
+vuoi in un altro. Non fotografarla: copiala.
+
+Nella scheda Aggiungi, in fondo, premi «Copia un'area» e traccia un
+rettangolo su ciò che ti interessa. Poi apri il PDF in cui metterla,
+premi «Incolla con un clic sulla pagina» e fai clic dove serve.
+
+L'area parte con il suo testo: resta testo, si può cercare e selezionare
+dopo averla incollata. Il file cresce di qualche kilobyte, non di
+centinaia.
+
+Se vuoi comunque un'immagine — perché nessuno possa ricopiarne il testo,
+per esempio — spunta «Incolla come immagine». La dimensione viene allora
+dalla regolazione di qualità della scheda Estrai.
+
+Si copia solo ciò che sta nel rettangolo. Il resto della pagina di
+origine non parte.
+
+
 
 
 ZOOM E SPOSTAMENTO

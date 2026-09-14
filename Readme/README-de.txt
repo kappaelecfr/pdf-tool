@@ -68,6 +68,29 @@ Text, Bilder und Zeichnungen — verlässt die Datei; es wird nicht nur
 Was den Rand des Rechtecks nur berührt, bleibt unversehrt, damit
 Seitenrahmen und Tabellenlinien nicht zerbrechen. Nehmen Sie den Bereich
 2-3 mm breiter als den Code.
+EINEN BEREICH AUS EINEM PDF IN EIN ANDERES KOPIEREN
+---------------------------------------------------
+Sie haben einen Firmenkopf, eine Unterschrift oder eine Tabelle in einem
+PDF und möchten sie in einem anderen. Fotografieren Sie sie nicht:
+kopieren Sie sie.
+
+Im Register Hinzufügen, ganz unten, drücken Sie „Bereich kopieren“ und
+ziehen ein Rechteck über das Gewünschte. Öffnen Sie dann das PDF, in das
+es soll, drücken Sie „Durch Klicken auf die Seite einfügen“ und klicken
+Sie an die richtige Stelle.
+
+Der Bereich nimmt seinen Text mit: er bleibt Text, ist nach dem Einfügen
+durchsuchbar und markierbar. Die Datei wächst um einige Kilobyte, nicht
+um Hunderte.
+
+Wenn Sie doch ein Bild möchten — damit niemand den Text daraus
+herauskopieren kann, etwa — setzen Sie den Haken bei „Als Bild einfügen“.
+Die Größe kommt dann aus der Qualitätseinstellung im Register Auslesen.
+
+Kopiert wird nur, was im Rechteck liegt. Der Rest der Quellseite bleibt
+zurück.
+
+
 
 
 ZOOM UND BEWEGEN

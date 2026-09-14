@@ -67,6 +67,27 @@ pas simplement recouvert.
 Ce qui ne fait qu'effleurer le bord du rectangle reste intact : les cadres
 de la page et les filets des tableaux ne se cassent pas. Prenez la zone
 2 à 3 mm plus large que le code.
+COPIER UNE ZONE D'UN PDF VERS UN AUTRE
+--------------------------------------
+Vous avez un en-tête d'entreprise, une signature ou un tableau dans un
+PDF et vous le voulez dans un autre. Ne le photographiez pas : copiez-le.
+
+Dans l'onglet Ajouter, en bas, appuyez sur «Copier une zone» et tracez un
+rectangle sur ce qui vous intéresse. Ouvrez ensuite le PDF où le mettre,
+appuyez sur «Coller en cliquant sur la page» et cliquez à l'endroit voulu.
+
+La zone part avec son texte : il reste du texte, cherchable et
+sélectionnable après le collage. Le fichier grossit de quelques
+kilo-octets, pas de centaines.
+
+Si vous voulez tout de même une image — pour que personne ne puisse en
+recopier le texte, par exemple — cochez «Coller comme image». La taille
+vient alors du réglage de qualité de l'onglet Extraire.
+
+Seul ce qui est dans le rectangle est copié. Le reste de la page
+d'origine ne part pas.
+
+
 
 
 ZOOM ET DÉPLACEMENT

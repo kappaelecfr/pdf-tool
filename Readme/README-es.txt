@@ -67,6 +67,27 @@ tapado.
 Lo que solo roza el borde del rectángulo queda intacto, así que los marcos
 de la página y las líneas de las tablas no se rompen. Toma la zona 2-3 mm
 más ancha que el código.
+COPIAR UNA ZONA DE UN PDF A OTRO
+--------------------------------
+Tienes un membrete de empresa, una firma o una tabla en un PDF y lo
+quieres en otro. No lo fotografíes: cópialo.
+
+En la pestaña Añadir, abajo, pulsa «Copiar una zona» y arrastra un
+rectángulo sobre lo que te interesa. Luego abre el PDF donde lo quieres,
+pulsa «Pegar haciendo clic en la página» y haz clic donde toca.
+
+La zona se va con su texto: sigue siendo texto, se puede buscar y
+seleccionar después de pegarla. El archivo crece unos kilobytes, no
+cientos.
+
+Si aun así quieres una imagen — para que nadie pueda copiar el texto de
+ahí, por ejemplo — marca «Pegar como imagen». El tamaño sale entonces del
+ajuste de calidad de la pestaña Extraer.
+
+Solo se copia lo que está dentro del rectángulo. El resto de la página de
+origen se queda.
+
+
 
 
 ZOOM Y DESPLAZAMIENTO

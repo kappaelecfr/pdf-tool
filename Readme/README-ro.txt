@@ -66,6 +66,25 @@ dreptunghi peste el în previzualizare. Tot ce e înăuntru — text, imagini
 Ce doar atinge marginea dreptunghiului rămâne întreg, așa că chenarul
 paginii și liniile de tabel nu se rup. Ia zona cu 2-3 mm mai largă decât
 codul.
+COPIAZĂ O ZONĂ DINTR-UN PDF ÎN ALTUL
+------------------------------------
+Ai un antet de firmă, o semnătură sau un tabel într-un PDF și îl vrei
+în altul. Nu-l fotografia: copiază-l.
+
+În fila Adaugă, jos, apeși „Copiază o zonă” și tragi un dreptunghi peste
+ce te interesează. Apoi deschizi PDF-ul în care vrei să-l pui, apeși
+„Lipește prin click pe pagină” și dai click unde trebuie.
+
+Zona pleacă cu textul ei cu tot: rămâne text, se poate căuta și se poate
+selecta după lipire. Fișierul crește cu câteva kilooctete, nu cu sute.
+
+Dacă vrei totuși o poză — de pildă ca nimeni să nu poată copia textul de
+acolo — bifezi „Lipește ca poză”. Atunci mărimea se ia din reglajul de
+calitate din fila Extrage.
+
+Se copiază numai ce e în dreptunghi. Restul paginii sursă nu pleacă.
+
+
 
 
 ZOOM ȘI DEPLASARE

@@ -875,6 +875,134 @@ check(_harta17() != _start17, "si revenirea se poate anula")
 app17.destroy()
 
 
+# ------------------- [18] copiez o zona dintr-un PDF si o lipesc in altul
+print("[18] Copierea unei zone dintr-un PDF in altul")
+
+_d18 = tempfile.mkdtemp(prefix="pdft_zona_")
+
+
+def _pdf18(nume, randuri):
+    c = os.path.join(_d18, nume)
+    d = pymupdf.open()
+    p = d.new_page()
+    for text, y, marime in randuri:
+        T.textbox(p, pymupdf.Rect(50, y, 420, y + 22), text, marime, (0, 0, 0))
+    d.save(c)
+    d.close()
+    return c
+
+
+def _text18(app):
+    return T.norm_text(app.doc.load_page(0).get_text("text"))
+
+
+# Sursa poarta un antet in zona pe care o copiem, si o linie mult sub ea
+# care NU trebuie sa plece niciodata cu zona.
+_sursa18 = _pdf18("sursa.pdf", [
+    ("ANTET SRL - SIREN 928424589", 50, 11),
+    ("strada Exemplu 12, Paris", 72, 9),
+    ("SECRET NU TREBUIE COPIAT", 400, 11),
+])
+_dest18 = _pdf18("dest.pdf", [("TEXT EXISTENT IN DESTINATIE", 500, 11)])
+
+app18 = T.PDFTool()
+app18.update()
+app18.load(_sursa18)
+app18.set_click_mode("copy")
+app18.update()
+
+
+def _canvas18(x, y):
+    ox, oy = app18.preview_off
+    z = app18.preview_scale
+    return ox + x * z, oy + y * z
+
+
+_c0 = _canvas18(45, 45)
+_c1 = _canvas18(415, 95)
+app18.copy_between(_c0[0], _c0[1], _c1[0], _c1[1])
+app18.update()
+
+check(app18.zona_copiata is not None, "zona trasa se retine")
+check(app18.zona_copiata["rect"].y1 < 200, "dreptunghiul retinut opreste deasupra liniei secrete")
+check("disabled" not in app18.btn_paste_zone.state(), "butonul de lipit se aprinde")
+
+app18.load(_dest18)
+app18.update()
+app18.paste_zone_at(app18.doc.load_page(0), 300, 200)
+app18.update()
+_t18 = _text18(app18)
+
+check("ANTET SRL" in _t18, "antetul a ajuns in destinatie")
+check("strada Exemplu" in _t18, "si al doilea rand al zonei a ajuns")
+# Proba ceruta explicit: ce era in afara dreptunghiului nu are voie sa plece.
+check("SECRET" not in _t18, "ce era in afara zonei NU a ajuns")
+check("TEXT EXISTENT" in _t18, "continutul destinatiei a ramas intact")
+# Lipirea e vectoriala: textul ramane text, deci se poate cauta dupa lipire.
+check("SIREN 928424589" in _t18, "textul lipit ramane text, nu pixeli")
+
+app18.undo()
+app18.update()
+check("ANTET SRL" not in _text18(app18), "lipirea trece prin anularea obisnuita")
+
+# Proportiile sursei se pastreaza: altfel un antet lat si subtire iese turtit.
+_lat18 = _pdf18("lat.pdf", [("ANTET LAT SI SUBTIRE", 50, 11)])
+_dest2 = _pdf18("dest2.pdf", [])
+app18.load(_lat18)
+app18.update()
+app18.zona_copiata = {"cale": _lat18, "pagina": 0,
+                      "rect": pymupdf.Rect(45, 45, 415, 75)}
+app18.load(_dest2)
+app18.update()
+app18.paste_zone_at(app18.doc.load_page(0), 300, 300)
+app18.update()
+_sp18 = [s for b in app18.doc.load_page(0).get_text("dict")["blocks"]
+         for l in b.get("lines", []) for s in l.get("spans", [])]
+check(bool(_sp18) and abs(_sp18[0]["size"] - 11) < 0.6,
+      "marimea textului ramane 11 dupa lipire, nu e turtit")
+
+# O sursa scanata — doar imagine, fara text — trece si ea prin acelasi drum.
+_scan18 = os.path.join(_d18, "scan.pdf")
+_d = pymupdf.open()
+_p = _d.new_page()
+_pix = pymupdf.Pixmap(pymupdf.csRGB, pymupdf.IRect(0, 0, 300, 120))
+_pix.set_rect(_pix.irect, (210, 120, 40))
+_p.insert_image(pymupdf.Rect(40, 40, 340, 160), pixmap=_pix)
+_d.save(_scan18)
+_d.close()
+
+_dest3 = _pdf18("dest3.pdf", [])
+app18.zona_copiata = {"cale": _scan18, "pagina": 0,
+                      "rect": pymupdf.Rect(40, 40, 340, 160)}
+app18.load(_dest3)
+app18.update()
+app18.paste_zone_at(app18.doc.load_page(0), 300, 300)
+app18.update()
+check(len(app18.doc.load_page(0).get_images(full=True)) > 0,
+      "o sursa scanata (doar imagine) se lipeste si ea")
+
+# Fisierul din care s-a copiat nu mai exista: se spune, nu se crapa.
+_sters18 = _pdf18("sters.pdf", [("CEVA", 50, 11)])
+app18.zona_copiata = {"cale": _sters18, "pagina": 0,
+                      "rect": pymupdf.Rect(45, 45, 415, 75)}
+os.remove(_sters18)
+app18.load(_dest3)
+app18.update()
+_inainte18 = _text18(app18)
+_err18 = messagebox.showerror
+_vazut18 = []
+messagebox.showerror = lambda *a, **k: _vazut18.append(a)
+try:
+    app18.paste_zone_at(app18.doc.load_page(0), 300, 300)
+    app18.update()
+finally:
+    messagebox.showerror = _err18
+check(bool(_vazut18), "fisierul sursa disparut: se anunta")
+check(_text18(app18) == _inainte18, "si documentul ramane neatins")
+
+app18.destroy()
+
+
 app.destroy()
 
 print("\n" + "=" * 58)

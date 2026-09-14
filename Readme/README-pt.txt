@@ -66,6 +66,27 @@ arraste um retângulo por cima na pré-visualização. Tudo o que fica dentro
 O que apenas toca a margem do retângulo fica intacto, para que as molduras
 da página e os filetes das tabelas não se partam. Tome a zona 2-3 mm mais
 larga do que o código.
+COPIAR UMA ZONA DE UM PDF PARA OUTRO
+------------------------------------
+Tem um cabeçalho de empresa, uma assinatura ou uma tabela num PDF e
+quere-a noutro. Não a fotografe: copie-a.
+
+No separador Acrescentar, em baixo, prima «Copiar uma zona» e arraste um
+retângulo sobre o que lhe interessa. Depois abra o PDF onde a quer pôr,
+prima «Colar clicando na página» e clique no sítio certo.
+
+A zona parte com o seu texto: continua a ser texto, pode ser pesquisado e
+selecionado depois de colado. O ficheiro cresce uns quilobytes, não
+centenas.
+
+Se mesmo assim quiser uma imagem — para que ninguém possa copiar de lá o
+texto, por exemplo — marque «Colar como imagem». O tamanho vem então da
+regulação de qualidade do separador Extrair.
+
+Só se copia o que está dentro do retângulo. O resto da página de origem
+fica para trás.
+
+
 
 
 ZOOM E DESLOCAÇÃO

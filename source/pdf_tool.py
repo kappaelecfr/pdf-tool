@@ -41,7 +41,7 @@ import update_check
 from faq import text_for as faq_text
 
 APP_NAME = "PDF Tool"
-APP_VER = "1.8.0"
+APP_VER = "1.9.0"
 # anul vine din ceasul calculatorului, deci se schimba singur
 COPYRIGHT = "Copyright \u00a9 KappaProject %d"
 
@@ -594,6 +594,8 @@ class PDFTool(_ROOT_BASE):
         self.pan_from = None
         self.erase_from = None          # coltul de unde trag dreptunghiul de sters
         self.align_drag = None          # tragerea textului scris, ca sa-l aliniez
+        self.copy_from = None           # coltul de unde trag zona de copiat
+        self.zona_copiata = None        # {cale, pagina, rect} — ce am in clipboard
         self.change_seq = 0             # a cata schimbare e cea de acum
         self.nudge_last = None          # ce am scris ultima data, ca sa pot alinia
         self.doc_initial = None         # fisierul asa cum l-am deschis
@@ -1230,6 +1232,26 @@ class PDFTool(_ROOT_BASE):
         self.btn_place.pack(fill="x", pady=(6, 0))
         ttk.Button(b, text=t("Pune pe toate paginile selectate (colț dreapta-jos)"),
                    command=self.op_stamp_all).pack(fill="x", pady=(6, 0))
+
+        b = self._section(
+            f, t("Copiază o zonă dintr-un PDF în altul"),
+            t("Deschizi PDF-ul sursă, tragi un dreptunghi peste zona care te "
+            "interesează, apoi deschizi PDF-ul în care vrei s-o pui și dai click. "
+            "Zona se lipește cu text cu tot, nu ca poză."))
+        self.btn_copy_zone = ttk.Button(b, text=t("Copiază o zonă"),
+                                        command=self.toggle_copy_zone)
+        self.btn_copy_zone.pack(fill="x")
+        self.lbl_zona = tk.Label(b, text=t("Nicio zonă copiată"), bg=PANEL, fg=MUTED,
+                                 font=("Segoe UI", 8), anchor="w", justify="left")
+        self.lbl_zona.pack(fill="x", pady=(4, 0))
+        self._autowrap(self.lbl_zona, b, 6)
+        self.btn_paste_zone = ttk.Button(b, text=t("Lipește prin click pe pagină"),
+                                         style="Accent.TButton", command=self.toggle_paste)
+        self.btn_paste_zone.pack(fill="x", pady=(6, 0))
+        self.btn_paste_zone.state(["disabled"])
+        self.v_aplatizat = tk.BooleanVar(value=False)
+        ttk.Checkbutton(b, text=t("Lipește ca poză (text necăutabil, fișier mai mare)"),
+                        variable=self.v_aplatizat).pack(anchor="w", pady=(6, 0))
 
     def _pos_grid(self, parent, var):
         g = tk.Frame(parent, bg=PANEL)
@@ -2007,8 +2029,12 @@ class PDFTool(_ROOT_BASE):
             self.pcanvas.yview_scroll(int(-e.delta / 120), "units")
 
     def on_preview_press(self, e):
-        if self.click_mode == "erase":
-            self.erase_from = (self.pcanvas.canvasx(e.x), self.pcanvas.canvasy(e.y))
+        if self.click_mode in ("erase", "copy"):
+            col = (self.pcanvas.canvasx(e.x), self.pcanvas.canvasy(e.y))
+            if self.click_mode == "copy":
+                self.copy_from = col
+            else:
+                self.erase_from = col
             self.pcanvas.delete("erase")
             return
         if self.click_mode == "text" and self._peste_ce_pot_muta(e):
@@ -2031,12 +2057,13 @@ class PDFTool(_ROOT_BASE):
                 self.align_drag["mutat"] = True
             self._deseneaza_tragerea(x1 - x0, y1 - y0)
             return
-        if self.erase_from:
-            x0, y0 = self.erase_from
+        if self.erase_from or self.copy_from:
+            x0, y0 = self.erase_from or self.copy_from
             self.pcanvas.delete("erase")
             self.pcanvas.create_rectangle(
                 x0, y0, self.pcanvas.canvasx(e.x), self.pcanvas.canvasy(e.y),
-                outline=DANGER, width=2, dash=(4, 3), tags="erase")
+                outline=DANGER if self.erase_from else ACCENT,
+                width=2, dash=(4, 3), tags="erase")
             return
         if self.pan_from:
             self.pcanvas.scan_dragto(e.x, e.y, gain=1)
@@ -2053,6 +2080,13 @@ class PDFTool(_ROOT_BASE):
             dx, dy = self._mutarea_ceruta(self.pcanvas.canvasx(e.x) - x0,
                                           self.pcanvas.canvasy(e.y) - y0)
             self.nudge_text(dx, dy)
+            return
+        if self.copy_from:
+            x0, y0 = self.copy_from
+            self.copy_from = None
+            self.pcanvas.delete("erase")
+            self.copy_between(x0, y0, self.pcanvas.canvasx(e.x),
+                              self.pcanvas.canvasy(e.y))
             return
         if self.erase_from:
             x0, y0 = self.erase_from
@@ -2087,6 +2121,110 @@ class PDFTool(_ROOT_BASE):
         if not self.need_doc():
             return
         self.set_click_mode(None if self.click_mode == "erase" else "erase")
+
+    def toggle_copy_zone(self):
+        if not self.need_doc():
+            return
+        self.set_click_mode(None if self.click_mode == "copy" else "copy")
+
+    def toggle_paste(self):
+        if not self.need_doc():
+            return
+        if not self.zona_copiata:
+            messagebox.showinfo(APP_NAME, t("Copiază întâi o zonă dintr-un PDF."))
+            return
+        self.set_click_mode(None if self.click_mode == "paste" else "paste")
+
+    def copy_between(self, cx0, cy0, cx1, cy1):
+        """Retine zona trasa: calea fisierului, pagina si dreptunghiul.
+
+        Nu retine o poza. Daca am retine pixeli, am pierde chiar lucrul
+        pentru care merita facuta asta — textul care ramane text.
+        """
+        if not self.doc:
+            return
+        x0, y0 = self.canvas_to_pdf(min(cx0, cx1), min(cy0, cy1))
+        x1, y1 = self.canvas_to_pdf(max(cx0, cx1), max(cy0, cy1))
+        page = self.doc.load_page(self.current)
+        r = pymupdf.Rect(x0, y0, x1, y1) & page.rect
+        if r.is_empty or r.width < 3 or r.height < 3:
+            self.status(t("Zona e prea mică. Trage un dreptunghi peste ce vrei să copiezi."))
+            return
+        self.zona_copiata = {"cale": self.path, "pagina": self.current,
+                             "rect": pymupdf.Rect(r)}
+        self.lbl_zona.config(
+            text=t("Zonă copiată: %s, pagina %d, %.0f × %.0f mm")
+            % (os.path.basename(self.path) if self.path else t("(fără nume)"),
+               self.current + 1, r.width / 72 * 25.4, r.height / 72 * 25.4),
+            fg=INK)
+        self.btn_paste_zone.state(["!disabled"])
+        self.set_click_mode(None)
+        self.status(t("Zona e reținută. Deschide celălalt PDF și dă click unde o vrei."))
+
+    def _doc_sursa(self, cale):
+        """Documentul din care copiez. Al doilea camp spune daca il inchid eu.
+
+        Daca e chiar documentul deschis acum, il folosesc pe acela: asa intra
+        in lipire si modificarile nesalvate, nu versiunea de pe disc.
+        """
+        if self.path and cale and os.path.abspath(cale) == os.path.abspath(self.path):
+            return self.doc, False
+        if not cale or not os.path.exists(cale):
+            return None, False
+        return pymupdf.open(cale), True
+
+    def paste_zone_at(self, page, x, y):
+        """Lipeste zona retinuta, centrata pe punctul apasat."""
+        z = self.zona_copiata
+        if not z:
+            return
+        sursa, o_inchid = self._doc_sursa(z["cale"])
+        if sursa is None:
+            messagebox.showerror(APP_NAME, t("Nu mai găsesc fișierul din care ai "
+                                           "copiat:\n\n%s") % z["cale"])
+            return
+        try:
+            if z["pagina"] >= sursa.page_count:
+                messagebox.showerror(APP_NAME, t("Pagina din care ai copiat nu mai există."))
+                return
+            r = z["rect"]
+            lat, inalt = r.width, r.height
+            # pastram proportiile sursei: show_pdf_page intinde continutul ca sa
+            # umple dreptunghiul primit, deci dreptunghiul trebuie sa aiba chiar
+            # forma sursei. Daca nu incape pe pagina, micsoram amandoua laturile
+            # cu acelasi factor.
+            k = min(1.0, (page.rect.width - 4) / lat, (page.rect.height - 4) / inalt)
+            lat, inalt = lat * k, inalt * k
+            tinta = pymupdf.Rect(x - lat / 2, y - inalt / 2, x + lat / 2, y + inalt / 2)
+            # o aducem intreaga pe pagina, fara s-o deformam
+            dx = max(0.0, 2 - tinta.x0) - max(0.0, tinta.x1 - (page.rect.width - 2))
+            dy = max(0.0, 2 - tinta.y0) - max(0.0, tinta.y1 - (page.rect.height - 2))
+            tinta = pymupdf.Rect(tinta.x0 + dx, tinta.y0 + dy,
+                                 tinta.x1 + dx, tinta.y1 + dy)
+            self.snapshot()
+            if self.v_aplatizat.get():
+                try:
+                    dpi = int(self.sp_dpi.get())
+                except Exception:
+                    dpi = 200
+                pix = sursa.load_page(z["pagina"]).get_pixmap(
+                    clip=r, matrix=pymupdf.Matrix(dpi / 72.0, dpi / 72.0))
+                page.insert_image(tinta, pixmap=pix, overlay=True)
+            else:
+                page.show_pdf_page(tinta, sursa, z["pagina"], clip=r)
+        except Exception as e:
+            self.undo()
+            messagebox.showerror(APP_NAME, t("Nu am putut lipi zona:\n\n%s") % e)
+            return
+        finally:
+            if o_inchid:
+                try:
+                    sursa.close()
+                except Exception:
+                    pass
+        self.thumb_imgs.pop(self.current, None)
+        self.set_click_mode(None)
+        self.changed(t("Am lipit zona pe pagina %d.") % (self.current + 1))
 
     def erase_between(self, cx0, cy0, cx1, cy1):
         """Sterge tot ce se afla in dreptunghiul tras pe previzualizare."""
@@ -2128,10 +2266,18 @@ class PDFTool(_ROOT_BASE):
         elif mode == "erase":
             self.btn_erase.config(text=t("Renunță la ștergere"))
             self.lbl_hint.config(text=t("Trage un dreptunghi peste ce vrei să ștergi"))
+        elif mode == "copy":
+            self.btn_copy_zone.config(text=t("Renunță la copiere"))
+            self.lbl_hint.config(text=t("Trage un dreptunghi peste zona de copiat"))
+        elif mode == "paste":
+            self.btn_paste_zone.config(text=t("Anulează lipirea"))
+            self.lbl_hint.config(text=t("Click unde vrei zona copiată"))
         else:
             self.btn_edit_mode.config(text=t("Pornește modul editare"))
             self.btn_place.config(text=t("Plasează prin click pe pagină"))
             self.btn_erase.config(text=t("Alege o zonă de șters"))
+            self.btn_copy_zone.config(text=t("Copiază o zonă"))
+            self.btn_paste_zone.config(text=t("Lipește prin click pe pagină"))
             self.lbl_hint.config(text="")
         self.pcanvas.config(cursor="crosshair" if mode else "")
         self.load_text_spans()
@@ -2148,6 +2294,8 @@ class PDFTool(_ROOT_BASE):
             self.pick_text_at(page, x, y)
         elif self.click_mode == "image":
             self.place_stamp_at(page, x, y)
+        elif self.click_mode == "paste":
+            self.paste_zone_at(page, x, y)
 
     # ------------------------------------------------- versiune noua
 
