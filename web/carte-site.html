@@ -1,0 +1,208 @@
+<!--
+  Carte a coller dans la section "Nos applications" de kappaproject.com
+
+  Le numero de version, la date, la taille et le nombre de telechargements
+  sont lus en direct depuis GitHub : vous n'avez rien a modifier ici quand
+  une nouvelle version sort. Il suffit de publier une Release.
+
+  Si GitHub ne repond pas, le bouton de telechargement fonctionne quand
+  meme : il pointe vers un lien permanent qui sert toujours la derniere
+  version.
+
+  Les couleurs viennent des variables CSS en haut : adaptez-les a votre
+  charte et le reste suit.
+-->
+
+<link rel="stylesheet" href="data:text/css,">
+<style>
+.kp-app {
+  --kp-accent:   #2563eb;
+  --kp-accent-d: #1d4ed8;
+  --kp-ink:      #1b2130;
+  --kp-muted:    #667085;
+  --kp-border:   #e3e7ee;
+  --kp-panel:    #ffffff;
+
+  display: grid;
+  grid-template-columns: minmax(0, 1.15fr) minmax(0, 1fr);
+  gap: 28px;
+  align-items: center;
+  max-width: 980px;
+  margin: 0 auto;
+  padding: 26px;
+  border: 1px solid var(--kp-border);
+  border-radius: 14px;
+  background: var(--kp-panel);
+  color: var(--kp-ink);
+  font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  line-height: 1.55;
+  box-sizing: border-box;
+}
+.kp-app *, .kp-app *::before, .kp-app *::after { box-sizing: inherit; }
+
+.kp-app h3 {
+  margin: 0 0 2px;
+  font-size: 1.5rem;
+  letter-spacing: -0.01em;
+}
+.kp-tagline { margin: 0 0 14px; color: var(--kp-muted); font-size: .95rem; }
+.kp-app p { margin: 0 0 14px; }
+
+.kp-list { margin: 0 0 18px; padding: 0; list-style: none; font-size: .93rem; }
+.kp-list li { padding-left: 20px; position: relative; margin-bottom: 5px; }
+.kp-list li::before {
+  content: "";
+  position: absolute; left: 4px; top: .62em;
+  width: 6px; height: 6px; border-radius: 50%;
+  background: var(--kp-accent);
+}
+
+.kp-cta { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; }
+
+.kp-btn {
+  display: inline-block;
+  padding: 11px 22px;
+  border-radius: 8px;
+  background: var(--kp-accent);
+  color: #fff;
+  font-weight: 600;
+  text-decoration: none;
+  transition: background .15s;
+}
+.kp-btn:hover  { background: var(--kp-accent-d); }
+.kp-btn:focus-visible { outline: 3px solid color-mix(in srgb, var(--kp-accent) 40%, white); outline-offset: 2px; }
+
+.kp-link {
+  color: var(--kp-muted);
+  text-decoration: none;
+  font-size: .9rem;
+  border-bottom: 1px solid var(--kp-border);
+  padding-bottom: 1px;
+}
+.kp-link:hover { color: var(--kp-accent); border-color: currentColor; }
+
+.kp-meta {
+  margin-top: 14px;
+  font-size: .82rem;
+  color: var(--kp-muted);
+  display: flex; flex-wrap: wrap; gap: 6px 14px;
+}
+.kp-note {
+  margin-top: 14px;
+  padding: 10px 13px;
+  border-left: 3px solid var(--kp-border);
+  font-size: .84rem;
+  color: var(--kp-muted);
+}
+
+.kp-shot { margin: 0; }
+.kp-shot img {
+  width: 100%; height: auto; display: block;
+  border: 1px solid var(--kp-border);
+  border-radius: 10px;
+}
+.kp-shot figcaption {
+  margin-top: 8px;
+  font-size: .8rem;
+  color: var(--kp-muted);
+  text-align: center;
+}
+
+@media (max-width: 760px) {
+  .kp-app { grid-template-columns: 1fr; gap: 20px; padding: 20px; }
+  .kp-shot { order: -1; }
+}
+</style>
+
+<section class="kp-app" aria-labelledby="kp-pdf-title">
+  <div>
+    <h3 id="kp-pdf-title">PDF&nbsp;Tool</h3>
+    <p class="kp-tagline">Éditeur PDF gratuit, pour Windows</p>
+
+    <p>
+      Tout se passe sur votre ordinateur : aucun envoi, aucun compte,
+      aucune connexion. Vos documents ne quittent jamais votre machine.
+    </p>
+
+    <ul class="kp-list">
+      <li>Fusionner, découper, tourner et réorganiser les pages</li>
+      <li>Filigrane, numérotation, signature ou tampon</li>
+      <li>Modifier le texte directement dans le PDF</li>
+      <li>Extraire texte, tableaux, images — et OCR pour les scans</li>
+      <li>Interface en 10 langues, dont le français</li>
+    </ul>
+
+    <div class="kp-cta">
+      <a class="kp-btn"
+         href="https://github.com/kappaelecfr/pdf-tool/releases/latest/download/PDF-Tool.exe"
+         data-kp-download>Télécharger</a>
+      <a class="kp-link" href="https://github.com/kappaelecfr/pdf-tool">Code source</a>
+      <a class="kp-link" href="https://github.com/kappaelecfr/pdf-tool/releases">Historique des versions</a>
+    </div>
+
+    <div class="kp-meta">
+      <span data-kp-version>Dernière version</span>
+      <span data-kp-size></span>
+      <span data-kp-date></span>
+      <span data-kp-downloads></span>
+      <span>Licence AGPL&nbsp;v3</span>
+    </div>
+
+    <p class="kp-note">
+      Au premier lancement, Windows signale que le programme n'est pas signé
+      numériquement. Cliquez sur <strong>Informations complémentaires</strong>,
+      puis <strong>Exécuter quand même</strong>. Cela n'arrive qu'une fois.
+    </p>
+  </div>
+
+  <figure class="kp-shot">
+    <img src="https://raw.githubusercontent.com/kappaelecfr/pdf-tool/main/docs/screenshot.png"
+         alt="Fenêtre de PDF Tool : les zones de texte modifiables sont surlignées en bleu"
+         loading="lazy" width="1100" height="604">
+    <figcaption>Mode édition : les zones cliquables sont surlignées</figcaption>
+  </figure>
+</section>
+
+<script>
+// Lit la dernière version publiée sur GitHub et remplit les mentions.
+// Si l'appel échoue, la carte reste utilisable telle quelle.
+(function () {
+  var API = 'https://api.github.com/repos/kappaelecfr/pdf-tool/releases/latest';
+  var root = document.currentScript.previousElementSibling;
+  if (!root || !root.classList.contains('kp-app')) {
+    root = document.querySelector('.kp-app');
+  }
+  if (!root) return;
+
+  var set = function (sel, text) {
+    var el = root.querySelector(sel);
+    if (el && text) el.textContent = text;
+  };
+
+  fetch(API, { headers: { Accept: 'application/vnd.github+json' } })
+    .then(function (r) { return r.ok ? r.json() : Promise.reject(r.status); })
+    .then(function (d) {
+      var asset = (d.assets || []).filter(function (a) {
+        return /\.exe$/i.test(a.name);
+      })[0];
+
+      set('[data-kp-version]', 'Version ' + String(d.tag_name || '').replace(/^v/, ''));
+
+      if (asset) {
+        set('[data-kp-size]', (asset.size / 1048576).toFixed(0) + ' Mo');
+        var dl = root.querySelector('[data-kp-download]');
+        if (dl) dl.href = asset.browser_download_url;
+        if (asset.download_count > 20) {
+          set('[data-kp-downloads]', asset.download_count.toLocaleString('fr-FR') + ' téléchargements');
+        }
+      }
+
+      if (d.published_at) {
+        set('[data-kp-date]', new Date(d.published_at).toLocaleDateString('fr-FR', {
+          year: 'numeric', month: 'long', day: 'numeric'
+        }));
+      }
+    })
+    .catch(function () { /* le lien permanent du bouton suffit */ });
+})();
+</script>
