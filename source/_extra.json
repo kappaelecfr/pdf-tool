@@ -230,6 +230,28 @@
   "pt": "Descartar",
   "ru": "Отменить правку"
  },
+ "Caută automat la pornire": {
+  "de": "Beim Start automatisch suchen",
+  "en": "Check automatically at startup",
+  "es": "Buscar automáticamente al arrancar",
+  "fr": "Chercher automatiquement au démarrage",
+  "it": "Cerca automaticamente all'avvio",
+  "nl": "Automatisch zoeken bij het opstarten",
+  "pl": "Sprawdzaj automatycznie przy uruchomieniu",
+  "pt": "Procurar automaticamente ao arrancar",
+  "ru": "Проверять автоматически при запуске"
+ },
+ "Caută o versiune nouă acum": {
+  "de": "Jetzt nach einer neuen Version suchen",
+  "en": "Check for a new version now",
+  "es": "Buscar una versión nueva ahora",
+  "fr": "Chercher une nouvelle version maintenant",
+  "it": "Cerca ora una versione nuova",
+  "nl": "Nu naar een nieuwe versie zoeken",
+  "pl": "Sprawdź teraz, czy jest nowa wersja",
+  "pt": "Procurar uma versão nova agora",
+  "ru": "Проверить наличие новой версии"
+ },
  "Ce doar atinge marginea zonei rămâne întreg.": {
   "de": "Was den Rand des Bereichs nur berührt, bleibt unversehrt.",
   "en": "Anything that merely touches the edge of the area stays whole.",
@@ -252,6 +274,17 @@
   "pt": "O que faço com\n%s?",
   "ru": "Что сделать с\n%s?"
  },
+ "Deschide pagina de descărcare": {
+  "de": "Die Downloadseite öffnen",
+  "en": "Open the download page",
+  "es": "Abrir la página de descarga",
+  "fr": "Ouvrir la page de téléchargement",
+  "it": "Apri la pagina di scaricamento",
+  "nl": "De downloadpagina openen",
+  "pl": "Otwórz stronę pobierania",
+  "pt": "Abrir a página de descarregamento",
+  "ru": "Открыть страницу загрузки"
+ },
  "Deschide-l": {
   "de": "Öffnen",
   "en": "Open it",
@@ -262,6 +295,17 @@
   "pl": "Otwórz",
   "pt": "Abri-lo",
   "ru": "Открыть его"
+ },
+ "Despre și actualizări": {
+  "de": "Über das Programm und Aktualisierungen",
+  "en": "About and updates",
+  "es": "Acerca de y actualizaciones",
+  "fr": "À propos et mises à jour",
+  "it": "Informazioni e aggiornamenti",
+  "nl": "Over en updates",
+  "pl": "O programie i aktualizacje",
+  "pt": "Acerca de e atualizações",
+  "ru": "О программе и обновления"
  },
  "Editare": {
   "de": "Bearbeiten",
@@ -306,6 +350,17 @@
   "pl": "Wyciągnij",
   "pt": "Extrair",
   "ru": "Извлечь"
+ },
+ "Ești la zi. %s e cea mai nouă.": {
+  "de": "Sie sind auf dem neuesten Stand. %s ist die neueste.",
+  "en": "You are up to date. %s is the newest.",
+  "es": "Estás al día. %s es la más reciente.",
+  "fr": "Vous êtes à jour. %s est la plus récente.",
+  "it": "Sei aggiornato. %s è la più recente.",
+  "nl": "U bent bij. %s is de nieuwste.",
+  "pl": "Masz najnowszą. %s to najświeższa wersja.",
+  "pt": "Está atualizado. %s é a mais recente.",
+  "ru": "У вас последняя версия. %s — самая новая."
  },
  "Fișier tras în aplicație": {
   "de": "Abgelegte Datei",
@@ -428,6 +483,17 @@
   "pt": "Sem sugestões",
   "ru": "Нет вариантов"
  },
+ "Nu am putut verifica. Ești offline sau GitHub nu răspunde.": {
+  "de": "Die Prüfung war nicht möglich. Sie sind offline, oder GitHub antwortet nicht.",
+  "en": "Could not check. You are offline, or GitHub is not answering.",
+  "es": "No se pudo comprobar. Estás sin conexión, o GitHub no responde.",
+  "fr": "Vérification impossible. Vous êtes hors ligne, ou GitHub ne répond pas.",
+  "it": "Non ho potuto verificare. Sei offline, oppure GitHub non risponde.",
+  "nl": "Kon niet controleren. U bent offline, of GitHub antwoordt niet.",
+  "pl": "Nie udało się sprawdzić. Jesteś offline albo GitHub nie odpowiada.",
+  "pt": "Não foi possível verificar. Está sem ligação, ou o GitHub não responde.",
+  "ru": "Проверить не удалось. Вы не в сети, либо GitHub не отвечает."
+ },
  "Pagina %d: „%s” → „%s”": {
   "de": "Seite %d: „%s“ → „%s“",
   "en": "Page %d: „%s” → „%s”",
@@ -471,6 +537,17 @@
   "pl": "Wpisany tekst możesz przeciągnąć, aby go wyrównać",
   "pt": "Pode arrastar o texto escrito para o alinhar",
   "ru": "Написанный текст можно перетащить, чтобы выровнять"
+ },
+ "Programul întreabă GitHub dacă a apărut o versiune mai nouă. Atât pleacă de pe calculator: o întrebare. Nimic despre tine și nimic despre fișierele tale. Nu descarcă și nu instalează nimic — hotărăști tu.": {
+  "de": "Das Programm fragt bei GitHub nach, ob eine neuere Version erschienen ist. Mehr verlässt den Rechner nicht: eine Frage. Nichts über Sie und nichts über Ihre Dateien. Es lädt nichts herunter und installiert nichts — Sie entscheiden.",
+  "en": "The program asks GitHub whether a newer version has come out. That is all that leaves the computer: one question. Nothing about you and nothing about your files. It downloads nothing and installs nothing — you decide.",
+  "es": "El programa pregunta a GitHub si ha salido una versión más reciente. Eso es todo lo que sale del ordenador: una pregunta. Nada sobre ti y nada sobre tus archivos. No descarga ni instala nada: decides tú.",
+  "fr": "Le programme demande à GitHub si une version plus récente est parue. C'est tout ce qui quitte l'ordinateur : une question. Rien sur vous et rien sur vos fichiers. Il ne télécharge ni n'installe rien — c'est vous qui décidez.",
+  "it": "Il programma chiede a GitHub se è uscita una versione più recente. È tutto ciò che lascia il computer: una domanda. Niente su di te e niente sui tuoi file. Non scarica e non installa nulla — decidi tu.",
+  "nl": "Het programma vraagt GitHub of er een nieuwere versie is verschenen. Meer verlaat de computer niet: één vraag. Niets over u en niets over uw bestanden. Het downloadt niets en installeert niets — u beslist.",
+  "pl": "Program pyta GitHuba, czy ukazała się nowsza wersja. Tylko tyle opuszcza komputer: jedno pytanie. Nic o tobie i nic o twoich plikach. Niczego nie pobiera ani nie instaluje — decydujesz ty.",
+  "pt": "O programa pergunta ao GitHub se saiu uma versão mais recente. É tudo o que sai do computador: uma pergunta. Nada sobre si e nada sobre os seus ficheiros. Não descarrega nem instala nada — decide você.",
+  "ru": "Программа спрашивает у GitHub, вышла ли более новая версия. Это всё, что покидает компьютер: один вопрос. Ничего о вас и ничего о ваших файлах. Она ничего не скачивает и не устанавливает — решаете вы."
  },
  "Renunță la ștergere": {
   "de": "Löschen abbrechen",
@@ -527,6 +604,28 @@
   "pt": "Arraste um retângulo sobre o que quer apagar",
   "ru": "Выделите прямоугольником то, что нужно удалить"
  },
+ "Verific…": {
+  "de": "Wird geprüft…",
+  "en": "Checking…",
+  "es": "Comprobando…",
+  "fr": "Vérification…",
+  "it": "Verifico…",
+  "nl": "Bezig met controleren…",
+  "pl": "Sprawdzam…",
+  "pt": "A verificar…",
+  "ru": "Проверяю…"
+ },
+ "Versiune nouă: %s": {
+  "de": "Neue Version: %s",
+  "en": "New version: %s",
+  "es": "Versión nueva: %s",
+  "fr": "Nouvelle version : %s",
+  "it": "Versione nuova: %s",
+  "nl": "Nieuwe versie: %s",
+  "pl": "Nowa wersja: %s",
+  "pt": "Versão nova: %s",
+  "ru": "Новая версия: %s"
+ },
  "Zona e prea mică. Trage un dreptunghi peste ce vrei să ștergi.": {
   "de": "Der Bereich ist zu klein. Ziehen Sie ein Rechteck über das, was gelöscht werden soll.",
   "en": "The area is too small. Drag a rectangle over what you want to erase.",
@@ -581,6 +680,17 @@
   "pl": "Dopasuj",
   "pt": "Ajustar",
   "ru": "Вписать"
+ },
+ "Închide": {
+  "de": "Schließen",
+  "en": "Close",
+  "es": "Cerrar",
+  "fr": "Fermer",
+  "it": "Chiudi",
+  "nl": "Sluiten",
+  "pl": "Zamknij",
+  "pt": "Fechar",
+  "ru": "Закрыть"
  },
  "Șterge o zonă din pagină": {
   "de": "Einen Bereich der Seite löschen",

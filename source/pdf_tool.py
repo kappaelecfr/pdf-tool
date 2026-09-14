@@ -28,17 +28,20 @@ import tempfile
 import csv
 import traceback
 import subprocess
+import webbrowser
 import tkinter as tk
 from tkinter import ttk, filedialog, messagebox, colorchooser
 
 from lang import (t, set_lang, save_pref, load_pref, current,
-                  guide_seen, mark_guide_seen, LANG_NAMES, LANG_ORDER)
+                  guide_seen, mark_guide_seen, check_updates, set_check_updates,
+                  LANG_NAMES, LANG_ORDER)
 from guide import text_for as guide_text
 import spell
+import update_check
 from faq import text_for as faq_text
 
 APP_NAME = "PDF Tool"
-APP_VER = "1.2.1"
+APP_VER = "1.3.0"
 # anul vine din ceasul calculatorului, deci se schimba singur
 COPYRIGHT = "Copyright \u00a9 KappaProject %d"
 
@@ -605,6 +608,8 @@ class PDFTool(_ROOT_BASE):
 
         if not guide_seen():
             self.after(500, self.first_run_guide)
+        # intrebam abia dupa ce fereastra e pe ecran, si pe un fir separat
+        self.after(1500, self._start_update_check)
 
         self.protocol("WM_DELETE_WINDOW", self.on_close)
 
@@ -885,9 +890,16 @@ class PDFTool(_ROOT_BASE):
         self.lbl_status.pack(side="left")
         tk.Label(st, text=COPYRIGHT % datetime.date.today().year,
                  bg=BG, fg=MUTED, font=("Segoe UI", 8)).pack(side="right")
-        # ca sa se stie dintr-o privire ce versiune ruleaza
-        tk.Label(st, text="%s %s" % (APP_NAME, APP_VER),
-                 bg=BG, fg=MUTED, font=("Segoe UI", 8)).pack(side="right", padx=(0, 14))
+        # ca sa se stie dintr-o privire ce versiune ruleaza; click = detalii
+        self.lbl_ver = tk.Label(st, text="%s %s" % (APP_NAME, APP_VER),
+                                bg=BG, fg=MUTED, font=("Segoe UI", 8), cursor="hand2")
+        self.lbl_ver.pack(side="right", padx=(0, 14))
+        self.lbl_ver.bind("<Button-1>", lambda e: self.show_about())
+        # anuntul unei versiuni noi, cand exista; altfel nu se vede
+        self.lbl_nou = tk.Label(st, text="", bg=BG, fg=ACCENT,
+                                font=("Segoe UI", 8, "bold"), cursor="hand2")
+        self.lbl_nou.pack(side="right", padx=(0, 14))
+        self.lbl_nou.bind("<Button-1>", lambda e: self._deschide_versiunea())
 
     # ---------------------------------------------- corector ortografic
 
@@ -2081,6 +2093,111 @@ class PDFTool(_ROOT_BASE):
             self.pick_text_at(page, x, y)
         elif self.click_mode == "image":
             self.place_stamp_at(page, x, y)
+
+    # ------------------------------------------------- versiune noua
+
+    def _start_update_check(self):
+        """La pornire, daca utilizatorul nu a oprit-o."""
+        if not check_updates():
+            return
+        update_check.cauta(APP_VER, self._update_gasit)
+
+    def _update_gasit(self, versiune, adresa):
+        """Vine de pe firul de retea: trecem pe firul ferestrei."""
+        try:
+            self.after(0, lambda: self._arata_versiunea(versiune, adresa))
+        except Exception:
+            pass
+
+    def _arata_versiunea(self, versiune, adresa):
+        if not versiune:
+            return
+        self.nou_versiune = (versiune, adresa)
+        try:
+            self.lbl_nou.config(text=t("Versiune nouă: %s") % versiune)
+        except Exception:
+            pass
+
+    def _deschide_versiunea(self):
+        n = getattr(self, "nou_versiune", None)
+        if not n:
+            return
+        try:
+            webbrowser.open(n[1])
+        except Exception:
+            pass
+
+    def show_about(self):
+        """Ce versiune ruleaza, si ce pleaca de pe calculator."""
+        w = tk.Toplevel(self)
+        w.title(t("Despre și actualizări"))
+        w.configure(bg=PANEL)
+        w.transient(self)
+        w.resizable(False, False)
+        f = tk.Frame(w, bg=PANEL)
+        f.pack(fill="both", expand=True, padx=18, pady=16)
+
+        tk.Label(f, text="%s %s" % (APP_NAME, APP_VER), bg=PANEL, fg=INK,
+                 font=("Segoe UI", 13, "bold")).pack(anchor="w")
+        tk.Label(f, text=COPYRIGHT % datetime.date.today().year, bg=PANEL,
+                 fg=MUTED, font=("Segoe UI", 8)).pack(anchor="w", pady=(2, 12))
+
+        tk.Label(f, text=t("Programul întreabă GitHub dacă a apărut o versiune "
+                         "mai nouă. Atât pleacă de pe calculator: o întrebare. "
+                         "Nimic despre tine și nimic despre fișierele tale. Nu "
+                         "descarcă și nu instalează nimic — hotărăști tu."),
+                 bg=PANEL, fg=INK, font=("Segoe UI", 9), justify="left",
+                 wraplength=380).pack(anchor="w")
+
+        stare = tk.Label(f, text="", bg=PANEL, fg=MUTED, font=("Segoe UI", 9))
+        stare.pack(anchor="w", pady=(12, 0))
+
+        rand = tk.Frame(f, bg=PANEL)
+        rand.pack(fill="x", pady=(10, 0))
+
+        def raspuns(versiune, adresa):
+            def pe_fereastra():
+                if not stare.winfo_exists():
+                    return
+                if versiune is False:
+                    stare.config(text=t("Nu am putut verifica. Ești offline sau "
+                                      "GitHub nu răspunde."), fg=MUTED)
+                elif versiune is None:
+                    stare.config(text=t("Ești la zi. %s e cea mai nouă.") % APP_VER,
+                                 fg=MUTED)
+                else:
+                    self._arata_versiunea(versiune, adresa)
+                    stare.config(text=t("Versiune nouă: %s") % versiune, fg=ACCENT)
+                    b_desc.pack(side="left", padx=(8, 0))
+            try:
+                self.after(0, pe_fereastra)
+            except Exception:
+                pass
+
+        def cauta_acum():
+            stare.config(text=t("Verific…"), fg=MUTED)
+            update_check.cauta(APP_VER, raspuns, si_daca_e_la_zi=True)
+
+        ttk.Button(rand, text=t("Caută o versiune nouă acum"),
+                   command=cauta_acum).pack(side="left")
+        b_desc = ttk.Button(rand, text=t("Deschide pagina de descărcare"),
+                            style="Accent.TButton", command=self._deschide_versiunea)
+
+        v = tk.BooleanVar(value=check_updates())
+        ttk.Checkbutton(f, text=t("Caută automat la pornire"), variable=v,
+                        command=lambda: set_check_updates(v.get())).pack(
+                            anchor="w", pady=(14, 0))
+
+        n = getattr(self, "nou_versiune", None)
+        if n:
+            stare.config(text=t("Versiune nouă: %s") % n[0], fg=ACCENT)
+            b_desc.pack(side="left", padx=(8, 0))
+
+        ttk.Button(f, text=t("Închide"), command=w.destroy).pack(anchor="e", pady=(16, 0))
+        w.update_idletasks()
+        sw, sh = self.winfo_screenwidth(), self.winfo_screenheight()
+        w.geometry("+%d+%d" % (max(0, (sw - w.winfo_width()) // 2),
+                               max(0, (sh - w.winfo_height()) // 3)))
 
     # --------------------------------------------------------- ghidul
 

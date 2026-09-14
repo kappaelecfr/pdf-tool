@@ -11,8 +11,15 @@ signature costs several hundred euros a year. Click "More info", then
 
 Does anything get sent over the internet?
 -----------------------------------------
-No. The program has no network code in it at all. Your files never
-leave this computer.
+Your files, never. Nothing is uploaded anywhere, there is no account
+and there is no server.
+One thing does leave: at startup the program asks GitHub whether a
+newer version has come out, so it can tell you in the status bar. That
+is all — one question, with nothing about you and nothing about which
+files you open. It downloads nothing and installs nothing by itself.
+If you do not want even that, click the version number in the status
+bar and clear "Check automatically at startup". Then nothing leaves,
+ever.
 
 
 Can I edit any text in a PDF?

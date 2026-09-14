@@ -661,6 +661,32 @@ messagebox.askyesno = lambda *a, **k: False
 LG._write_cfg({})
 
 
+# ------------------------------------------------- [14] versiune mai noua
+print("[14] Compararea versiunilor")
+
+import update_check as UC
+
+for a, g, astept in [("1.2.1", "1.2.2", True),
+                     ("1.2.9", "1.2.10", True),      # ca text, 9 > 10
+                     ("1.2.1", "1.2.1", False),
+                     ("1.3.0", "1.2.9", False),
+                     ("1.2.1", "2.0.0", True),
+                     ("1.2", "1.2.1", True),         # lungimi diferite
+                     ("1.2.1", "1.2", False),
+                     ("1.2.1", "", False),
+                     ("1.2.1", "v1.2.2", True)]:     # eticheta cu v in fata
+    check(UC.mai_noua(a, g.lstrip("vV")) is astept,
+          "%s -> %s: %s" % (a, g or "(gol)", "mai noua" if astept else "nu"))
+
+# oprirea verificarii se tine minte
+LG.set_check_updates(False)
+check(LG.check_updates() is False, "verificarea se poate opri")
+LG.set_check_updates(True)
+check(LG.check_updates() is True, "si repornit")
+LG._write_cfg({})
+check(LG.check_updates() is True, "implicit e pornita")
+
+
 app.destroy()
 
 print("\n" + "=" * 58)

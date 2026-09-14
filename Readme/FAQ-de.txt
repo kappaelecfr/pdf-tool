@@ -12,8 +12,16 @@ passiert nur beim ersten Mal.
 
 Geht irgendetwas ins Internet?
 ------------------------------
-Nein. Das Programm enthält überhaupt keinen Netzwerkcode. Ihre Dateien
-verlassen diesen Rechner nie.
+Ihre Dateien, nie. Es wird nichts irgendwohin hochgeladen, es gibt
+kein Konto und keinen Server.
+Eines verlässt den Rechner doch: beim Start fragt das Programm bei
+GitHub nach, ob eine neuere Version erschienen ist, um es Ihnen in der
+Fußzeile sagen zu können. Mehr nicht — eine Frage, ohne irgendetwas
+über Sie und ohne irgendetwas darüber, welche Dateien Sie öffnen. Es
+lädt von sich aus nichts herunter und installiert nichts.
+Wenn Sie auch das nicht möchten, klicken Sie unten auf die
+Versionsnummer und entfernen Sie den Haken bei „Beim Start automatisch
+suchen“. Dann verlässt nie mehr etwas den Rechner.
 
 
 Kann ich jeden Text in einer PDF ändern?

@@ -11,8 +11,15 @@ suplimentare”, apoi „Executați oricum”. Se întâmplă doar prima dată.
 
 Pleacă ceva pe internet?
 ------------------------
-Nu. Programul nu are deloc cod de rețea în el. Fișierele tale nu
-părăsesc niciodată calculatorul ăsta.
+Fișierele tale, niciodată. Nu se încarcă nimic nicăieri, nu există
+cont, nu există server.
+Un singur lucru pleacă: la pornire programul întreabă GitHub dacă a
+apărut o versiune mai nouă, ca să ți-o poată arăta în bara de jos.
+Atât — o întrebare, fără nimic despre tine și fără nimic despre ce
+fișiere deschizi. Nu descarcă și nu instalează nimic singur.
+Dacă nu vrei nici măcar atât, apeși pe numărul de versiune din bara de
+jos și scoți bifa „Caută automat la pornire”. Atunci nu mai pleacă
+nimic, niciodată.
 
 
 Pot modifica orice text dintr-un PDF?

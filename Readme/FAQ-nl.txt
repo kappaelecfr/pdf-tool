@@ -12,8 +12,16 @@ alleen de eerste keer.
 
 Gaat er iets het internet op?
 -----------------------------
-Nee. Het programma bevat helemaal geen netwerkcode. Je bestanden
-verlaten deze computer nooit.
+Je bestanden, nooit. Er wordt niets ergens naartoe geüpload, er is
+geen account en er is geen server.
+Eén ding vertrekt wel: bij het opstarten vraagt het programma aan
+GitHub of er een nieuwere versie is verschenen, om het je in de balk
+onderaan te kunnen melden. Meer niet — één vraag, zonder iets over jou
+en zonder iets over welke bestanden je opent. Het downloadt en
+installeert uit zichzelf niets.
+Wil je zelfs dat niet, klik dan onderaan op het versienummer en zet
+„Automatisch zoeken bij het opstarten” uit. Dan vertrekt er nooit meer
+iets.
 
 
 Kan ik elke tekst in een PDF wijzigen?
