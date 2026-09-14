@@ -734,6 +734,72 @@ check(UC.mai_noua("1.5.0", "1.5.1") is True, "1.5.0 -> 1.5.1")
 check(UC.mai_noua("1.5.0", "1.10.0") is True, "1.5.0 -> 1.10.0")
 
 
+# ---------------------- [16] alinierea trece de la un text la altul
+print("[16] Alinierea urmeaza textul ales, nu pe cel dinainte")
+
+# Proprietarul a mutat o suma, apoi a ales alt text si a apasat sageata:
+# nu se misca nimic. Alinierea ramasese agatata de textul dinainte, si
+# sageata il tot muta pe acela.
+_d16 = tempfile.mkdtemp(prefix="pdft_al2_")
+_c16 = os.path.join(_d16, "doua.pdf")
+_doc = pymupdf.open()
+_pg = _doc.new_page()
+T.textbox(_pg, pymupdf.Rect(60, 100, 300, 130), "PRIMUL text", 11, (0, 0, 0))
+T.textbox(_pg, pymupdf.Rect(60, 200, 300, 230), "AL DOILEA text", 11, (0, 0, 0))
+_doc.save(_c16)
+_doc.close()
+
+app16 = T.PDFTool()
+app16.update()
+app16.load(_c16)
+app16.set_click_mode("text")
+app16.update()
+
+
+def _alege16(cuvant):
+    pg = app16.doc.load_page(0)
+    h = pg.search_for(cuvant)[0]
+    app16.pick_text_at(pg, (h.x0 + h.x1) / 2, (h.y0 + h.y1) / 2)
+
+
+def _unde16(cuvant):
+    for blk in app16.doc.load_page(0).get_text("dict")["blocks"]:
+        for ln in blk.get("lines", []):
+            for sp in ln.get("spans", []):
+                if cuvant in T.norm_text(sp.get("text", "")):
+                    return round(sp["origin"][1], 2)
+    return None
+
+
+_p1, _p2 = _unde16("PRIMUL"), _unde16("DOILEA")
+_alege16("PRIMUL")
+app16.nudge_text(0, -3)
+app16.update()
+check(_unde16("PRIMUL") == round(_p1 - 3, 2), "primul text se muta")
+
+_alege16("DOILEA")
+check(getattr(app16, "nudge_last", None) is None,
+      "alegerea altui text elibereaza alinierea")
+app16.nudge_text(0, -3)
+app16.update()
+check(_unde16("DOILEA") == round(_p2 - 3, 2), "al doilea text se muta si el")
+check(_unde16("PRIMUL") == round(_p1 - 3, 2), "primul a ramas unde l-am pus")
+
+# chenarele albastre urmeaza textul, nu raman unde era
+_inainte = len(app16.edit_spans)
+app16.nudge_text(0, -4)
+app16.update()
+check(len(app16.edit_spans) == _inainte,
+      "raman tot atatea chenare (%d), nu se dubleaza" % _inainte)
+_chenar = [s for s in app16.edit_spans
+           if "DOILEA" in T.norm_text(s.get("text", ""))]
+check(len(_chenar) == 1, "un singur chenar pentru textul mutat")
+check(round(_chenar[0]["origin"][1], 2) == _unde16("DOILEA"),
+      "chenarul e citit de la pozitia noua a textului")
+
+app16.destroy()
+
+
 app.destroy()
 
 print("\n" + "=" * 58)

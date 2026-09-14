@@ -41,7 +41,7 @@ import update_check
 from faq import text_for as faq_text
 
 APP_NAME = "PDF Tool"
-APP_VER = "1.6.1"
+APP_VER = "1.6.2"
 # anul vine din ceasul calculatorului, deci se schimba singur
 COPYRIGHT = "Copyright \u00a9 KappaProject %d"
 
@@ -2861,6 +2861,10 @@ class PDFTool(_ROOT_BASE):
             "orig": norm_text(best.get("text", "")),
             "origin": tuple(best.get("origin") or ()) or None,
         }
+        # ai ales alt text: sagetile trebuie sa-l miste pe asta, nu pe cel
+        # dinainte. Fara randul asta, alinierea ramanea agatata de textul vechi
+        # si cel nou parea ca nu se misca.
+        self.nudge_last = None
         self.txt_edit.delete("1.0", "end")
         self.txt_edit.insert("1.0", norm_text(best.get("text", "")))
         self.txt_edit.edit_reset()      # nu duce istoricul textului anterior
