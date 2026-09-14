@@ -1,0 +1,101 @@
+PDF Tool — często zadawane pytania
+==========================================================
+
+
+Windows mówi „System Windows ochronił ten komputer”.
+----------------------------------------------------
+To ostrzeżenie pojawia się przy każdym programie, który nie jest
+podpisany cyfrowo. Podpis kosztuje kilkaset euro rocznie. Kliknij
+„Więcej informacji”, a potem „Uruchom mimo to”. Zdarza się tylko za
+pierwszym razem.
+
+
+Czy coś idzie do internetu?
+---------------------------
+Nie. Program nie zawiera żadnego kodu sieciowego. Twoje pliki nigdy
+nie opuszczają tego komputera.
+
+
+Czy mogę zmienić dowolny tekst w PDF?
+-------------------------------------
+Krótki tekst tak: daty, nazwiska, kwoty, pojedyncze słowa. Program
+zakrywa stary tekst i pisze go od nowa podobnym krojem.
+Całe akapity nie: sąsiednie wiersze nie są łamane na nowo, więc nowy
+tekst wchodzi na sąsiadów. Do tego potrzebny jest oryginalny dokument.
+
+
+Zmieniony tekst nie wygląda dokładnie tak jak reszta.
+-----------------------------------------------------
+Program zachowuje rodzinę kroju i stopień, ale nie dokładny krój, bo
+oryginalnego może nie być na twoim komputerze. Na jednolitym tle wynik
+zwykle nie do odróżnienia. Na zdjęciach lub gradientach może być
+widoczny. Ctrl+Z cofa.
+
+
+Nie mogę zaznaczyć tekstu, a tryb edycji nic nie znajduje.
+----------------------------------------------------------
+Ten PDF to skan — zdjęcie papieru. Nie ma w nim tekstu, tylko obraz.
+Skorzystaj z sekcji OCR w zakładce Wyciągnij, żeby odczytać litery z
+obrazu.
+
+
+Przyciski OCR są szare.
+-----------------------
+OCR potrzebuje Tesseract, osobnego i darmowego programu. Zainstaluj go
+ze strony https://github.com/UB-Mannheim/tesseract/wiki , zaznacz przy
+instalacji potrzebne języki, a potem zamknij i otwórz PDF Tool
+ponownie.
+
+
+Przez pomyłkę zapisałem na oryginalnym pliku.
+---------------------------------------------
+Poszukaj obok pliku z .bak dodanym do nazwy. To twój oryginał. Usuń
+„.bak” z nazwy i masz go z powrotem. Kopia powstaje przy pierwszym
+zapisie na istniejącym pliku.
+
+
+Czy „Ukryj trwale” jest naprawdę trwałe?
+----------------------------------------
+Tak. Tekst zostaje usunięty z pliku, a nie tylko zakryty. Po zapisaniu
+nie ma sposobu, żeby go odzyskać. Używaj tego do danych osobowych,
+które nie mogą wyciec. Do wszystkiego, co możesz chcieć odzyskać,
+edytuj normalnie.
+
+
+Po zapisaniu plik zmienił rozmiar.
+----------------------------------
+Zwykle robi się mniejszy: przy zapisie program zostawia z każdego
+kroju tylko faktycznie użyte znaki i usuwa nieużywane obiekty. Jeśli
+dodałeś obrazy albo pieczątkę, może urosnąć. „Skompresuj PDF” w
+zakładce Wyciągnij ściska go jeszcze bardziej.
+
+
+Interfejs jest w złym języku.
+-----------------------------
+Przy pierwszym uruchomieniu program bierze język Windowsa. Wybierz
+inny z listy w prawym górnym rogu; od tej pory jest zapamiętywany.
+
+
+Przeciągnąłem PDF na okno i nic się nie stało.
+----------------------------------------------
+Upuść go na obszarze strony, pośrodku, a nie na pasku tytułu. Jeśli
+dokument jest już otwarty, zostaniesz zapytany, czy otworzyć nowy plik
+czy dodać go na końcu.
+
+
+Czy mogę otworzyć PDF z hasłem?
+-------------------------------
+Tak, jeśli znasz hasło — program o nie poprosi. Nie potrafi złamać ani
+usunąć hasła, którego nie znasz.
+
+
+Czy mogę wrzucić program na pendrive albo inny komputer?
+--------------------------------------------------------
+Tak. „PDF Tool.exe” jest samodzielny. Skopiuj go gdzie chcesz; działa
+na każdym Windowsie bez instalowania czegokolwiek.
+
+
+Gdzie trzymane są moje ustawienia?
+----------------------------------
+W %APPDATA%\PDFTool\settings.json — tylko wybrany język i to, czy
+przewodnik był już pokazany. Usuń ten plik, żeby wyzerować oba.

@@ -1,0 +1,100 @@
+PDF Tool — frequently asked questions
+==========================================================
+
+
+Windows says "Windows protected your PC" when I open it.
+--------------------------------------------------------
+That warning appears for any program that is not digitally signed. A
+signature costs several hundred euros a year. Click "More info", then
+"Run anyway". It only happens the first time.
+
+
+Does anything get sent over the internet?
+-----------------------------------------
+No. The program has no network code in it at all. Your files never
+leave this computer.
+
+
+Can I edit any text in a PDF?
+-----------------------------
+Short text, yes: dates, names, amounts, single words. The app covers
+the old text and rewrites it in a similar font.
+Whole paragraphs, no: the surrounding lines are not reflowed, so new
+text runs over its neighbours. For that you need the original
+document.
+
+
+My edited text does not look exactly like the rest.
+---------------------------------------------------
+The app matches the font family and the size, not the exact font,
+because the original font may not be installed on your computer. On a
+plain background the result is usually indistinguishable. Over photos
+or gradients it can show. Ctrl+Z undoes it.
+
+
+I cannot select any text, and edit mode finds nothing.
+------------------------------------------------------
+The PDF is a scan — a photograph of paper. There is no text in it,
+only an image. Use the OCR section in the Extract tab to read the
+letters out of the picture.
+
+
+The OCR buttons are grey.
+-------------------------
+OCR needs Tesseract, a separate free program. Install it from
+https://github.com/UB-Mannheim/tesseract/wiki , tick the languages you
+need during setup, then close and reopen PDF Tool.
+
+
+I saved over my original file by mistake.
+-----------------------------------------
+Look next to it for a file with .bak added to the name. That is your
+original. Remove ".bak" from the name and you have it back. The backup
+is written the first time you save over a file.
+
+
+Is "Hide permanently" really permanent?
+---------------------------------------
+Yes. The text is removed from the file, not just covered up. Once you
+save, there is no way to get it back. Use it for personal data that
+must not leak. For anything you might want back, edit normally
+instead.
+
+
+My file changed size after saving.
+----------------------------------
+Usually it gets smaller: on save the program keeps only the letters
+actually used from each font and clears out unused objects. If you
+added images or a stamp, it can grow. "Compress the PDF" in the
+Extract tab squeezes it further.
+
+
+The interface is in the wrong language.
+---------------------------------------
+On the first start the program follows your Windows language. Pick
+another from the list at the top right; from then on it is remembered.
+
+
+I dragged a PDF onto the window and nothing happened.
+-----------------------------------------------------
+Drop it on the page area in the middle, not on the title bar. If a
+document is already open, you are asked whether to open the new file
+or add it at the end.
+
+
+Can I open a PDF that has a password?
+-------------------------------------
+Yes, if you know the password — the program asks for it. It cannot
+break or strip a password you do not know.
+
+
+Can I put the program on a USB stick or another computer?
+---------------------------------------------------------
+Yes. "PDF Tool.exe" is self-contained. Copy it anywhere; it runs on
+any Windows without installing anything.
+
+
+Where are my settings kept?
+---------------------------
+In %APPDATA%\PDFTool\settings.json — only the chosen language and
+whether the guide has been shown. Delete that file to reset both.

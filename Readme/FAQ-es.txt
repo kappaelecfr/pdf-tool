@@ -1,0 +1,103 @@
+PDF Tool — preguntas frecuentes
+==========================================================
+
+
+Windows dice «Windows protegió su PC» al abrirlo.
+-------------------------------------------------
+Ese aviso sale con cualquier programa que no esté firmado digitalmente.
+Una firma cuesta varios cientos de euros al año. Pulsa «Más
+información» y luego «Ejecutar de todas formas». Solo pasa la primera
+vez.
+
+
+¿Se envía algo por internet?
+----------------------------
+No. El programa no lleva nada de código de red. Tus archivos no salen
+nunca de este ordenador.
+
+
+¿Puedo editar cualquier texto de un PDF?
+----------------------------------------
+Texto corto, sí: fechas, nombres, importes, palabras sueltas. La
+aplicación tapa el texto viejo y lo reescribe con una tipografía
+parecida.
+Párrafos enteros, no: las líneas de alrededor no se recolocan, así que
+el texto nuevo se monta sobre las vecinas. Para eso necesitas el
+documento original.
+
+
+Mi texto editado no queda igual que el resto.
+---------------------------------------------
+La aplicación respeta la familia tipográfica y el tamaño, no la
+tipografía exacta, porque la original puede no estar instalada en tu
+ordenador. Sobre fondo liso el resultado suele ser indistinguible.
+Sobre fotos o degradados puede notarse. Ctrl+Z lo deshace.
+
+
+No puedo seleccionar texto y el modo edición no encuentra nada.
+---------------------------------------------------------------
+El PDF es un escaneo: una fotografía del papel. No hay texto dentro,
+solo una imagen. Usa la sección de OCR de la pestaña Extraer para leer
+las letras de la imagen.
+
+
+Los botones de OCR están en gris.
+---------------------------------
+El OCR necesita Tesseract, un programa aparte y gratuito. Instálalo
+desde https://github.com/UB-Mannheim/tesseract/wiki , marca los
+idiomas que necesites durante la instalación, y luego cierra y vuelve
+a abrir PDF Tool.
+
+
+He guardado por error encima de mi archivo original.
+----------------------------------------------------
+Busca al lado un archivo con .bak añadido al nombre. Ese es tu
+original. Quita «.bak» del nombre y lo recuperas. La copia se escribe
+la primera vez que guardas encima de un archivo.
+
+
+¿«Ocultar definitivamente» es de verdad definitivo?
+---------------------------------------------------
+Sí. El texto se quita del archivo, no solo se tapa. Una vez guardado
+no hay forma de recuperarlo. Úsalo para datos personales que no deben
+filtrarse. Para cualquier cosa que puedas querer de vuelta, edita
+normalmente.
+
+
+Mi archivo ha cambiado de tamaño al guardar.
+--------------------------------------------
+Normalmente se hace más pequeño: al guardar el programa conserva de
+cada tipografía solo las letras realmente usadas y limpia los objetos
+sin uso. Si has añadido imágenes o un sello, puede crecer. «Comprimir
+el PDF», en la pestaña Extraer, lo aprieta más.
+
+
+La interfaz está en el idioma equivocado.
+-----------------------------------------
+En el primer arranque el programa sigue el idioma de Windows. Elige
+otro en la lista de arriba a la derecha; a partir de ahí se recuerda.
+
+
+He arrastrado un PDF a la ventana y no ha pasado nada.
+------------------------------------------------------
+Suéltalo sobre la zona de la página, en el centro, no sobre la barra
+de título. Si ya hay un documento abierto, se te pregunta si abrir el
+archivo nuevo o añadirlo al final.
+
+
+¿Puedo abrir un PDF con contraseña?
+-----------------------------------
+Sí, si conoces la contraseña: el programa te la pide. No puede romper
+ni quitar una contraseña que no sepas.
+
+
+¿Puedo llevarme el programa en un USB o a otro ordenador?
+---------------------------------------------------------
+Sí. «PDF Tool.exe» es autónomo. Cópialo donde quieras; funciona en
+cualquier Windows sin instalar nada.
+
+
+¿Dónde se guardan mis ajustes?
+------------------------------
+En %APPDATA%\PDFTool\settings.json: solo el idioma elegido y si ya se
+ha mostrado la guía. Borra ese archivo para reiniciar ambas cosas.

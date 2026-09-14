@@ -1,0 +1,102 @@
+PDF Tool — întrebări frecvente
+==========================================================
+
+
+Windows zice „Windows a protejat computerul” când îl deschid.
+-------------------------------------------------------------
+Avertismentul apare la orice program care nu e semnat digital. O
+semnătură costă câteva sute de euro pe an. Apeși „Informații
+suplimentare”, apoi „Executați oricum”. Se întâmplă doar prima dată.
+
+
+Pleacă ceva pe internet?
+------------------------
+Nu. Programul nu are deloc cod de rețea în el. Fișierele tale nu
+părăsesc niciodată calculatorul ăsta.
+
+
+Pot modifica orice text dintr-un PDF?
+-------------------------------------
+Text scurt, da: date, nume, sume, cuvinte singulare. Aplicația acoperă
+textul vechi și îl rescrie cu un font asemănător.
+Paragrafe întregi, nu: rândurile din jur nu se rearanjează, deci
+textul nou intră peste vecini. Pentru asta ai nevoie de documentul
+original.
+
+
+Textul modificat nu arată exact ca restul.
+------------------------------------------
+Aplicația potrivește familia de font și mărimea, nu fontul exact,
+fiindcă fontul original poate să nu fie instalat pe calculatorul tău.
+Pe fundal simplu rezultatul e de obicei imposibil de deosebit. Peste
+poze sau degradeuri se poate vedea. Ctrl+Z anulează.
+
+
+Nu pot selecta niciun text, iar modul editare nu găsește nimic.
+---------------------------------------------------------------
+PDF-ul e o scanare — o fotografie a hârtiei. Nu există text în el,
+doar o imagine. Folosește secțiunea OCR din tabul Extrage, ca să
+citeşti literele din poză.
+
+
+Butoanele de OCR sunt gri.
+--------------------------
+OCR-ul are nevoie de Tesseract, un program separat şi gratuit. Îl
+instalezi de la https://github.com/UB-Mannheim/tesseract/wiki ,
+bifezi limbile de care ai nevoie la instalare, apoi închizi şi
+redeschizi PDF Tool.
+
+
+Am salvat din greşeală peste fişierul original.
+-----------------------------------------------
+Caută alături un fişier cu .bak adăugat la nume. Acela e originalul.
+Ştergi „.bak” din nume şi îl ai înapoi. Copia se scrie prima dată când
+salvezi peste un fişier.
+
+
+„Ascunde definitiv” chiar e definitiv?
+--------------------------------------
+Da. Textul e scos din fişier, nu doar acoperit. După ce salvezi, nu
+mai există cale de întoarcere. Foloseşte-l pentru date personale care
+nu au voie să scape. Pentru orice ai putea vrea înapoi, modifică
+normal.
+
+
+Fişierul şi-a schimbat mărimea după salvare.
+--------------------------------------------
+De obicei se micşorează: la salvare programul păstrează din fiecare
+font doar literele chiar folosite şi curăţă obiectele nefolosite. Dacă
+ai adăugat imagini sau o ştampilă, poate creşte. „Comprimă PDF-ul” din
+tabul Extrage îl strânge şi mai mult.
+
+
+Interfaţa e în limba greşită.
+-----------------------------
+La prima pornire programul ia limba Windows-ului. Alegi alta din lista
+din dreapta sus; de atunci se ţine minte.
+
+
+Am tras un PDF în fereastră şi nu s-a întâmplat nimic.
+------------------------------------------------------
+Dă-i drumul peste zona paginii, la mijloc, nu peste bara de titlu.
+Dacă ai deja un document deschis, eşti întrebat dacă îl deschid pe cel
+nou sau îl adaug la final.
+
+
+Pot deschide un PDF cu parolă?
+------------------------------
+Da, dacă ştii parola — programul ţi-o cere. Nu poate sparge şi nu
+poate scoate o parolă pe care nu o ştii.
+
+
+Pot pune programul pe un stick sau pe alt calculator?
+-----------------------------------------------------
+Da. „PDF Tool.exe” e de sine stătător. Îl copiezi oriunde şi merge pe
+orice Windows, fără să instalezi nimic.
+
+
+Unde se ţin setările mele?
+--------------------------
+În %APPDATA%\PDFTool\settings.json — doar limba aleasă şi dacă ghidul
+a fost deja arătat. Ştergi fişierul acela ca să le resetezi pe
+amândouă.

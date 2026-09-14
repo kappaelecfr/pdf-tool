@@ -1,0 +1,15 @@
+# executabilul se publica la Releases, nu in depozit
+*.exe
+*.bak
+
+# rezultate de compilare
+build/
+dist/
+*.spec
+
+# Python
+__pycache__/
+*.pyc
+
+# fisiere de lucru
+*.tmp

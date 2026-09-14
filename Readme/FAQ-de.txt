@@ -1,0 +1,107 @@
+PDF Tool — häufige Fragen
+==========================================================
+
+
+Windows meldet „Der Computer wurde durch Windows geschützt“.
+------------------------------------------------------------
+Diese Warnung erscheint bei jedem Programm, das nicht digital signiert
+ist. Eine Signatur kostet mehrere hundert Euro im Jahr. Klicken Sie
+auf „Weitere Informationen“ und dann „Trotzdem ausführen“. Das
+passiert nur beim ersten Mal.
+
+
+Geht irgendetwas ins Internet?
+------------------------------
+Nein. Das Programm enthält überhaupt keinen Netzwerkcode. Ihre Dateien
+verlassen diesen Rechner nie.
+
+
+Kann ich jeden Text in einer PDF ändern?
+----------------------------------------
+Kurzen Text ja: Datum, Namen, Beträge, einzelne Wörter. Das Programm
+überdeckt den alten Text und schreibt ihn in einer ähnlichen Schrift
+neu.
+Ganze Absätze nein: Die umgebenden Zeilen werden nicht neu umbrochen,
+der neue Text läuft also über seine Nachbarn. Dafür brauchen Sie das
+Ursprungsdokument.
+
+
+Mein geänderter Text sieht nicht genau aus wie der Rest.
+--------------------------------------------------------
+Das Programm übernimmt Schriftfamilie und Größe, nicht die exakte
+Schrift, denn die ursprüngliche ist auf Ihrem Rechner vielleicht gar
+nicht vorhanden. Auf einfarbigem Hintergrund ist das Ergebnis meist
+nicht zu unterscheiden. Über Fotos oder Verläufen kann man es sehen.
+Strg+Z macht es rückgängig.
+
+
+Ich kann keinen Text markieren, der Bearbeitungsmodus findet nichts.
+--------------------------------------------------------------------
+Die PDF ist ein Scan — ein Foto von Papier. Es steckt kein Text darin,
+nur ein Bild. Nutzen Sie den OCR-Bereich im Register Auslesen, um die
+Buchstaben aus dem Bild zu lesen.
+
+
+Die OCR-Schaltflächen sind grau.
+--------------------------------
+OCR braucht Tesseract, ein eigenes, kostenloses Programm. Installieren
+Sie es von https://github.com/UB-Mannheim/tesseract/wiki , kreuzen Sie
+bei der Installation die benötigten Sprachen an, und öffnen Sie
+PDF Tool danach neu.
+
+
+Ich habe versehentlich über meine Originaldatei gespeichert.
+------------------------------------------------------------
+Schauen Sie daneben nach einer Datei mit .bak im Namen. Das ist Ihr
+Original. Entfernen Sie „.bak“ aus dem Namen und Sie haben es zurück.
+Die Kopie entsteht beim ersten Speichern über eine Datei.
+
+
+Ist „Dauerhaft verbergen“ wirklich dauerhaft?
+---------------------------------------------
+Ja. Der Text wird aus der Datei entfernt, nicht nur überdeckt. Nach
+dem Speichern gibt es keinen Weg zurück. Nutzen Sie es für
+persönliche Daten, die nicht nach außen dürfen. Für alles, was Sie
+vielleicht zurückhaben wollen, bearbeiten Sie normal.
+
+
+Meine Datei hat nach dem Speichern die Größe geändert.
+------------------------------------------------------
+Meist wird sie kleiner: Beim Speichern behält das Programm von jeder
+Schrift nur die tatsächlich benutzten Zeichen und räumt unbenutzte
+Objekte weg. Haben Sie Bilder oder einen Stempel eingefügt, kann sie
+wachsen. „PDF verkleinern“ im Register Auslesen drückt sie weiter
+zusammen.
+
+
+Die Oberfläche ist in der falschen Sprache.
+-------------------------------------------
+Beim ersten Start folgt das Programm Ihrer Windows-Sprache. Wählen Sie
+oben rechts eine andere; ab dann wird sie gemerkt.
+
+
+Ich habe eine PDF ins Fenster gezogen und nichts geschah.
+---------------------------------------------------------
+Lassen Sie sie über dem Seitenbereich in der Mitte los, nicht über der
+Titelleiste. Ist schon ein Dokument offen, werden Sie gefragt, ob die
+neue Datei geöffnet oder hinten angehängt werden soll.
+
+
+Kann ich eine PDF mit Kennwort öffnen?
+--------------------------------------
+Ja, wenn Sie das Kennwort kennen — das Programm fragt danach. Es kann
+ein Kennwort, das Sie nicht kennen, weder knacken noch entfernen.
+
+
+Kann ich das Programm auf einen USB-Stick oder anderen Rechner tun?
+--------------------------------------------------------------------
+Ja. „PDF Tool.exe“ ist in sich abgeschlossen. Kopieren Sie es wohin
+Sie wollen; es läuft auf jedem Windows, ohne dass etwas installiert
+werden muss.
+
+
+Wo liegen meine Einstellungen?
+------------------------------
+In %APPDATA%\PDFTool\settings.json — nur die gewählte Sprache und ob
+die Anleitung schon gezeigt wurde. Löschen Sie die Datei, um beides
+zurückzusetzen.

@@ -1,0 +1,106 @@
+PDF Tool — questions fréquentes
+==========================================================
+
+
+Windows affiche « Windows a protégé votre ordinateur » à l'ouverture.
+---------------------------------------------------------------------
+Cet avertissement apparaît pour tout programme qui n'est pas signé
+numériquement. Une signature coûte plusieurs centaines d'euros par an.
+Cliquez sur « Informations complémentaires », puis « Exécuter quand
+même ». Cela n'arrive que la première fois.
+
+
+Quelque chose part-il sur internet ?
+------------------------------------
+Non. Le programme ne contient aucun code réseau. Vos fichiers ne
+quittent jamais cet ordinateur.
+
+
+Puis-je modifier n'importe quel texte d'un PDF ?
+------------------------------------------------
+Du texte court, oui : dates, noms, montants, mots isolés.
+L'application recouvre l'ancien texte et le réécrit dans une police
+proche.
+Des paragraphes entiers, non : les lignes autour ne sont pas
+réagencées, le nouveau texte déborde donc sur ses voisines. Pour cela
+il vous faut le document d'origine.
+
+
+Mon texte modifié ne ressemble pas tout à fait au reste.
+--------------------------------------------------------
+L'application reprend la famille de police et la taille, pas la police
+exacte, car celle d'origine n'est peut-être pas installée chez vous.
+Sur un fond uni le résultat est en général indiscernable. Sur une
+photo ou un dégradé, cela peut se voir. Ctrl+Z annule.
+
+
+Je ne peux sélectionner aucun texte, le mode édition ne trouve rien.
+--------------------------------------------------------------------
+Le PDF est un scan — une photographie de papier. Il n'y a pas de texte
+dedans, seulement une image. Utilisez la section OCR de l'onglet
+Extraire pour lire les lettres dans l'image.
+
+
+Les boutons OCR sont gris.
+--------------------------
+L'OCR a besoin de Tesseract, un programme séparé et gratuit.
+Installez-le depuis https://github.com/UB-Mannheim/tesseract/wiki ,
+cochez les langues voulues pendant l'installation, puis fermez et
+rouvrez PDF Tool.
+
+
+J'ai enregistré par erreur par-dessus mon fichier d'origine.
+------------------------------------------------------------
+Cherchez à côté un fichier avec .bak ajouté au nom. C'est votre
+original. Retirez « .bak » du nom et vous le récupérez. La copie est
+écrite la première fois que vous enregistrez par-dessus un fichier.
+
+
+« Masquer définitivement » est-il vraiment définitif ?
+------------------------------------------------------
+Oui. Le texte est retiré du fichier, pas seulement recouvert. Une fois
+enregistré, il n'y a plus moyen de le récupérer. Utilisez-le pour des
+données personnelles qui ne doivent pas fuiter. Pour tout ce que vous
+pourriez vouloir récupérer, modifiez normalement.
+
+
+Mon fichier a changé de taille après l'enregistrement.
+------------------------------------------------------
+En général il rétrécit : à l'enregistrement le programme ne garde de
+chaque police que les lettres réellement utilisées et nettoie les
+objets inutilisés. Si vous avez ajouté des images ou un tampon, il
+peut grossir. « Compresser le PDF », dans l'onglet Extraire, le réduit
+davantage.
+
+
+L'interface est dans la mauvaise langue.
+----------------------------------------
+Au premier démarrage le programme suit la langue de Windows.
+Choisissez-en une autre dans la liste en haut à droite ; elle est
+ensuite retenue.
+
+
+J'ai fait glisser un PDF sur la fenêtre et rien ne s'est passé.
+---------------------------------------------------------------
+Lâchez-le sur la zone de la page, au milieu, pas sur la barre de
+titre. Si un document est déjà ouvert, on vous demande s'il faut
+ouvrir le nouveau fichier ou l'ajouter à la fin.
+
+
+Puis-je ouvrir un PDF protégé par mot de passe ?
+------------------------------------------------
+Oui, si vous connaissez le mot de passe — le programme le demande. Il
+ne peut ni casser ni retirer un mot de passe que vous ignorez.
+
+
+Puis-je mettre le programme sur une clé USB ou un autre ordinateur ?
+--------------------------------------------------------------------
+Oui. « PDF Tool.exe » est autonome. Copiez-le où vous voulez, il
+fonctionne sur n'importe quel Windows sans rien installer.
+
+
+Où sont conservés mes réglages ?
+--------------------------------
+Dans %APPDATA%\PDFTool\settings.json — uniquement la langue choisie et
+le fait que le guide a déjà été affiché. Supprimez ce fichier pour
+remettre les deux à zéro.

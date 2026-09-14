@@ -1,0 +1,102 @@
+PDF Tool — perguntas frequentes
+==========================================================
+
+
+O Windows diz «O Windows protegeu o seu PC» quando o abro.
+----------------------------------------------------------
+Esse aviso aparece em qualquer programa que não esteja assinado
+digitalmente. Uma assinatura custa várias centenas de euros por ano.
+Carregue em «Mais informações» e depois «Executar mesmo assim». Só
+acontece da primeira vez.
+
+
+Vai alguma coisa para a internet?
+---------------------------------
+Não. O programa não tem qualquer código de rede. Os seus ficheiros
+nunca saem deste computador.
+
+
+Posso alterar qualquer texto de um PDF?
+---------------------------------------
+Texto curto, sim: datas, nomes, valores, palavras soltas. A aplicação
+tapa o texto antigo e reescreve-o com um tipo de letra parecido.
+Parágrafos inteiros, não: as linhas à volta não são reorganizadas, por
+isso o texto novo passa por cima das vizinhas. Para isso precisa do
+documento original.
+
+
+O texto que alterei não fica igual ao resto.
+--------------------------------------------
+A aplicação segue a família e o tamanho do tipo de letra, não o tipo
+exacto, porque o original pode não estar instalado no seu computador.
+Sobre fundo liso o resultado é normalmente indistinguível. Sobre fotos
+ou degradês pode notar-se. Ctrl+Z desfaz.
+
+
+Não consigo seleccionar texto e o modo de edição não encontra nada.
+-------------------------------------------------------------------
+O PDF é uma digitalização — uma fotografia do papel. Não há texto lá
+dentro, apenas uma imagem. Use a secção de OCR no separador Extrair
+para ler as letras a partir da imagem.
+
+
+Os botões de OCR estão cinzentos.
+---------------------------------
+O OCR precisa do Tesseract, um programa à parte e gratuito.
+Instale-o a partir de https://github.com/UB-Mannheim/tesseract/wiki ,
+marque as línguas de que precisa durante a instalação, e depois feche
+e volte a abrir o PDF Tool.
+
+
+Guardei por engano por cima do meu ficheiro original.
+-----------------------------------------------------
+Procure ao lado um ficheiro com .bak acrescentado ao nome. Esse é o
+seu original. Tire «.bak» do nome e tem-no de volta. A cópia é escrita
+da primeira vez que guarda por cima de um ficheiro.
+
+
+«Ocultar definitivamente» é mesmo definitivo?
+---------------------------------------------
+Sim. O texto é retirado do ficheiro, não apenas tapado. Depois de
+guardar não há maneira de o recuperar. Use-o para dados pessoais que
+não podem sair. Para tudo o que possa querer de volta, edite
+normalmente.
+
+
+O meu ficheiro mudou de tamanho depois de guardar.
+--------------------------------------------------
+Normalmente fica mais pequeno: ao guardar, o programa mantém de cada
+tipo de letra apenas as letras realmente usadas e limpa os objectos
+não utilizados. Se acrescentou imagens ou um carimbo, pode crescer.
+«Comprimir o PDF», no separador Extrair, aperta-o ainda mais.
+
+
+A interface está na língua errada.
+----------------------------------
+No primeiro arranque o programa segue a língua do Windows. Escolha
+outra na lista em cima à direita; a partir daí fica guardada.
+
+
+Arrastei um PDF para a janela e não aconteceu nada.
+---------------------------------------------------
+Largue-o sobre a área da página, ao centro, não sobre a barra de
+título. Se já houver um documento aberto, é-lhe perguntado se quer
+abrir o ficheiro novo ou acrescentá-lo no fim.
+
+
+Posso abrir um PDF com palavra-passe?
+-------------------------------------
+Sim, se souber a palavra-passe — o programa pede-a. Não consegue
+quebrar nem retirar uma palavra-passe que não conheça.
+
+
+Posso pôr o programa numa pen ou noutro computador?
+---------------------------------------------------
+Sim. O «PDF Tool.exe» é autónomo. Copie-o para onde quiser; funciona
+em qualquer Windows sem instalar nada.
+
+
+Onde ficam guardadas as minhas definições?
+------------------------------------------
+Em %APPDATA%\PDFTool\settings.json — apenas a língua escolhida e se o
+guia já foi mostrado. Apague esse ficheiro para repor as duas coisas.

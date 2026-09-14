@@ -1,0 +1,74 @@
+PDF Tool
+Copyright © KappaProject
+
+This program is free software: you can redistribute it and/or modify it
+under the terms of the GNU Affero General Public License as published by
+the Free Software Foundation, either version 3 of the License, or (at
+your option) any later version.
+
+This program is distributed in the hope that it will be useful, but
+WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU Affero
+General Public License for more details.
+
+You should have received a copy of the GNU Affero General Public License
+along with this program. If not, see https://www.gnu.org/licenses/ .
+
+The full licence text is in the file LICENSE next to this one.
+The complete source code is in the folder "source", and also at
+https://github.com/kappaelecfr/pdf-tool
+
+
+THIRD-PARTY COMPONENTS
+======================
+
+PDF Tool is built on the following libraries. Their licences are
+listed here as required.
+
+PyMuPDF / MuPDF — Artifex Software, Inc.
+    GNU AGPL v3, or a commercial licence from Artifex.
+    https://github.com/pymupdf/PyMuPDF
+    This is the component that makes PDF Tool itself AGPL: everything
+    to do with reading, drawing and writing PDF files goes through it.
+
+Pillow — Jeffrey A. Clark and contributors
+    HPND (permissive, MIT-like).
+    https://github.com/python-pillow/Pillow
+
+fontTools — Just van Rossum, Behdad Esfahbod and contributors
+    MIT.
+    https://github.com/fonttools/fonttools
+
+tkinterdnd2 — Petasis / pmgagne and contributors
+    MIT. Wraps the tkdnd Tcl extension.
+    https://github.com/pmgagne/tkinterdnd2
+
+PyInstaller — PyInstaller Development Team
+    GPL v2 or later, with an exception that permits bundling programs
+    of any licence. Used only to build the executable; none of its own
+    code ends up in what PDF Tool does.
+    https://github.com/pyinstaller/pyinstaller
+
+Tcl/Tk and the Python standard library ship under their own permissive
+licences, as part of Python itself.
+
+
+OPTIONAL, NOT INCLUDED
+======================
+
+Tesseract OCR — Apache License 2.0.
+    https://github.com/tesseract-ocr/tesseract
+    PDF Tool does not contain or distribute Tesseract. If you install
+    it yourself, PDF Tool will use it for reading scanned documents.
+    Without it, everything else still works.
+
+
+FONTS
+=====
+
+PDF Tool does not embed or distribute any font. When it writes text
+containing accented or Cyrillic letters, it reads a font already
+installed on your own Windows system (normally Arial) and embeds only
+the individual glyphs used, into your own PDF file. For plain ASCII
+text it uses the standard PDF base fonts, which are not embedded at
+all.

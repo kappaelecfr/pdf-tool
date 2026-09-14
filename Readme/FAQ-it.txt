@@ -1,0 +1,101 @@
+PDF Tool — domande frequenti
+==========================================================
+
+
+Windows dice «Windows ha protetto il PC» quando lo apro.
+--------------------------------------------------------
+Quell'avviso compare per qualunque programma non firmato digitalmente.
+Una firma costa diverse centinaia di euro l'anno. Premi «Ulteriori
+informazioni» e poi «Esegui comunque». Succede solo la prima volta.
+
+
+Viene mandato qualcosa su internet?
+-----------------------------------
+No. Il programma non contiene alcun codice di rete. I tuoi file non
+lasciano mai questo computer.
+
+
+Posso modificare qualsiasi testo in un PDF?
+-------------------------------------------
+Testo breve sì: date, nomi, importi, singole parole. L'applicazione
+copre il testo vecchio e lo riscrive con un carattere simile.
+Interi paragrafi no: le righe intorno non vengono rimpaginate, quindi
+il testo nuovo finisce sopra quelle vicine. Per questo serve il
+documento originale.
+
+
+Il testo che ho modificato non è identico al resto.
+---------------------------------------------------
+L'applicazione riprende la famiglia del carattere e il corpo, non il
+carattere esatto, perché quello originale potrebbe non essere
+installato sul tuo computer. Su sfondo pieno il risultato è di solito
+indistinguibile. Sopra foto o sfumature si può notare. Ctrl+Z annulla.
+
+
+Non riesco a selezionare testo e la modalità modifica non trova nulla.
+----------------------------------------------------------------------
+Il PDF è una scansione: una fotografia della carta. Dentro non c'è
+testo, solo un'immagine. Usa la sezione OCR nella scheda Estrai per
+leggere le lettere dall'immagine.
+
+
+I pulsanti OCR sono grigi.
+--------------------------
+L'OCR ha bisogno di Tesseract, un programma separato e gratuito.
+Installalo da https://github.com/UB-Mannheim/tesseract/wiki , spunta
+le lingue che ti servono durante l'installazione, poi chiudi e riapri
+PDF Tool.
+
+
+Ho salvato per sbaglio sopra il file originale.
+-----------------------------------------------
+Cerca accanto un file con .bak aggiunto al nome. Quello è il tuo
+originale. Togli «.bak» dal nome e lo riprendi. La copia viene scritta
+la prima volta che salvi sopra un file.
+
+
+«Nascondi definitivamente» è davvero definitivo?
+------------------------------------------------
+Sì. Il testo viene tolto dal file, non solo coperto. Una volta salvato
+non c'è modo di recuperarlo. Usalo per dati personali che non devono
+uscire. Per qualunque cosa tu possa rivolere, modifica normalmente.
+
+
+Il file ha cambiato dimensione dopo il salvataggio.
+---------------------------------------------------
+Di solito diventa più piccolo: al salvataggio il programma tiene di
+ogni carattere solo le lettere davvero usate e ripulisce gli oggetti
+inutilizzati. Se hai aggiunto immagini o un timbro, può crescere.
+«Comprimi il PDF», nella scheda Estrai, lo stringe ancora.
+
+
+L'interfaccia è nella lingua sbagliata.
+---------------------------------------
+Al primo avvio il programma segue la lingua di Windows. Scegline
+un'altra dall'elenco in alto a destra; da quel momento viene
+ricordata.
+
+
+Ho trascinato un PDF sulla finestra e non è successo niente.
+------------------------------------------------------------
+Lascialo sull'area della pagina, al centro, non sulla barra del
+titolo. Se c'è già un documento aperto, ti viene chiesto se aprire il
+file nuovo o aggiungerlo in fondo.
+
+
+Posso aprire un PDF con password?
+---------------------------------
+Sì, se conosci la password: il programma te la chiede. Non può forzare
+né togliere una password che non conosci.
+
+
+Posso mettere il programma su una chiavetta o su un altro computer?
+--------------------------------------------------------------------
+Sì. «PDF Tool.exe» è autonomo. Copialo dove vuoi; funziona su
+qualunque Windows senza installare nulla.
+
+
+Dove vengono tenute le mie impostazioni?
+----------------------------------------
+In %APPDATA%\PDFTool\settings.json: solo la lingua scelta e se la
+guida è già stata mostrata. Cancella quel file per azzerare entrambe.

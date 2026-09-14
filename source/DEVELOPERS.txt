@@ -1,0 +1,130 @@
+PDF Tool — source
+=================
+
+You do not need this folder to use the program. It is here only if you
+want to change something.
+
+
+FILES
+-----
+  pdf_tool.py            the application
+  lang.py                interface translations   GENERATED - do not edit
+  guide.py               the quick guide          GENERATED - do not edit
+  faq.py                 questions and answers    GENERATED - do not edit
+  icon.ico               the icon
+
+  _src.json              interface strings in Romanian (the source language)
+  _tr_en.json ... _tr_ru.json    their translations, same order as _src.json
+  _extra.json            extra strings, all languages together in one file
+  guides.json            the quick guide, one whole text per language
+  faqs.json              the questions and answers, one text per language
+
+  rebuild_languages.py   rebuilds lang.py, guide.py, faq.py and every
+                         README / FAQ file in the folder above
+
+  tests_core.py          PDF operations, no interface
+  tests_ui.py            starts the interface and presses the buttons
+  tests_features.py      languages, zoom, drag & drop, guide and FAQ
+
+
+LANGUAGES
+---------
+10: ro en fr es de it pt nl pl ru
+
+Romanian is the source language: every key in lang.py is the Romanian
+string. If a translation is missing, the Romanian text is shown.
+
+
+CHANGING A TRANSLATION
+----------------------
+1. Open _tr_fr.json (or whichever language) and edit the line you want.
+   Line N in _tr_xx.json matches line N in _src.json.
+   Do not add or remove lines.
+2. Run:  python rebuild_languages.py
+3. Done. Start the app and check.
+
+For the strings in _extra.json, edit that file directly - every language
+sits next to its key.
+
+
+CHANGING THE GUIDE OR THE FAQ
+-----------------------------
+Edit guides.json or faqs.json, then run rebuild_languages.py. It
+regenerates guide.py and faq.py (what the program shows) and rewrites
+README.txt, FAQ.txt and everything in Readme\, so what the buttons show
+and what sits on disk can never drift apart.
+
+The "?" button shows the guide, the "FAQ" button shows the questions.
+
+Keep lines at 78 columns or less. tests_features.py checks that, checks
+that every language has the same number of questions, and refuses text
+containing letters from alphabets the program does not use - that check
+already caught two Chinese characters that slipped into the Russian FAQ.
+
+
+ADDING A LANGUAGE
+-----------------
+1. Copy _tr_en.json to _tr_xx.json and translate every line.
+2. Add "xx" to the LANGS list in rebuild_languages.py.
+3. In lang.py, at the top, add "xx": "Name of language" to LANG_NAMES and
+   "xx" to LANG_ORDER. That part of lang.py is hand-written and is kept
+   when the file is regenerated.
+4. Add the guide to guides.json and the questions to faqs.json, both
+   under the key "xx".
+5. Run rebuild_languages.py, then tests_features.py.
+
+
+TRANSLATION RULES
+-----------------
+- Keep exactly the same %s, %d, %.1f, {n}, {total} as in the original,
+  in the same order.
+- \n means a new line. Keep them.
+- tests_features.py checks automatically that every string used in the
+  code has a translation in every language, and that the placeholders
+  match.
+
+
+RUNNING THE TESTS
+-----------------
+  python tests_core.py
+  python tests_ui.py
+  python tests_features.py
+
+The interface tests open windows briefly. That is normal.
+
+
+REBUILDING THE EXECUTABLE
+-------------------------
+  python -m pip install pyinstaller
+  python -m PyInstaller --noconfirm --clean --onefile --windowed ^
+    --name "PDF Tool" --icon icon.ico --collect-all tkinterdnd2 pdf_tool.py
+
+The result is dist\PDF Tool.exe
+
+
+LIBRARIES
+---------
+  pymupdf      everything to do with PDF
+  pillow       images and thumbnails
+  fonttools    font subsetting on save (much smaller files)
+  tkinterdnd2  drag & drop (optional: without it the app still runs, you
+               just cannot drop files into the window)
+
+  python -m pip install pymupdf pillow fonttools tkinterdnd2
+
+
+THINGS WORTH KNOWING
+--------------------
+- Text written by the app uses Arial from Windows when it contains
+  letters outside ASCII, and the standard PDF fonts when the text is
+  plain ASCII. Reason: the standard PDF fonts have no accented or
+  Cyrillic letters, while an embedded Arial makes the file about ten
+  times bigger. On save only the glyphs actually used are kept.
+- PyMuPDF writes spaces and hyphens that come back out of extraction as
+  U+00A0 and U+00AD. norm_text() turns them back into plain characters
+  on export. Searching is unaffected - MuPDF normalises whitespace.
+- t() in lang.py does the translation. Never name a local variable "t",
+  it shadows the function. That bug bit five places once already.
+- Settings live in %APPDATA%\PDFTool\settings.json: the chosen language
+  and whether the guide has already been shown. Delete that file to see
+  the first-run guide again.

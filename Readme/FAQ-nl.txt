@@ -1,0 +1,105 @@
+PDF Tool — veelgestelde vragen
+==========================================================
+
+
+Windows zegt „Windows heeft uw pc beveiligd” als ik het open.
+-------------------------------------------------------------
+Die waarschuwing verschijnt bij elk programma dat niet digitaal is
+ondertekend. Een handtekening kost enkele honderden euro's per jaar.
+Klik op „Meer informatie” en daarna „Toch uitvoeren”. Dat gebeurt
+alleen de eerste keer.
+
+
+Gaat er iets het internet op?
+-----------------------------
+Nee. Het programma bevat helemaal geen netwerkcode. Je bestanden
+verlaten deze computer nooit.
+
+
+Kan ik elke tekst in een PDF wijzigen?
+--------------------------------------
+Korte tekst wel: datums, namen, bedragen, losse woorden. De app dekt
+de oude tekst af en schrijft hem in een gelijkend lettertype opnieuw.
+Hele alinea's niet: de regels eromheen worden niet opnieuw ingedeeld,
+dus de nieuwe tekst loopt over zijn buren heen. Daarvoor heb je het
+oorspronkelijke document nodig.
+
+
+Mijn gewijzigde tekst ziet er niet precies zo uit als de rest.
+--------------------------------------------------------------
+De app neemt de lettertypefamilie en de grootte over, niet het exacte
+lettertype, want het oorspronkelijke staat misschien niet op jouw
+computer. Op een egale achtergrond is het resultaat meestal niet te
+onderscheiden. Over foto's of verlopen kan het opvallen. Ctrl+Z maakt
+het ongedaan.
+
+
+Ik kan geen tekst selecteren en de bewerkmodus vindt niets.
+-----------------------------------------------------------
+De PDF is een scan — een foto van papier. Er zit geen tekst in, alleen
+een afbeelding. Gebruik het OCR-gedeelte op het tabblad Uitpakken om
+de letters uit het beeld te lezen.
+
+
+De OCR-knoppen zijn grijs.
+--------------------------
+OCR heeft Tesseract nodig, een apart en gratis programma. Installeer
+het van https://github.com/UB-Mannheim/tesseract/wiki , vink tijdens
+de installatie de talen aan die je nodig hebt, en sluit en open
+PDF Tool daarna opnieuw.
+
+
+Ik heb per ongeluk over mijn oorspronkelijke bestand opgeslagen.
+----------------------------------------------------------------
+Kijk ernaast naar een bestand met .bak achter de naam. Dat is je
+originele bestand. Haal „.bak” uit de naam en je hebt het terug. De
+kopie wordt gemaakt de eerste keer dat je over een bestand opslaat.
+
+
+Is „Definitief verbergen” echt definitief?
+------------------------------------------
+Ja. De tekst wordt uit het bestand gehaald, niet alleen afgedekt.
+Zodra je opslaat is er geen weg terug. Gebruik het voor persoonlijke
+gegevens die niet naar buiten mogen. Voor alles wat je misschien terug
+wilt, bewerk je gewoon normaal.
+
+
+Mijn bestand is van grootte veranderd na het opslaan.
+-----------------------------------------------------
+Meestal wordt het kleiner: bij het opslaan houdt het programma van elk
+lettertype alleen de werkelijk gebruikte letters over en ruimt het
+ongebruikte objecten op. Heb je afbeeldingen of een stempel
+toegevoegd, dan kan het groeien. „PDF verkleinen” op het tabblad
+Uitpakken perst het verder samen.
+
+
+De interface staat in de verkeerde taal.
+----------------------------------------
+Bij de eerste start volgt het programma de taal van Windows. Kies een
+andere uit de lijst rechtsboven; vanaf dan wordt die onthouden.
+
+
+Ik sleepte een PDF op het venster en er gebeurde niets.
+-------------------------------------------------------
+Laat hem los op het paginagebied in het midden, niet op de titelbalk.
+Staat er al een document open, dan wordt gevraagd of het nieuwe
+bestand geopend of achteraan toegevoegd moet worden.
+
+
+Kan ik een PDF met een wachtwoord openen?
+-----------------------------------------
+Ja, als je het wachtwoord kent — het programma vraagt erom. Het kan
+een wachtwoord dat je niet kent niet kraken of verwijderen.
+
+
+Kan ik het programma op een USB-stick of een andere computer zetten?
+---------------------------------------------------------------------
+Ja. „PDF Tool.exe” staat op zichzelf. Kopieer het waarheen je wilt;
+het draait op elke Windows zonder dat je iets installeert.
+
+
+Waar worden mijn instellingen bewaard?
+--------------------------------------
+In %APPDATA%\PDFTool\settings.json — alleen de gekozen taal en of de
+handleiding al is getoond. Verwijder dat bestand om beide terug te
+zetten.
