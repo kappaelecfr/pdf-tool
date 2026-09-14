@@ -263,6 +263,17 @@
   "pt": "A zona escolhida foi apagada da página %d.",
   "ru": "Выбранная область удалена со страницы %d."
  },
+ "Arunc toate modificările și aduc documentul cum era când l-ai deschis?\n\nPoți reveni cu butonul de anulare.": {
+  "de": "Alle Änderungen verwerfen und das Dokument so wiederherstellen, wie es beim Öffnen war?\n\nMit der Rückgängig-Schaltfläche können Sie zurück.",
+  "en": "Throw away every change and bring the document back as it was when you opened it?\n\nYou can come back with the undo button.",
+  "es": "¿Descartar todos los cambios y devolver el documento a como estaba al abrirlo?\n\nPuedes volver atrás con el botón de deshacer.",
+  "fr": "Jeter toutes les modifications et remettre le document tel qu'il était à l'ouverture ?\n\nVous pouvez revenir en arrière avec le bouton d'annulation.",
+  "it": "Buttare via tutte le modifiche e riportare il documento com'era quando l'hai aperto?\n\nPuoi tornare indietro con il pulsante di annullamento.",
+  "nl": "Alle wijzigingen weggooien en het document terugbrengen zoals het was toen u het opende?\n\nU kunt terug met de knop ongedaan maken.",
+  "pl": "Odrzucić wszystkie zmiany i przywrócić dokument do stanu z chwili otwarcia?\n\nMożesz wrócić przyciskiem cofania.",
+  "pt": "Deitar fora todas as alterações e repor o documento tal como estava quando o abriu?\n\nPode voltar atrás com o botão de anular.",
+  "ru": "Отбросить все изменения и вернуть документ к тому виду, в каком вы его открыли?\n\nВернуться можно кнопкой отмены."
+ },
  "Aruncă": {
   "de": "Verwerfen",
   "en": "Discard",
@@ -317,6 +328,17 @@
   "pl": "Co zrobić z\n%s?",
   "pt": "O que faço com\n%s?",
   "ru": "Что сделать с\n%s?"
+ },
+ "Cum era la început": {
+  "de": "Wie am Anfang",
+  "en": "As it was at the start",
+  "es": "Como al principio",
+  "fr": "Comme au départ",
+  "it": "Com'era all'inizio",
+  "nl": "Zoals in het begin",
+  "pl": "Jak na początku",
+  "pt": "Como estava no início",
+  "ru": "Как было вначале"
  },
  "Descarc versiunea %s, apoi programul se închide.\n\nDupă aceea îl deschizi din nou, ca de obicei — va fi versiunea nouă.\n\nSalvează întâi ce ai de salvat. Continui?": {
   "de": "Version %s wird heruntergeladen, danach schließt sich das Programm.\n\nAnschließend öffnen Sie es wie gewohnt wieder — es ist dann die neue Version.\n\nSpeichern Sie zuerst Ihre Arbeit. Fortfahren?",
@@ -383,6 +405,17 @@
   "pl": "O programie i aktualizacje",
   "pt": "Acerca de e atualizações",
   "ru": "О программе и обновления"
+ },
+ "Documentul e cum era la deschidere.": {
+  "de": "Das Dokument ist wie beim Öffnen.",
+  "en": "The document is as it was when opened.",
+  "es": "El documento está como estaba al abrirlo.",
+  "fr": "Le document est tel qu'il était à l'ouverture.",
+  "it": "Il documento è com'era all'apertura.",
+  "nl": "Het document is zoals bij het openen.",
+  "pl": "Dokument jest taki jak przy otwarciu.",
+  "pt": "O documento está como estava ao abrir.",
+  "ru": "Документ такой, каким был при открытии."
  },
  "Editare": {
   "de": "Bearbeiten",

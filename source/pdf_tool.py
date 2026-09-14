@@ -41,7 +41,7 @@ import update_check
 from faq import text_for as faq_text
 
 APP_NAME = "PDF Tool"
-APP_VER = "1.7.0"
+APP_VER = "1.8.0"
 # anul vine din ceasul calculatorului, deci se schimba singur
 COPYRIGHT = "Copyright \u00a9 KappaProject %d"
 
@@ -99,7 +99,11 @@ DANGER = "#dc2626"
 CANVAS_BG = "#8b93a1"
 
 THUMB_W = 116
-UNDO_MAX = 12
+UNDO_MAX = 40
+# Fiecare pas de anulare e o copie intreaga a documentului. La un fisier mic
+# patruzeci de copii nu inseamna nimic; la unul scanat de zeci de megaocteti
+# ar umple memoria, asa ca taiem si dupa marime, nu doar dupa numar.
+UNDO_OCTETI = 256 * 1024 * 1024
 
 
 # --------------------------------------------------------------------------
@@ -592,6 +596,7 @@ class PDFTool(_ROOT_BASE):
         self.align_drag = None          # tragerea textului scris, ca sa-l aliniez
         self.change_seq = 0             # a cata schimbare e cea de acum
         self.nudge_last = None          # ce am scris ultima data, ca sa pot alinia
+        self.doc_initial = None         # fisierul asa cum l-am deschis
         self.src_broken = None          # fisierul era deja stricat la deschidere?
         self.speller = None             # corectorul Windows, daca exista dictionar
         self._spell_job = None
@@ -702,6 +707,10 @@ class PDFTool(_ROOT_BASE):
         self.btn_redo.pack(side="left", padx=(6, 0))
 
         ttk.Separator(bar, orient="vertical").pack(side="left", fill="y", padx=10, pady=4)
+
+        self.btn_revert = ttk.Button(bar, text=t("Cum era la început"),
+                                     command=self.cmd_revert)
+        self.btn_revert.pack(side="left", padx=(0, 10))
 
         ttk.Button(bar, text=t("Închide fișierul"), command=self.cmd_close_doc).pack(side="left")
 
@@ -1450,6 +1459,8 @@ class PDFTool(_ROOT_BASE):
             except Exception:
                 pass
         self.src_broken = check_pdf(raw)
+        # fisierul asa cum l-am deschis, pentru butonul de revenire
+        self.doc_initial = raw
         self.doc = doc
         self.path = path
         self.dirty = False
@@ -1618,7 +1629,10 @@ class PDFTool(_ROOT_BASE):
             self.undo_stack.append((self.doc.tobytes(), set(self.selected), self.current))
         except Exception:
             return
-        if len(self.undo_stack) > UNDO_MAX:
+        while len(self.undo_stack) > UNDO_MAX:
+            self.undo_stack.pop(0)
+        while (len(self.undo_stack) > 1
+               and sum(len(x[0]) for x in self.undo_stack) > UNDO_OCTETI):
             self.undo_stack.pop(0)
         self.redo_stack.clear()
 
@@ -1635,6 +1649,26 @@ class PDFTool(_ROOT_BASE):
         self.rebuild_thumbs()
         self.render_preview()
         self._update_state()
+
+    def cmd_revert(self):
+        """Pune la loc documentul asa cum era la deschidere."""
+        if not self.doc or not self.doc_initial or not self.dirty:
+            return
+        if not messagebox.askyesno(
+                APP_NAME, t("Arunc toate modificările și aduc documentul cum era "
+                          "când l-ai deschis?\n\nPoți reveni cu butonul de "
+                          "anulare.")):
+            return
+        self.snapshot()
+        self._restore((self.doc_initial, set(), 0))
+        self.nudge_last = None
+        self.dirty = True
+        self.change_seq += 1
+        self.thumb_imgs.clear()
+        self.rebuild_thumbs()
+        self.render_preview()
+        self._update_state()
+        self.status(t("Documentul e cum era la deschidere."))
 
     def undo(self):
         if not self.undo_stack:
@@ -1673,6 +1707,9 @@ class PDFTool(_ROOT_BASE):
             w.state(["!disabled"] if has else ["disabled"])
         self.btn_undo.state(["!disabled"] if self.undo_stack else ["disabled"])
         self.btn_redo.state(["!disabled"] if self.redo_stack else ["disabled"])
+        self.btn_revert.state(["!disabled"]
+                              if (has and self.doc_initial and self.dirty)
+                              else ["disabled"])
         if has:
             name = os.path.basename(self.path) if self.path else "(nesalvat)"
             if len(name) > 32:

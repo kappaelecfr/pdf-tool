@@ -800,6 +800,81 @@ check(round(_chenar[0]["origin"][1], 2) == _unde16("DOILEA"),
 app16.destroy()
 
 
+# ------------------- [17] anularea duce pana la inceput, si butonul de revenire
+print("[17] Anularea ajunge la inceput; butonul aduce documentul cum era")
+
+# Anularea pastra doisprezece pasi. Peste atat cei mai vechi cadeau, si
+# proprietarul nu mai putea ajunge de unde plecase.
+_d17 = tempfile.mkdtemp(prefix="pdft_rev_")
+_c17 = os.path.join(_d17, "multe.pdf")
+_doc = pymupdf.open()
+_pg = _doc.new_page()
+for _i in range(20):
+    T.textbox(_pg, pymupdf.Rect(50, 60 + _i * 35, 400, 90 + _i * 35),
+              "RAND%02d" % _i, 10, (0, 0, 0))
+_doc.save(_c17)
+_doc.close()
+
+app17 = T.PDFTool()
+app17.update()
+app17.load(_c17)
+app17.set_click_mode("text")
+app17.update()
+
+
+def _harta17():
+    out = {}
+    for blk in app17.doc.load_page(0).get_text("dict")["blocks"]:
+        for ln in blk.get("lines", []):
+            for sp in ln.get("spans", []):
+                txt = T.norm_text(sp["text"]).strip()
+                if txt.startswith("RAND"):
+                    out[txt] = round(sp["origin"][1], 2)
+    return out
+
+
+def _muta17(i, cat):
+    pg = app17.doc.load_page(0)
+    h = pg.search_for("RAND%02d" % i)[0]
+    app17.pick_text_at(pg, (h.x0 + h.x1) / 2, (h.y0 + h.y1) / 2)
+    app17.nudge_text(0, cat)
+    app17.update()
+
+
+_start17 = _harta17()
+for _i in range(20):
+    _muta17(_i, -4)
+
+check(len(app17.undo_stack) == 20, "raman 20 de pasi de anulare (erau maxim 12)")
+_n = 0
+while app17.undo_stack and _n < 40:
+    app17.undo()
+    _n += 1
+app17.update()
+check(_harta17() == _start17, "dupa %d anulari, totul e ca la pornire" % _n)
+
+# butonul de revenire
+for _i in range(5):
+    _muta17(_i, -6)
+check(_harta17() != _start17, "documentul chiar s-a schimbat")
+check("disabled" not in app17.btn_revert.state(), "butonul de revenire e aprins")
+
+_ask17 = messagebox.askyesno
+messagebox.askyesno = lambda *a, **k: True
+try:
+    app17.cmd_revert()
+    app17.update()
+finally:
+    messagebox.askyesno = _ask17
+check(_harta17() == _start17, "butonul aduce documentul cum era la deschidere")
+
+app17.undo()
+app17.update()
+check(_harta17() != _start17, "si revenirea se poate anula")
+
+app17.destroy()
+
+
 app.destroy()
 
 print("\n" + "=" * 58)
