@@ -25,7 +25,9 @@ import threading
 import urllib.request
 
 API = "https://api.github.com/repos/kappaelecfr/pdf-tool/releases/latest"
-PAGINA = "https://github.com/kappaelecfr/pdf-tool/releases/latest"
+# Pagina pe care o vede omul: a noastra, in limba lui. Fisierul vine tot
+# din API-ul de mai sus, dar asta nu are de ce sa i se arate.
+PAGINA = "https://kappaproject.com/apps/pdf-tool"
 
 
 def numere(v):
@@ -58,7 +60,7 @@ def intreaba(actuala, timeout=6):
     eticheta = (d.get("tag_name") or "").lstrip("vV").strip()
     if not eticheta:
         return None
-    return eticheta, (d.get("html_url") or PAGINA)
+    return eticheta, PAGINA
 
 
 def cauta(actuala, gata, si_daca_e_la_zi=False, timeout=6):

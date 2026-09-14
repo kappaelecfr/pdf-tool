@@ -41,7 +41,7 @@ import update_check
 from faq import text_for as faq_text
 
 APP_NAME = "PDF Tool"
-APP_VER = "1.4.0"
+APP_VER = "1.4.1"
 # anul vine din ceasul calculatorului, deci se schimba singur
 COPYRIGHT = "Copyright \u00a9 KappaProject %d"
 
