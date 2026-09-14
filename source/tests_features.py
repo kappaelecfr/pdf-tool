@@ -5,6 +5,7 @@ import sys
 import ast
 import io
 import time
+import shutil
 import tempfile
 import pymupdf
 
@@ -463,6 +464,198 @@ app5.set_click_mode(None)
 check(True, "iesirea fara modificari nu face nimic")
 
 app5.destroy()
+
+# =====================================================================
+print("\n[11] Caseta de editare se poarta ca un camp de text")
+
+app6 = T.PDFTool()
+app6.update()
+app6.load(sursa)
+app6.set_click_mode("text")
+app6.update()
+
+pg6 = app6.doc.load_page(0)
+h6 = pg6.search_for("PRIMUL")[0]
+app6.pick_text_at(pg6, (h6.x0 + h6.x1) / 2, (h6.y0 + h6.y1) / 2)
+inainte = app6.txt_edit.get("1.0", "end").strip()
+check(inainte != "", "textul s-a incarcat in caseta")
+
+app6.txt_edit.insert("end", " ADAUGAT")
+app6.update()
+check("ADAUGAT" in app6.txt_edit.get("1.0", "end"), "am scris in caseta")
+
+doc_inainte = T.norm_text(app6.doc.load_page(0).get_text("text"))
+app6.txt_edit.edit_undo()
+app6.update()
+check(app6.txt_edit.get("1.0", "end").strip() == inainte,
+      "Ctrl+Z in caseta anuleaza doar scrisul")
+check(T.norm_text(app6.doc.load_page(0).get_text("text")) == doc_inainte,
+      "documentul nu a fost atins de Ctrl+Z din caseta")
+
+app6._select_all_text()
+check(bool(app6.txt_edit.tag_ranges("sel")), "Ctrl+A selecteaza textul din caseta")
+
+# in afara casetei, scurtaturile lucreaza pe document, ca inainte
+app6.discard_edit()
+app6.set_click_mode(None)
+n_inainte = app6.npages
+app6._select_all_key()
+check(len(app6.selected) == n_inainte,
+      "in afara casetei, Ctrl+A selecteaza paginile (%d)" % len(app6.selected))
+
+app6.op_rotate(90)
+rot = app6.doc.load_page(0).rotation
+app6._undo_key()
+app6.update()
+check(app6.doc.load_page(0).rotation != rot,
+      "in afara casetei, Ctrl+Z anuleaza operatia pe document")
+
+app6.destroy()
+
+# =====================================================================
+print("\n[12] Corector ortografic si copie de siguranta")
+
+import spell as SP
+import msvcrt as _mc
+
+check(isinstance(SP.disponibil(), bool), "corectorul Windows raspunde: %s" % SP.disponibil())
+instalate = [c for c in LG.LANG_ORDER if SP.eticheta_pentru(c)]
+print("      limbi cu dictionar pe acest calculator: %s"
+      % (" ".join(instalate) if instalate else "niciuna"))
+
+if instalate:
+    cod = instalate[0]
+    c = SP.corector_pentru(cod)
+    check(c is not None, "am obtinut un corector pentru %s" % cod)
+    if c:
+        proba = {"fr": "Ceci est un texte avec une fote.",
+                 "en": "This is a texct here.",
+                 "ro": "Acesta e un text cu o greseala."}.get(cod, "This is a texct here.")
+        gres = c.greseli(proba)
+        check(len(gres) >= 1, "gaseste greseli in %r: %s" % (proba, [g[2] for g in gres]))
+        if gres:
+            sug = c.sugestii(gres[0][2])
+            check(len(sug) >= 1, "propune variante pentru %r: %s" % (gres[0][2], sug[:3]))
+        check(c.greseli("") == [], "text gol: nicio greseala")
+        c.close()
+else:
+    check(True, "(niciun dictionar instalat, sar peste verificarea propriu-zisa)")
+
+check(SP.corector_pentru("xx") is None, "limba inexistenta nu da corector")
+
+# caseta: sublinierea nu schimba textul
+app7 = T.PDFTool()
+app7.update()
+app7.load(sursa)
+app7.set_click_mode("text")
+app7.update()
+pg7 = app7.doc.load_page(0)
+h7 = pg7.search_for("PRIMUL")[0]
+app7.pick_text_at(pg7, (h7.x0 + h7.x1) / 2, (h7.y0 + h7.y1) / 2)
+app7.txt_edit.delete("1.0", "end")
+app7.txt_edit.insert("1.0", "un texct cu greseli")
+app7._spell_check()
+app7.update()
+check(app7.txt_edit.get("1.0", "end").strip() == "un texct cu greseli",
+      "corectorul NU schimba textul singur")
+app7.discard_edit()
+
+# copia de siguranta se scrie doar dupa o salvare reusita
+import tempfile as _tf3
+D3 = _tf3.mkdtemp(prefix="bak_")
+tinta3 = os.path.join(D3, "f.pdf")
+shutil.copy(sursa, tinta3)
+octeti0 = open(tinta3, "rb").read()
+app7.load(tinta3)
+app7.op_rotate(90)
+
+blocaj = open(tinta3, "rb")
+blocaj.read(256)
+blocat = True
+try:
+    _mc.locking(blocaj.fileno(), _mc.LK_NBLCK, 4096)
+except OSError:
+    blocat = False
+app7.cmd_save()
+app7.update()
+if blocat:
+    try:
+        blocaj.seek(0)
+        _mc.locking(blocaj.fileno(), _mc.LK_UNLCK, 4096)
+    except OSError:
+        pass
+blocaj.close()
+
+if blocat:
+    check(open(tinta3, "rb").read() == octeti0, "fisier ocupat: nu s-a scris nimic")
+    check(len(os.listdir(D3)) == 1, "fisier ocupat: nu ramane nicio copie inutila")
+else:
+    check(True, "(nu am putut bloca fisierul, sar peste)")
+
+app7.cmd_save()
+app7.update()
+check(open(tinta3, "rb").read() != octeti0, "fisier liber: salvarea a mers")
+copii = [f for f in os.listdir(D3) if f != "f.pdf"]
+check(copii == ["f (original).pdf"], "copia de siguranta: %s" % copii)
+if copii:
+    check(open(os.path.join(D3, copii[0]), "rb").read() == octeti0,
+          "copia contine fisierul dinainte de modificare")
+
+app7.destroy()
+
+# =====================================================================
+print("[13] Stergerile accidentale nu se aplica in tacere")
+
+D4 = _tf3.mkdtemp(prefix="guard_")
+s4 = os.path.join(D4, "d.pdf")
+_d4 = pymupdf.open()
+_p4 = _d4.new_page()
+T.textbox(_p4, pymupdf.Rect(50, 60, 545, 100), "Facture", 22, (0, 0, 0))
+T.textbox(_p4, pymupdf.Rect(50, 140, 545, 180), "Interv depannage elec 18 rue", 11, (0, 0, 0))
+_d4.save(s4)
+_d4.close()
+
+_raspuns = {"da": False}
+messagebox.askyesno = lambda *a, **k: _raspuns["da"]
+
+
+def _scenariu(cuvant, text_nou, confirma):
+    _raspuns["da"] = confirma
+    a = T.PDFTool()
+    a.update()
+    a.load(s4)
+    a.set_click_mode("text")
+    a.update()
+    pg = a.doc.load_page(0)
+    h = pg.search_for(cuvant)[0]
+    a.pick_text_at(pg, (h.x0 + h.x1) / 2, (h.y0 + h.y1) / 2)
+    a.txt_edit.delete("1.0", "end")
+    a.txt_edit.insert("1.0", text_nou)
+    celalalt = "Interv" if cuvant == "Facture" else "Facture"
+    alt = a.doc.load_page(0).search_for(celalalt)[0]
+    a.pick_text_at(a.doc.load_page(0), (alt.x0 + alt.x1) / 2, (alt.y0 + alt.y1) / 2)
+    a.update()
+    txt = T.norm_text(a.doc.load_page(0).get_text("text"))
+    a.destroy()
+    return txt
+
+t1 = _scenariu("Facture", "F", False)
+check("Facture" in t1, "stergere aproape totala, raspund NU: textul ramane intreg")
+
+t2 = _scenariu("Facture", "F", True)
+check("Facture" not in t2, "aceeasi stergere, raspund DA: se aplica")
+
+t3 = _scenariu("Interv", "Travaux electricite 18 rue", False)
+check("Travaux electricite" in t3,
+      "corectura normala se aplica singura, fara sa intrebe")
+
+t4 = _scenariu("Interv", "Interv depannage elec 18 rue Boursault", False)
+check("Boursault" in t4, "textul mai lung se aplica fara intrebare")
+
+messagebox.askyesno = lambda *a, **k: False
+
+
+
 
 
 LG._write_cfg({})

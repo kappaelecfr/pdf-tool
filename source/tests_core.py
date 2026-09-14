@@ -234,6 +234,79 @@ except Exception:
     check(open(tinta, "rb").read() == vechi,
           "dupa o scriere esuata, fisierul existent ramane intact")
 
+# numele copiei de siguranta: ramane PDF, se deschide normal
+b = T.backup_path(r"C:\dosar\factura.pdf")
+check(b.endswith(".pdf"), "copia de siguranta ramane un PDF: %s" % os.path.basename(b))
+check("original" in b.lower(), "numele ei spune ce e")
+check(T.backup_path("fara-extensie").endswith(".pdf"),
+      "si fara extensie iese tot un PDF")
+
+
+# ---------------------------------------------- diacritice la a doua editare
+print("\n[11] Diacritice adaugate dupa o salvare")
+
+# Pregatesc exact situatia care strica textul: pagina primeste un font
+# de sistem sub numele "Farial", apoi e subsetata la salvare. A doua
+# editare cere litere care nu mai sunt in acel subset.
+d = pymupdf.open()
+pg = d.new_page()
+T.textbox(pg, pymupdf.Rect(50, 60, 545, 100), "Société générale", 11, (0, 0, 0))
+T.shrink_fonts(d)
+date = d.tobytes(garbage=3, deflate=True)
+d.close()
+
+d = pymupdf.open("pdf", date)
+pg = d.load_page(0)
+resurse = {f[4]: f[0] for f in pg.get_fonts(full=True)}
+check("Farial" in resurse, "pagina are deja resursa Farial: %s" % list(resurse))
+
+buf = d.extract_font(resurse["Farial"])
+f_vechi = pymupdf.Font(fontbuffer=buf[3]) if buf and buf[3] else None
+lipseste = f_vechi and not f_vechi.has_glyph(ord("Î"))
+check(bool(lipseste), "fontul subsetat NU contine 'Î' — asta rupea textul")
+
+# a doua editare, cu litere care lipsesc din subset
+pg.add_redact_annot(pymupdf.Rect(50, 55, 545, 105), fill=(1, 1, 1))
+T.apply_redactions(pg)
+NOUTEXT = "Întârziere de plată: 40€"
+T.textbox(pg, pymupdf.Rect(50, 60, 545, 100), NOUTEXT, 11, (0, 0, 0))
+T.shrink_fonts(d)
+date2 = d.tobytes(garbage=3, deflate=True)
+d.close()
+
+d = pymupdf.open("pdf", date2)
+txt = T.norm_text(d.load_page(0).get_text("text"))
+nume = [f[4] for f in d.load_page(0).get_fonts(full=True)]
+d.close()
+check(NOUTEXT in txt, "textul cu diacritice noi se extrage: %r" % txt.strip()[:40])
+
+# mai multe editari, in alfabete diferite, nu trebuie sa umfle fisierul
+curent = date2
+marimi = [len(curent)]
+for t_nou in ("Zahlungsverzug €", "Опоздание",
+              "Réparation générale"):
+    dd = pymupdf.open("pdf", curent)
+    pp = dd.load_page(0)
+    pp.add_redact_annot(pymupdf.Rect(50, 55, 545, 105), fill=(1, 1, 1))
+    T.apply_redactions(pp)
+    T.textbox(pp, pymupdf.Rect(50, 60, 545, 100), t_nou, 11, (0, 0, 0))
+    T.shrink_fonts(dd)
+    curent = dd.tobytes(garbage=3, deflate=True)
+    dd.close()
+    marimi.append(len(curent))
+    dd = pymupdf.open("pdf", curent)
+    are = t_nou in T.norm_text(dd.load_page(0).get_text("text"))
+    nrf = len(dd.load_page(0).get_fonts(full=True))
+    dd.close()
+    check(are, "%r se scrie si se citeste inapoi" % t_nou[:16])
+
+crestere = (marimi[-1] - marimi[0]) / 1024.0
+check(abs(crestere) < 30,
+      "dupa 3 editari in alfabete diferite fisierul creste cu %.0f KB, nu se umfla" % crestere)
+check(nrf <= 8, "numarul de fonturi ramane marginit: %d" % nrf)
+
+
+
 
 
 print("\n[10] OCR")

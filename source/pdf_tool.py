@@ -34,10 +34,11 @@ from tkinter import ttk, filedialog, messagebox, colorchooser
 from lang import (t, set_lang, save_pref, load_pref, current,
                   guide_seen, mark_guide_seen, LANG_NAMES, LANG_ORDER)
 from guide import text_for as guide_text
+import spell
 from faq import text_for as faq_text
 
 APP_NAME = "PDF Tool"
-APP_VER = "1.1.0"
+APP_VER = "1.1.1"
 # anul vine din ceasul calculatorului, deci se schimba singur
 COPYRIGHT = "Copyright \u00a9 KappaProject %d"
 
@@ -169,9 +170,46 @@ def font_kind_for(pdf_font_name):
     return "sans"
 
 
+def page_fontname(page, doc, base, text):
+    """Un nume de resursa de font sub care textul dat chiar se poate scrie.
+
+    Daca pagina are deja un font cu numele cerut, PyMuPDF il refoloseste
+    si ignora fisierul pe care il dam. Bun cand fontul acela contine tot
+    ce ne trebuie; dezastruos cand a fost subsetat si nu contine.
+    """
+    try:
+        existente = {}
+        for f in page.get_fonts(full=True):
+            existente[f[4]] = f[0]          # nume resursa -> xref
+    except Exception:
+        return base
+
+    if base not in existente:
+        return base
+
+    # numele e luat: fontul de acolo acopera literele noastre?
+    nevoie = {ord(c) for c in text if not c.isspace()}
+    try:
+        buf = doc.extract_font(existente[base])
+        if buf and buf[3]:
+            f = pymupdf.Font(fontbuffer=buf[3])
+            if all(f.has_glyph(c) for c in nevoie):
+                return base                 # se potriveste, il refolosim
+    except Exception:
+        pass
+
+    # nu acopera: luam un nume liber, ca fontul sa fie incorporat din nou
+    i = 2
+    while "%s%d" % (base, i) in existente:
+        i += 1
+    return "%s%d" % (base, i)
+
+
 def textbox(page, rect, text, fontsize, color=(0, 0, 0), kind="sans", align=0):
     """Scrie text intr-un dreptunghi. Micsoreaza fontul daca nu incape."""
     font, path, name = pick_font(text, kind)
+    if path:                                # fonturile standard nu se incorporeaza
+        name = page_fontname(page, page.parent, name, text)
     size = fontsize
     for _ in range(24):
         kw = {"fontsize": size, "color": color, "align": align, "fontname": name}
@@ -258,6 +296,12 @@ def hex_to_rgb(h):
 
 def rgb_to_hex(rgb):
     return "#%02x%02x%02x" % tuple(int(round(c * 255)) for c in rgb)
+
+
+def backup_path(path):
+    """Numele copiei de siguranta: ramane PDF, se poate deschide normal."""
+    baza, ext = os.path.splitext(path)
+    return "%s (original)%s" % (baza, ext or ".pdf")
 
 
 def write_atomic(path, data):
@@ -502,6 +546,8 @@ class PDFTool(_ROOT_BASE):
         self.edit_spans = []            # zonele de text de pe pagina curenta
         self.pan_from = None
         self.src_broken = None          # fisierul era deja stricat la deschidere?
+        self.speller = None             # corectorul Windows, daca exista dictionar
+        self._spell_job = None
         self.stamp_path = None
         self._thumb_job = None
         self._preview_job = None
@@ -798,13 +844,122 @@ class PDFTool(_ROOT_BASE):
         tk.Label(st, text=COPYRIGHT % datetime.date.today().year,
                  bg=BG, fg=MUTED, font=("Segoe UI", 8)).pack(side="right")
 
+    # ---------------------------------------------- corector ortografic
+
+    def _spell_setup(self):
+        """Ia corectorul pentru limba interfetei, daca Windows il are."""
+        vechi = getattr(self, "speller", None)
+        if vechi:
+            try:
+                vechi.close()
+            except Exception:
+                pass
+        self.speller = None
+        try:
+            self.speller = spell.corector_pentru(current())
+        except Exception:
+            self.speller = None
+
+    def _spell_later(self, _e=None):
+        """Verifica dupa ce te opresti din scris, nu la fiecare tasta."""
+        if not self.speller:
+            return
+        if self._spell_job:
+            try:
+                self.after_cancel(self._spell_job)
+            except Exception:
+                pass
+        self._spell_job = self.after(350, self._spell_check)
+
+    def _spell_check(self):
+        self._spell_job = None
+        if not self.speller:
+            return
+        try:
+            text = self.txt_edit.get("1.0", "end-1c")
+            self.txt_edit.tag_remove("gresit", "1.0", "end")
+            for start, lung, _cuv in self.speller.greseli(text):
+                self.txt_edit.tag_add("gresit",
+                                      "1.0 + %d chars" % start,
+                                      "1.0 + %d chars" % (start + lung))
+        except Exception:
+            pass
+
+    def _spell_menu(self, event):
+        """Click dreapta pe un cuvant subliniat: variantele propuse."""
+        if not self.speller:
+            return
+        try:
+            poz = self.txt_edit.index("@%d,%d" % (event.x, event.y))
+            if "gresit" not in self.txt_edit.tag_names(poz):
+                return
+            a = self.txt_edit.tag_prevrange("gresit", poz + " +1c")
+            if not a:
+                return
+            cuvant = self.txt_edit.get(a[0], a[1])
+            variante = self.speller.sugestii(cuvant)
+        except Exception:
+            return
+
+        meniu = tk.Menu(self, tearoff=0)
+        if variante:
+            for v in variante:
+                meniu.add_command(
+                    label=v,
+                    command=lambda x=v, i=a: self._spell_replace(i, x))
+        else:
+            meniu.add_command(label=t("Nicio sugestie"), state="disabled")
+        try:
+            meniu.tk_popup(event.x_root, event.y_root)
+        finally:
+            meniu.grab_release()
+        return "break"
+
+    def _spell_replace(self, interval, cuvant):
+        try:
+            self.txt_edit.delete(interval[0], interval[1])
+            self.txt_edit.insert(interval[0], cuvant)
+            self._spell_check()
+        except Exception:
+            pass
+
+    def _in_textbox(self):
+        """Cursorul e in caseta de editare?"""
+        try:
+            return self.focus_get() is self.txt_edit
+        except Exception:
+            return False
+
+    def _undo_key(self, _e=None):
+        if self._in_textbox():
+            return                      # caseta isi face singura undo
+        self.undo()
+        return "break"
+
+    def _redo_key(self, _e=None):
+        if self._in_textbox():
+            return
+        self.redo()
+        return "break"
+
+    def _select_all_key(self, _e=None):
+        if self._in_textbox():
+            return
+        self.select_set(set(range(self.npages)))
+        return "break"
+
+    def _select_all_text(self, _e=None):
+        self.txt_edit.tag_add("sel", "1.0", "end-1c")
+        self.txt_edit.mark_set("insert", "1.0")
+        return "break"
+
     def _bind_keys(self):
         self.bind("<Control-o>", lambda e: self.cmd_open())
         self.bind("<Control-s>", lambda e: self.cmd_save())
         self.bind("<Control-S>", lambda e: self.cmd_save_as())
-        self.bind("<Control-z>", lambda e: self.undo())
-        self.bind("<Control-y>", lambda e: self.redo())
-        self.bind("<Control-a>", lambda e: self.select_set(set(range(self.npages))))
+        self.bind("<Control-z>", self._undo_key)
+        self.bind("<Control-y>", self._redo_key)
+        self.bind("<Control-a>", self._select_all_key)
         self.bind("<Delete>", lambda e: self.op_delete())
         self.bind("<Prior>", lambda e: self.goto(self.current - 1))
         self.bind("<Next>", lambda e: self.goto(self.current + 1))
@@ -1007,8 +1162,16 @@ class PDFTool(_ROOT_BASE):
 
         b = self._section(f, t("Textul selectat"))
         self.txt_edit = tk.Text(b, height=5, wrap="word", font=("Segoe UI", 10),
-                                relief="solid", bd=1, highlightthickness=0)
+                                relief="solid", bd=1, highlightthickness=0,
+                                undo=True, autoseparators=True, maxundo=-1)
         self.txt_edit.pack(fill="x")
+        # in casuta, scurtaturile lucreaza pe text, nu pe document
+        self.txt_edit.bind("<Control-a>", self._select_all_text)
+        self.txt_edit.bind("<Control-A>", self._select_all_text)
+        self.txt_edit.tag_config("gresit", underline=True, underlinefg="#d92d20")
+        self.txt_edit.bind("<KeyRelease>", self._spell_later)
+        self.txt_edit.bind("<Button-3>", self._spell_menu)
+        self._spell_setup()
         self.lbl_editinfo = tk.Label(b, text="—", bg=PANEL, fg=MUTED, font=("Segoe UI", 8),
                                      anchor="w", justify="left")
         self.lbl_editinfo.pack(fill="x", pady=(4, 0))
@@ -1233,10 +1396,6 @@ class PDFTool(_ROOT_BASE):
         if not self.path:
             return self.cmd_save_as()
         try:
-            bak = self.path + ".bak"
-            if not os.path.exists(bak):
-                with open(self.path, "rb") as fsrc, open(bak, "wb") as fdst:
-                    fdst.write(fsrc.read())
             shrink_fonts(self.doc)
             data = self.doc.tobytes(garbage=3, deflate=True)
             rau = check_pdf(data)
@@ -1244,9 +1403,30 @@ class PDFTool(_ROOT_BASE):
                 # era bun cand l-am deschis: nu scriem ce am stricat noi
                 messagebox.showerror(APP_NAME, t("Nu pot salva:\n\n%s") % rau)
                 return
+
+            # continutul dinainte, pentru copie — citit acum, cat e intact
+            vechi = None
+            bak = backup_path(self.path)
+            if not os.path.exists(bak):
+                try:
+                    with open(self.path, "rb") as fh:
+                        vechi = fh.read()
+                except Exception:
+                    vechi = None
+
+            # intai salvam; abia daca a mers, facem copia
             write_atomic(self.path, data)
+            if vechi:
+                try:
+                    write_atomic(bak, vechi)
+                except Exception:
+                    pass                      # copia e un plus, nu o conditie
         except PermissionError:
-            messagebox.showerror(APP_NAME, t("Fișierul e deschis în alt program (de exemplu Acrobat).\n\nÎnchide-l acolo și încearcă din nou."))
+            if messagebox.askyesno(
+                    APP_NAME,
+                    t("Fișierul e deschis în alt program (de exemplu Acrobat), "
+                      "așa că NU a fost salvat.\n\nÎl salvez sub alt nume?")):
+                self.cmd_save_as()
             return
         except Exception as e:
             messagebox.showerror(APP_NAME, t("Nu pot salva:\n\n%s") % e)
@@ -1254,7 +1434,7 @@ class PDFTool(_ROOT_BASE):
         self.dirty = False
         self._update_state()
         self.status(t("Salvat în %s  (copie de siguranță: %s)")
-                    % (os.path.basename(self.path), os.path.basename(self.path) + ".bak"))
+                    % (self.path, os.path.basename(backup_path(self.path))))
 
     def cmd_save_as(self):
         if not self.need_doc():
@@ -1276,7 +1456,10 @@ class PDFTool(_ROOT_BASE):
                 return
             write_atomic(p, data)
         except PermissionError:
-            messagebox.showerror(APP_NAME, t("Fișierul e deschis în alt program (de exemplu Acrobat).\n\nÎnchide-l acolo și încearcă din nou."))
+            messagebox.showerror(
+                APP_NAME,
+                t("Fișierul e deschis în alt program (de exemplu Acrobat), "
+                  "așa că NU a fost salvat.\n\nÎnchide-l acolo, sau alege alt nume."))
             return
         except Exception as e:
             messagebox.showerror(APP_NAME, t("Nu pot salva:\n\n%s") % e)
@@ -1299,6 +1482,26 @@ class PDFTool(_ROOT_BASE):
             self.cmd_save()
             return not self.dirty
         return True
+
+    def _cancel_jobs(self):
+        """Opreste sarcinile programate, ca sa nu se execute dupa inchidere."""
+        for nume in ("_spell_job", "_thumb_job", "_preview_job"):
+            job = getattr(self, nume, None)
+            if job:
+                try:
+                    self.after_cancel(job)
+                except Exception:
+                    pass
+                setattr(self, nume, None)
+
+    def destroy(self):
+        self._cancel_jobs()
+        try:
+            if getattr(self, "speller", None):
+                self.speller.close()
+        except Exception:
+            pass
+        super().destroy()
 
     def on_close(self):
         if self.confirm_discard():
@@ -1749,6 +1952,7 @@ class PDFTool(_ROOT_BASE):
         set_lang(code)
         save_pref(code)
         self.relayout()
+        self._spell_setup()
 
     def relayout(self):
         """Reconstruieste toata interfata, pastrand documentul deschis."""
@@ -2212,15 +2416,46 @@ class PDFTool(_ROOT_BASE):
             return False
         return acum != tgt["orig"]
 
+    def _pare_stergere(self):
+        """Modificarea arata ca o stergere din greseala?
+
+        Adica textul nou e gol sau a pierdut cea mai mare parte din cel
+        vechi. O corectura normala schimba cuvinte, nu sterge randul.
+        """
+        tgt = getattr(self, "edit_target", None)
+        if not tgt:
+            return False
+        vechi = (tgt.get("orig") or "").strip()
+        try:
+            nou = self.txt_edit.get("1.0", "end").rstrip("\n").strip()
+        except Exception:
+            return False
+        if len(vechi) < 5:
+            return False                 # prea scurt ca sa judecam
+        return len(nou) < len(vechi) * 0.4
+
     def commit_pending_edit(self):
         """Aplica modificarea lasata in caseta, daca exista.
 
         Se cheama cand utilizatorul pleaca de pe textul curent: alt text,
-        alta pagina, iesire din modul editare. Asa nu se mai pierde nimic
-        din neatentie.
+        alta pagina, iesire din modul editare. Asa nu se mai pierde ce ai
+        scris. Daca modificarea arata insa ca o stergere accidentala,
+        intrebam intai.
         """
-        if self.pending_edit():
-            self.op_apply_text()
+        if not self.pending_edit():
+            return
+        if self._pare_stergere():
+            tgt = self.edit_target
+            nou = self.txt_edit.get("1.0", "end").rstrip("\n").strip()
+            if not messagebox.askyesno(
+                    APP_NAME,
+                    t("Textul\n\n    %s\n\ndevine\n\n    %s\n\nAplic modificarea?")
+                    % ((tgt.get("orig") or "").strip()[:70],
+                       nou[:70] if nou else t("(nimic)"))):
+                self.clear_edit()
+                self.render_preview()
+                return
+        self.op_apply_text()
 
     def pick_text_at(self, page, x, y):
         # ce era in caseta se aplica, nu se arunca
@@ -2240,6 +2475,8 @@ class PDFTool(_ROOT_BASE):
         }
         self.txt_edit.delete("1.0", "end")
         self.txt_edit.insert("1.0", norm_text(best.get("text", "")))
+        self.txt_edit.edit_reset()      # nu duce istoricul textului anterior
+        self._spell_later()
         self.lbl_editinfo.config(
             text=t("Pagina %d · font %s · mărime %.1f") %
                  (self.current + 1, best.get("font", "?"), best.get("size", 0)))
@@ -2277,8 +2514,10 @@ class PDFTool(_ROOT_BASE):
             messagebox.showerror(APP_NAME, t("Nu am putut înlocui textul:\n\n%s") % e)
             return
         self.thumb_imgs.pop(tgt["page"], None)
+        vechi_scurt = (tgt.get("orig") or "").strip()[:32]
+        nou_scurt = new.strip()[:32] or t("(nimic)")
         self.clear_edit()
-        self.changed(t("Am înlocuit textul pe pagina %d.") % (tgt["page"] + 1))
+        self.changed(t("Pagina %d: „%s” → „%s”") % (tgt["page"] + 1, vechi_scurt, nou_scurt))
 
     def _replace_scope(self):
         return self.target_pages(self.v_repl_scope)

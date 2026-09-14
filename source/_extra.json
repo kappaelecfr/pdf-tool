@@ -372,5 +372,71 @@
   "nl": "Niet-toegepaste wijziging weggegooid.",
   "pl": "Odrzucono niezastosowaną zmianę.",
   "ru": "Непринятая правка отменена."
+ },
+ "Fișierul e deschis în alt program (de exemplu Acrobat), așa că NU a fost salvat.\n\nÎl salvez sub alt nume?": {
+  "en": "The file is open in another program (Acrobat, for example), so it was NOT saved.\n\nSave it under a different name?",
+  "fr": "Le fichier est ouvert dans un autre programme (Acrobat, par exemple), il n'a donc PAS été enregistré.\n\nL'enregistrer sous un autre nom ?",
+  "es": "El archivo está abierto en otro programa (Acrobat, por ejemplo), así que NO se ha guardado.\n\n¿Lo guardo con otro nombre?",
+  "de": "Die Datei ist in einem anderen Programm geöffnet (zum Beispiel Acrobat) und wurde daher NICHT gespeichert.\n\nUnter einem anderen Namen speichern?",
+  "it": "Il file è aperto in un altro programma (Acrobat, per esempio), quindi NON è stato salvato.\n\nLo salvo con un altro nome?",
+  "pt": "O ficheiro está aberto noutro programa (o Acrobat, por exemplo), por isso NÃO foi guardado.\n\nGuardo-o com outro nome?",
+  "nl": "Het bestand staat open in een ander programma (bijvoorbeeld Acrobat) en is dus NIET opgeslagen.\n\nOnder een andere naam opslaan?",
+  "pl": "Plik jest otwarty w innym programie (na przykład w Acrobacie), więc NIE został zapisany.\n\nZapisać go pod inną nazwą?",
+  "ru": "Файл открыт в другой программе (например, в Acrobat), поэтому он НЕ был сохранён.\n\nСохранить его под другим именем?"
+ },
+ "Fișierul e deschis în alt program (de exemplu Acrobat), așa că NU a fost salvat.\n\nÎnchide-l acolo, sau alege alt nume.": {
+  "en": "The file is open in another program (Acrobat, for example), so it was NOT saved.\n\nClose it there, or choose another name.",
+  "fr": "Le fichier est ouvert dans un autre programme (Acrobat, par exemple), il n'a donc PAS été enregistré.\n\nFermez-le là-bas, ou choisissez un autre nom.",
+  "es": "El archivo está abierto en otro programa (Acrobat, por ejemplo), así que NO se ha guardado.\n\nCiérralo allí, o elige otro nombre.",
+  "de": "Die Datei ist in einem anderen Programm geöffnet (zum Beispiel Acrobat) und wurde daher NICHT gespeichert.\n\nSchließen Sie sie dort, oder wählen Sie einen anderen Namen.",
+  "it": "Il file è aperto in un altro programma (Acrobat, per esempio), quindi NON è stato salvato.\n\nChiudilo lì, oppure scegli un altro nome.",
+  "pt": "O ficheiro está aberto noutro programa (o Acrobat, por exemplo), por isso NÃO foi guardado.\n\nFeche-o aí, ou escolha outro nome.",
+  "nl": "Het bestand staat open in een ander programma (bijvoorbeeld Acrobat) en is dus NIET opgeslagen.\n\nSluit het daar, of kies een andere naam.",
+  "pl": "Plik jest otwarty w innym programie (na przykład w Acrobacie), więc NIE został zapisany.\n\nZamknij go tam albo wybierz inną nazwę.",
+  "ru": "Файл открыт в другой программе (например, в Acrobat), поэтому он НЕ был сохранён.\n\nЗакройте его там или выберите другое имя."
+ },
+ "Nicio sugestie": {
+  "en": "No suggestions",
+  "fr": "Aucune suggestion",
+  "es": "Sin sugerencias",
+  "de": "Keine Vorschläge",
+  "it": "Nessun suggerimento",
+  "pt": "Sem sugestões",
+  "nl": "Geen suggesties",
+  "pl": "Brak podpowiedzi",
+  "ru": "Нет вариантов"
+ },
+ "Textul\n\n    %s\n\ndevine\n\n    %s\n\nAplic modificarea?": {
+  "en": "The text\n\n    %s\n\nbecomes\n\n    %s\n\nApply the change?",
+  "fr": "Le texte\n\n    %s\n\ndevient\n\n    %s\n\nAppliquer la modification ?",
+  "es": "El texto\n\n    %s\n\npasa a ser\n\n    %s\n\n¿Aplico el cambio?",
+  "de": "Der Text\n\n    %s\n\nwird zu\n\n    %s\n\nÄnderung übernehmen?",
+  "it": "Il testo\n\n    %s\n\ndiventa\n\n    %s\n\nApplico la modifica?",
+  "pt": "O texto\n\n    %s\n\npassa a ser\n\n    %s\n\nAplicar a alteração?",
+  "nl": "De tekst\n\n    %s\n\nwordt\n\n    %s\n\nWijziging toepassen?",
+  "pl": "Tekst\n\n    %s\n\nstanie się\n\n    %s\n\nZastosować zmianę?",
+  "ru": "Текст\n\n    %s\n\nстанет\n\n    %s\n\nПрименить изменение?"
+ },
+ "(nimic)": {
+  "en": "(nothing)",
+  "fr": "(rien)",
+  "es": "(nada)",
+  "de": "(nichts)",
+  "it": "(niente)",
+  "pt": "(nada)",
+  "nl": "(niets)",
+  "pl": "(nic)",
+  "ru": "(ничего)"
+ },
+ "Pagina %d: „%s” → „%s”": {
+  "en": "Page %d: „%s” → „%s”",
+  "fr": "Page %d : « %s » → « %s »",
+  "es": "Página %d: «%s» → «%s»",
+  "de": "Seite %d: „%s“ → „%s“",
+  "it": "Pagina %d: «%s» → «%s»",
+  "pt": "Página %d: «%s» → «%s»",
+  "nl": "Pagina %d: „%s” → „%s”",
+  "pl": "Strona %d: „%s” → „%s”",
+  "ru": "Страница %d: «%s» → «%s»"
  }
 }
