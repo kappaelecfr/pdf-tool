@@ -41,7 +41,7 @@ import update_check
 from faq import text_for as faq_text
 
 APP_NAME = "PDF Tool"
-APP_VER = "1.6.0"
+APP_VER = "1.6.1"
 # anul vine din ceasul calculatorului, deci se schimba singur
 COPYRIGHT = "Copyright \u00a9 KappaProject %d"
 
@@ -1664,6 +1664,9 @@ class PDFTool(_ROOT_BASE):
         self.dirty = True
         self.change_seq += 1
         self.rebuild_thumbs()
+        # zonele albastre se recitesc din pagina schimbata: altfel raman
+        # desenate unde era textul inainte, si ramane o caseta goala in urma
+        self.load_text_spans()
         self.render_preview()
         self._update_state()
         if msg:
