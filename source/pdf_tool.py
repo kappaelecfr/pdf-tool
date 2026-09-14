@@ -34,7 +34,7 @@ from tkinter import ttk, filedialog, messagebox, colorchooser
 
 from lang import (t, set_lang, save_pref, load_pref, current,
                   guide_seen, mark_guide_seen, check_updates, set_check_updates,
-                  LANG_NAMES, LANG_ORDER)
+                  panel_width, set_panel_width, LANG_NAMES, LANG_ORDER)
 from guide import text_for as guide_text
 import spell
 import update_check
@@ -813,9 +813,33 @@ class PDFTool(_ROOT_BASE):
                           self.pcanvas.xview_scroll(int(-e.delta / 120), "units"))
 
     def _build_tabs(self, parent):
-        wrap = tk.Frame(parent, bg=BG, width=386)
+        # dunga de care se trage, ca sa lati panoul cat iti trebuie
+        maner = tk.Frame(parent, bg=BORDER, width=5, cursor="sb_h_double_arrow")
+        maner.pack(side="left", fill="y")
+        wrap = tk.Frame(parent, bg=BG, width=panel_width())
         wrap.pack(side="left", fill="y")
         wrap.pack_propagate(False)
+        self.panou = wrap
+
+        def apuca(e):
+            self._trag_panoul = (e.x_root, wrap.winfo_width())
+
+        def trage(e):
+            t0 = getattr(self, "_trag_panoul", None)
+            if not t0:
+                return
+            # panoul e in dreapta: tragi spre stanga, se face mai lat
+            lat = max(320, min(760, t0[1] - (e.x_root - t0[0])))
+            wrap.config(width=lat)
+
+        def lasa(_e):
+            if getattr(self, "_trag_panoul", None):
+                self._trag_panoul = None
+                set_panel_width(wrap.winfo_width())
+
+        maner.bind("<Button-1>", apuca)
+        maner.bind("<B1-Motion>", trage)
+        maner.bind("<ButtonRelease-1>", lasa)
 
         self.nb = ttk.Notebook(wrap)
         self.nb.pack(fill="both", expand=True)
@@ -1951,9 +1975,7 @@ class PDFTool(_ROOT_BASE):
             self.erase_from = (self.pcanvas.canvasx(e.x), self.pcanvas.canvasy(e.y))
             self.pcanvas.delete("erase")
             return
-        if (self.click_mode == "text" and getattr(self, "nudge_last", None)
-                and self.nudge_last.get("seq") == self.change_seq
-                and self._peste_scrisul_meu(e)):
+        if self.click_mode == "text" and self._peste_ce_pot_muta(e):
             # poate fi tragere, poate fi doar click: decidem la miscare
             self.align_drag = {"de_la": (self.pcanvas.canvasx(e.x),
                                          self.pcanvas.canvasy(e.y)), "mutat": False}
@@ -1971,7 +1993,7 @@ class PDFTool(_ROOT_BASE):
             x1, y1 = self.pcanvas.canvasx(e.x), self.pcanvas.canvasy(e.y)
             if abs(x1 - x0) > 3 or abs(y1 - y0) > 3:
                 self.align_drag["mutat"] = True
-            z = self._zona_scrisului()
+            z = self._zona_de_mutat()
             if z is not None:
                 ox, oy = self.preview_off
                 m = self.preview_scale
@@ -2842,14 +2864,14 @@ class PDFTool(_ROOT_BASE):
         self.txt_edit.focus_set()
         self.status(t("Text selectat. Modifică-l și apasă „Aplică modificarea”."))
 
-    def op_apply_text(self):
+    def op_apply_text(self, fortat=False):
         tgt = getattr(self, "edit_target", None)
         if not tgt:
             messagebox.showinfo(APP_NAME, t("Selectează întâi un text: pornește modul "
                                           "editare și dă click pe el în previzualizare."))
             return
         new = self.txt_edit.get("1.0", "end").rstrip("\n")
-        if new == tgt["orig"]:
+        if new == tgt["orig"] and not fortat:
             self.status(t("Textul e neschimbat."))
             return
         self.snapshot()
@@ -2908,9 +2930,20 @@ class PDFTool(_ROOT_BASE):
         return pymupdf.Rect(r.x0 + n["dx"] - 2, r.y0 + n["dy"] - 2,
                             r.x0 + n["dx"] + lat + 2, r.y1 + n["dy"] + 2)
 
-    def _peste_scrisul_meu(self, e):
-        """Apasarea cade peste textul scris ultima data?"""
-        z = self._zona_scrisului()
+    def _zona_de_mutat(self):
+        """Ce se poate muta acum: textul scris ultima data, sau cel ales."""
+        n = getattr(self, "nudge_last", None)
+        if n and n.get("seq") == self.change_seq:
+            return self._zona_scrisului()
+        tgt = getattr(self, "edit_target", None)
+        if tgt and tgt.get("page") == self.current and tgt.get("origin"):
+            r = tgt["rect"]
+            return pymupdf.Rect(r.x0 - 2, r.y0 - 2, r.x1 + 2, r.y1 + 2)
+        return None
+
+    def _peste_ce_pot_muta(self, e):
+        """Apasarea cade peste textul pe care il pot muta?"""
+        z = self._zona_de_mutat()
         if z is None:
             return False
         x, y = self.canvas_to_pdf(self.pcanvas.canvasx(e.x), self.pcanvas.canvasy(e.y))
@@ -2919,8 +2952,15 @@ class PDFTool(_ROOT_BASE):
     def nudge_text(self, dx, dy):
         """Mut textul scris ultima data, ca sa cada exact pe rand."""
         n = getattr(self, "nudge_last", None)
-        if not n or not self.doc:
-            self.status(t("Modifică întâi un text, apoi îl poți alinia."))
+        if not self.doc:
+            return
+        # daca ai doar selectat un text, il asezam intai la locul lui asa cum e:
+        # asta e ce se asteapta oricine cand alege un text si apasa o sageata
+        if (not n or n.get("seq") != self.change_seq) and getattr(self, "edit_target", None):
+            self.op_apply_text(fortat=True)
+            n = getattr(self, "nudge_last", None)
+        if not n:
+            self.status(t("Alege întâi un text în previzualizare, apoi îl poți alinia."))
             return
         if n.get("seq") != self.change_seq or not n.get("snap"):
             # s-a mai intamplat ceva de atunci: mai bine spunem, decat sa stricam

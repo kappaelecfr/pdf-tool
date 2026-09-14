@@ -76,6 +76,17 @@
   "pt": "Escolher uma zona a apagar",
   "ru": "Выбрать область для удаления"
  },
+ "Alege întâi un text în previzualizare, apoi îl poți alinia.": {
+  "de": "Wählen Sie zuerst einen Text in der Vorschau, danach können Sie ihn ausrichten.",
+  "en": "Choose a text in the preview first, then you can align it.",
+  "es": "Elige primero un texto en la vista previa y después podrás alinearlo.",
+  "fr": "Choisissez d'abord un texte dans l'aperçu, vous pourrez ensuite l'aligner.",
+  "it": "Scegli prima un testo nell'anteprima, poi potrai allinearlo.",
+  "nl": "Kies eerst een tekst in het voorbeeld, daarna kunt u hem uitlijnen.",
+  "pl": "Najpierw wybierz tekst w podglądzie, potem będzie można go wyrównać.",
+  "pt": "Escolha primeiro um texto na pré-visualização, depois poderá alinhá-lo.",
+  "ru": "Сначала выберите текст в просмотре, после этого его можно выровнять."
+ },
  "Aliniere fină": {
   "de": "Feinausrichtung",
   "en": "Fine alignment",

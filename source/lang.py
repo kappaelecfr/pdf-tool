@@ -71,6 +71,21 @@ def save_pref(code):
     _write_cfg(d)
 
 
+def panel_width(implicit=430):
+    """Cat de lat a fost lasat panoul din dreapta."""
+    try:
+        v = int(_read_cfg().get("panel_width") or implicit)
+    except Exception:
+        return implicit
+    return max(320, min(760, v))
+
+
+def set_panel_width(px):
+    d = _read_cfg()
+    d["panel_width"] = max(320, min(760, int(px)))
+    _write_cfg(d)
+
+
 def check_updates():
     """Cauta programul singur versiuni noi la pornire? Implicit da."""
     return bool(_read_cfg().get("check_updates", True))
@@ -149,6 +164,7 @@ TR["en"] = {
  "Alege o imagine (PNG cu fundal transparent arată cel mai bine), apoi dă click pe pagină unde vrei s-o pui.": "Pick an image (a PNG with a transparent background looks best), then click on the page where you want it.",
  "Alege o zonă de șters": "Choose an area to erase",
  "Alege întâi o imagine.": "Choose an image first.",
+ "Alege întâi un text în previzualizare, apoi îl poți alinia.": "Choose a text in the preview first, then you can align it.",
  "Aliniere fină": "Fine alignment",
  "Aliniere: %+.2f pe orizontală, %+.2f pe verticală.": "Alignment: %+.2f across, %+.2f down.",
  "Am adăugat %d pagini din %s.": "Added %d pages from %s.",
@@ -422,6 +438,7 @@ TR["fr"] = {
  "Alege o imagine (PNG cu fundal transparent arată cel mai bine), apoi dă click pe pagină unde vrei s-o pui.": "Choisissez une image (un PNG à fond transparent rend le mieux), puis cliquez sur la page à l'endroit voulu.",
  "Alege o zonă de șters": "Choisir une zone à effacer",
  "Alege întâi o imagine.": "Choisissez d'abord une image.",
+ "Alege întâi un text în previzualizare, apoi îl poți alinia.": "Choisissez d'abord un texte dans l'aperçu, vous pourrez ensuite l'aligner.",
  "Aliniere fină": "Alignement fin",
  "Aliniere: %+.2f pe orizontală, %+.2f pe verticală.": "Alignement : %+.2f en horizontal, %+.2f en vertical.",
  "Am adăugat %d pagini din %s.": "%d pages ajoutées depuis %s.",
@@ -695,6 +712,7 @@ TR["es"] = {
  "Alege o imagine (PNG cu fundal transparent arată cel mai bine), apoi dă click pe pagină unde vrei s-o pui.": "Elige una imagen (un PNG con fondo transparente queda mejor) y luego haz clic en la página donde la quieres.",
  "Alege o zonă de șters": "Elegir una zona que borrar",
  "Alege întâi o imagine.": "Elige primero una imagen.",
+ "Alege întâi un text în previzualizare, apoi îl poți alinia.": "Elige primero un texto en la vista previa y después podrás alinearlo.",
  "Aliniere fină": "Alineación fina",
  "Aliniere: %+.2f pe orizontală, %+.2f pe verticală.": "Alineación: %+.2f en horizontal, %+.2f en vertical.",
  "Am adăugat %d pagini din %s.": "He añadido %d páginas de %s.",
@@ -968,6 +986,7 @@ TR["de"] = {
  "Alege o imagine (PNG cu fundal transparent arată cel mai bine), apoi dă click pe pagină unde vrei s-o pui.": "Wählen Sie ein Bild (ein PNG mit transparentem Hintergrund sieht am besten aus) und klicken Sie dann auf die Stelle der Seite.",
  "Alege o zonă de șters": "Bereich zum Löschen wählen",
  "Alege întâi o imagine.": "Wählen Sie zuerst ein Bild.",
+ "Alege întâi un text în previzualizare, apoi îl poți alinia.": "Wählen Sie zuerst einen Text in der Vorschau, danach können Sie ihn ausrichten.",
  "Aliniere fină": "Feinausrichtung",
  "Aliniere: %+.2f pe orizontală, %+.2f pe verticală.": "Ausrichtung: %+.2f waagerecht, %+.2f senkrecht.",
  "Am adăugat %d pagini din %s.": "%d Seiten aus %s hinzugefügt.",
@@ -1241,6 +1260,7 @@ TR["it"] = {
  "Alege o imagine (PNG cu fundal transparent arată cel mai bine), apoi dă click pe pagină unde vrei s-o pui.": "Scegli un'immagine (un PNG con sfondo trasparente rende meglio), poi clicca sulla pagina dove vuoi metterla.",
  "Alege o zonă de șters": "Scegli un'area da cancellare",
  "Alege întâi o imagine.": "Scegli prima un'immagine.",
+ "Alege întâi un text în previzualizare, apoi îl poți alinia.": "Scegli prima un testo nell'anteprima, poi potrai allinearlo.",
  "Aliniere fină": "Allineamento fine",
  "Aliniere: %+.2f pe orizontală, %+.2f pe verticală.": "Allineamento: %+.2f in orizzontale, %+.2f in verticale.",
  "Am adăugat %d pagini din %s.": "Aggiunte %d pagine da %s.",
@@ -1514,6 +1534,7 @@ TR["pt"] = {
  "Alege o imagine (PNG cu fundal transparent arată cel mai bine), apoi dă click pe pagină unde vrei s-o pui.": "Escolha uma imagem (um PNG com fundo transparente fica melhor) e depois clique na página onde a quer.",
  "Alege o zonă de șters": "Escolher uma zona a apagar",
  "Alege întâi o imagine.": "Escolha primeiro uma imagem.",
+ "Alege întâi un text în previzualizare, apoi îl poți alinia.": "Escolha primeiro um texto na pré-visualização, depois poderá alinhá-lo.",
  "Aliniere fină": "Alinhamento fino",
  "Aliniere: %+.2f pe orizontală, %+.2f pe verticală.": "Alinhamento: %+.2f na horizontal, %+.2f na vertical.",
  "Am adăugat %d pagini din %s.": "Acrescentei %d páginas de %s.",
@@ -1787,6 +1808,7 @@ TR["nl"] = {
  "Alege o imagine (PNG cu fundal transparent arată cel mai bine), apoi dă click pe pagină unde vrei s-o pui.": "Kies een afbeelding (een PNG met transparante achtergrond oogt het best) en klik daarna op de plek op de pagina.",
  "Alege o zonă de șters": "Kies een zone om te wissen",
  "Alege întâi o imagine.": "Kies eerst een afbeelding.",
+ "Alege întâi un text în previzualizare, apoi îl poți alinia.": "Kies eerst een tekst in het voorbeeld, daarna kunt u hem uitlijnen.",
  "Aliniere fină": "Fijne uitlijning",
  "Aliniere: %+.2f pe orizontală, %+.2f pe verticală.": "Uitlijning: %+.2f horizontaal, %+.2f verticaal.",
  "Am adăugat %d pagini din %s.": "%d pagina's uit %s toegevoegd.",
@@ -2060,6 +2082,7 @@ TR["pl"] = {
  "Alege o imagine (PNG cu fundal transparent arată cel mai bine), apoi dă click pe pagină unde vrei s-o pui.": "Wybierz obraz (PNG z przezroczystym tłem wygląda najlepiej), a potem kliknij na stronie w wybranym miejscu.",
  "Alege o zonă de șters": "Wybierz obszar do usunięcia",
  "Alege întâi o imagine.": "Najpierw wybierz obraz.",
+ "Alege întâi un text în previzualizare, apoi îl poți alinia.": "Najpierw wybierz tekst w podglądzie, potem będzie można go wyrównać.",
  "Aliniere fină": "Precyzyjne wyrównanie",
  "Aliniere: %+.2f pe orizontală, %+.2f pe verticală.": "Wyrównanie: %+.2f w poziomie, %+.2f w pionie.",
  "Am adăugat %d pagini din %s.": "Dodano %d stron z %s.",
@@ -2333,6 +2356,7 @@ TR["ru"] = {
  "Alege o imagine (PNG cu fundal transparent arată cel mai bine), apoi dă click pe pagină unde vrei s-o pui.": "Выберите изображение (лучше всего PNG с прозрачным фоном), затем нажмите на странице в нужном месте.",
  "Alege o zonă de șters": "Выбрать область для удаления",
  "Alege întâi o imagine.": "Сначала выберите изображение.",
+ "Alege întâi un text în previzualizare, apoi îl poți alinia.": "Сначала выберите текст в просмотре, после этого его можно выровнять.",
  "Aliniere fină": "Точное выравнивание",
  "Aliniere: %+.2f pe orizontală, %+.2f pe verticală.": "Выравнивание: %+.2f по горизонтали, %+.2f по вертикали.",
  "Am adăugat %d pagini din %s.": "Добавлено %d страниц из %s.",
