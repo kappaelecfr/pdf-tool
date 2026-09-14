@@ -32,6 +32,17 @@ installato sul tuo computer. Su sfondo pieno il risultato è di solito
 indistinguibile. Sopra foto o sfumature si può notare. Ctrl+Z annulla.
 
 
+Come tolgo un codice QR, un logo o un timbro?
+---------------------------------------------
+Non con «Nascondi definitivamente»: quello cerca del testo, e un codice
+QR non lo è. Non è nemmeno un'immagine: quelli sulle fatture sono
+tracciati con migliaia di piccoli segni.
+Usa «Scegli un'area da cancellare», in fondo alla scheda Modifica.
+Traccia un rettangolo sopra di esso nell'anteprima e tutto ciò che sta
+dentro esce dal file. Cornici e righe che sfiorano soltanto il bordo
+restano intatte.
+
+
 Non riesco a selezionare testo e la modalità modifica non trova nulla.
 ----------------------------------------------------------------------
 Il PDF è una scansione: una fotografia della carta. Dentro non c'è

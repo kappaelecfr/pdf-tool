@@ -32,6 +32,17 @@ Pe fundal simplu rezultatul e de obicei imposibil de deosebit. Peste
 poze sau degradeuri se poate vedea. Ctrl+Z anulează.
 
 
+Cum scot un cod QR, o siglă sau o ștampilă?
+-------------------------------------------
+Nu cu „Ascunde definitiv” — aceea caută text, iar un cod QR nu e text.
+Nu e nici imagine: cele de pe facturi sunt desenate din mii de trăsături
+mici.
+Folosește „Alege o zonă de șters”, în josul filei Editare. Tragi un
+dreptunghi peste el în previzualizare și tot ce e înăuntru iese din
+fișier. Chenarele și liniile de tabel care doar ating marginea rămân
+întregi.
+
+
 Nu pot selecta niciun text, iar modul editare nu găsește nimic.
 ---------------------------------------------------------------
 PDF-ul e o scanare — o fotografie a hârtiei. Nu există text în el,

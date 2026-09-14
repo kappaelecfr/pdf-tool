@@ -46,6 +46,26 @@ colorează în albastru, ca să vezi exact pe ce poți da click. Dai click
 pe una, o schimbi în caseta din dreapta, apeși „Aplică modificarea”.
 Ctrl+Z anulează orice.
 
+Textul nou se așază exact pe linia pe care stătea cel vechi. Dacă fontul
+înlocuitor îl lasă totuși cu un fir alături, îl aliniezi: săgețile de sub
+casetă îl mută cu un sfert de punct, sau îl apuci cu mouse-ul și îl tragi
+unde trebuie.
+
+
+ȘTERGEREA UNEI ZONE — COD QR, SIGLĂ, ȘTAMPILĂ
+---------------------------------------------
+Un cod QR nu e nici text, nici imagine: e desenat din mii de trăsături
+mici. De aceea nu-l scoate nici „Ascunde definitiv”, nici ștergerea unei
+imagini.
+
+În fila Editare, jos de tot, apeși „Alege o zonă de șters” și tragi un
+dreptunghi peste el în previzualizare. Tot ce e înăuntru — text, imagini
+și desene — iese din fișier, nu e doar acoperit.
+
+Ce doar atinge marginea dreptunghiului rămâne întreg, așa că chenarul
+paginii și liniile de tabel nu se rup. Ia zona cu 2-3 mm mai largă decât
+codul.
+
 
 ZOOM ȘI DEPLASARE
 -----------------

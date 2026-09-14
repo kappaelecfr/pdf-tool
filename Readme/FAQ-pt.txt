@@ -33,6 +33,17 @@ Sobre fundo liso o resultado é normalmente indistinguível. Sobre fotos
 ou degradês pode notar-se. Ctrl+Z desfaz.
 
 
+Como retiro um código QR, um logótipo ou um carimbo?
+----------------------------------------------------
+Não com «Ocultar definitivamente»: isso procura texto, e um código QR
+não o é. Também não é uma imagem: os das faturas são traçados a partir
+de milhares de pequenos riscos.
+Use «Escolher uma zona a apagar», no fundo do separador Editar. Arraste
+um retângulo por cima na pré-visualização e tudo o que está dentro sai
+do ficheiro. Molduras e filetes que apenas tocam a margem ficam
+intactos.
+
+
 Não consigo seleccionar texto e o modo de edição não encontra nada.
 -------------------------------------------------------------------
 O PDF é uma digitalização — uma fotografia do papel. Não há texto lá

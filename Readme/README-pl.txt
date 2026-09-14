@@ -45,6 +45,25 @@ zmienią kolor na niebieski, więc widzisz dokładnie, w co można kliknąć.
 Kliknij jeden, zmień go w polu po prawej i naciśnij „Zastosuj zmianę”.
 Ctrl+Z cofa wszystko.
 
+Nowy tekst siada dokładnie na linii, na której stał stary. Jeśli zastępczy
+krój pisma zostawi go mimo to o włos obok, można go wyrównać: strzałki pod
+polem przesuwają go o ćwierć punktu, albo chwytasz go myszą i przeciągasz
+tam, gdzie trzeba.
+
+
+USUWANIE OBSZARU — KOD QR, LOGO, PIECZĄTKA
+------------------------------------------
+Kod QR nie jest ani tekstem, ani obrazem: rysują go tysiące drobnych
+kresek. Dlatego nie usuwa go ani „Ukryj trwale”, ani skasowanie obrazu.
+
+W zakładce Edycja, na samym dole, naciśnij „Wybierz obszar do usunięcia”
+i przeciągnij nad nim prostokąt w podglądzie. Wszystko, co jest w środku —
+tekst, obrazy i rysunki — znika z pliku; nie zostaje tylko zasłonięte.
+
+To, co jedynie dotyka krawędzi prostokąta, pozostaje nienaruszone, więc
+ramki strony i linie tabel się nie rwą. Weź obszar 2-3 mm szerszy niż
+kod.
+
 
 POWIĘKSZANIE I PRZESUWANIE
 --------------------------

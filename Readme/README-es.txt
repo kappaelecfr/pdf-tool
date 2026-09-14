@@ -46,6 +46,27 @@ se ponen azules, así ves exactamente dónde puedes hacer clic. Haz clic
 en una, cámbiala en la caja de la derecha y pulsa «Aplicar el cambio».
 Ctrl+Z deshace cualquier cosa.
 
+El texto nuevo se asienta justo en la línea donde estaba el viejo. Si una
+fuente sustituta lo deja aun así un pelo desviado, puedes alinearlo: las
+flechas bajo el cuadro lo mueven un cuarto de punto, o lo agarras con el
+ratón y lo arrastras a su sitio.
+
+
+BORRAR UNA ZONA — CÓDIGO QR, LOGOTIPO, SELLO
+--------------------------------------------
+Un código QR no es texto ni imagen: está trazado con miles de rasgos
+pequeños. Por eso no lo quitan ni «Ocultar definitivamente» ni el borrado
+de una imagen.
+
+En la pestaña Editar, abajo del todo, pulsa «Elegir una zona que borrar» y
+arrastra un rectángulo por encima en la vista previa. Todo lo que queda
+dentro — texto, imágenes y dibujos — sale del archivo; no queda solo
+tapado.
+
+Lo que solo roza el borde del rectángulo queda intacto, así que los marcos
+de la página y las líneas de las tablas no se rompen. Toma la zona 2-3 mm
+más ancha que el código.
+
 
 ZOOM Y DESPLAZAMIENTO
 ---------------------

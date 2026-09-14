@@ -32,6 +32,16 @@ plain background the result is usually indistinguishable. Over photos
 or gradients it can show. Ctrl+Z undoes it.
 
 
+How do I remove a QR code, a logo or a stamp?
+---------------------------------------------
+Not with "Hide permanently" — that searches for text, and a QR code is
+not text. It is not an image either: the ones on invoices are drawn from
+thousands of small strokes.
+Use "Choose an area to erase", at the bottom of the Edit tab. Drag a
+rectangle over it in the preview and everything inside leaves the file.
+Borders and table rules that merely touch the edge stay whole.
+
+
 I cannot select any text, and edit mode finds nothing.
 ------------------------------------------------------
 The PDF is a scan — a photograph of paper. There is no text in it,

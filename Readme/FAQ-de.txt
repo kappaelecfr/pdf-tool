@@ -35,6 +35,17 @@ nicht zu unterscheiden. Über Fotos oder Verläufen kann man es sehen.
 Strg+Z macht es rückgängig.
 
 
+Wie entferne ich einen QR-Code, ein Logo oder einen Stempel?
+------------------------------------------------------------
+Nicht mit „Endgültig verbergen“: das sucht nach Text, und ein QR-Code
+ist keiner. Ein Bild ist er auch nicht: die auf Rechnungen sind aus
+Tausenden kleiner Striche gezeichnet.
+Nehmen Sie „Bereich zum Löschen wählen“, unten im Register Bearbeiten.
+Ziehen Sie im Vorschaufenster ein Rechteck darüber, und alles darin
+verlässt die Datei. Rahmen und Tabellenlinien, die den Rand nur
+berühren, bleiben unversehrt.
+
+
 Ich kann keinen Text markieren, der Bearbeitungsmodus findet nichts.
 --------------------------------------------------------------------
 Die PDF ist ein Scan — ein Foto von Papier. Es steckt kein Text darin,

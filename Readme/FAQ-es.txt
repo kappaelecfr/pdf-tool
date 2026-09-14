@@ -34,6 +34,17 @@ ordenador. Sobre fondo liso el resultado suele ser indistinguible.
 Sobre fotos o degradados puede notarse. Ctrl+Z lo deshace.
 
 
+¿Cómo quito un código QR, un logotipo o un sello?
+-------------------------------------------------
+No con «Ocultar definitivamente»: eso busca texto, y un código QR no lo
+es. Tampoco es una imagen: los de las facturas están trazados con miles
+de rasgos pequeños.
+Usa «Elegir una zona que borrar», al final de la pestaña Editar.
+Arrastra un rectángulo por encima en la vista previa y todo lo que hay
+dentro sale del archivo. Los marcos y las líneas que solo rozan el borde
+quedan intactos.
+
+
 No puedo seleccionar texto y el modo edición no encuentra nada.
 ---------------------------------------------------------------
 El PDF es un escaneo: una fotografía del papel. No hay texto dentro,

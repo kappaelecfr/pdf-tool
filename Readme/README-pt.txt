@@ -46,6 +46,26 @@ página ficam azuis, para ver exactamente onde pode clicar. Clique numa,
 altere-a na caixa à direita e carregue em «Aplicar a alteração».
 Ctrl+Z desfaz tudo.
 
+O texto novo assenta exatamente na linha onde estava o antigo. Se um tipo
+de letra substituto o deixar ainda assim um fio ao lado, pode alinhá-lo:
+as setas por baixo da caixa deslocam-no um quarto de ponto, ou agarra-o
+com o rato e arrasta-o para o sítio.
+
+
+APAGAR UMA ZONA — CÓDIGO QR, LOGÓTIPO, CARIMBO
+----------------------------------------------
+Um código QR não é texto nem imagem: é traçado a partir de milhares de
+pequenos riscos. Por isso não o tiram nem «Ocultar definitivamente» nem
+apagar uma imagem.
+
+No separador Editar, mesmo em baixo, prima «Escolher uma zona a apagar» e
+arraste um retângulo por cima na pré-visualização. Tudo o que fica dentro
+— texto, imagens e desenhos — sai do ficheiro; não fica apenas tapado.
+
+O que apenas toca a margem do retângulo fica intacto, para que as molduras
+da página e os filetes das tabelas não se partam. Tome a zona 2-3 mm mais
+larga do que o código.
+
 
 ZOOM E DESLOCAÇÃO
 -----------------

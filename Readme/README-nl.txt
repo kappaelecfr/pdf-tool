@@ -46,6 +46,26 @@ blauw, zodat je precies ziet waarop je kunt klikken. Klik er een aan,
 wijzig hem in het vak rechts en druk op „Wijziging toepassen”.
 Ctrl+Z maakt alles ongedaan.
 
+De nieuwe tekst komt precies op de regel waar de oude stond. Laat een
+vervangend lettertype hem toch een haar ernaast staan, dan lijnt u hem
+uit: de pijlen onder het vak verplaatsen hem een kwart punt, of u pakt
+hem met de muis en sleept hem op zijn plaats.
+
+
+EEN ZONE WISSEN — QR-CODE, LOGO, STEMPEL
+----------------------------------------
+Een QR-code is tekst noch afbeelding: hij is uit duizenden kleine streken
+getekend. Daarom halen noch „Definitief verbergen” noch het wissen van een
+afbeelding hem weg.
+
+In het tabblad Bewerken, helemaal onderaan, drukt u op „Kies een zone om
+te wissen” en sleept u er in het voorbeeld een rechthoek overheen. Alles
+wat erbinnen zit — tekst, afbeeldingen en tekeningen — verlaat het
+bestand; het wordt niet alleen afgedekt.
+
+Wat de rand van de rechthoek alleen raakt, blijft heel, zodat paginakaders
+en tabellijnen niet breken. Neem de zone 2-3 mm ruimer dan de code.
+
 
 ZOOMEN EN VERSCHUIVEN
 ---------------------

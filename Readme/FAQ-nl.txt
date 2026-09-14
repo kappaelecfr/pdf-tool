@@ -34,6 +34,17 @@ onderscheiden. Over foto's of verlopen kan het opvallen. Ctrl+Z maakt
 het ongedaan.
 
 
+Hoe verwijder ik een QR-code, een logo of een stempel?
+------------------------------------------------------
+Niet met „Definitief verbergen”: dat zoekt naar tekst, en een QR-code is
+dat niet. Een afbeelding is het evenmin: die op facturen zijn uit
+duizenden kleine streken getekend.
+Gebruik „Kies een zone om te wissen”, onderaan het tabblad Bewerken.
+Sleep er in het voorbeeld een rechthoek overheen en alles wat erbinnen
+zit verlaat het bestand. Kaders en tabellijnen die de rand alleen raken,
+blijven heel.
+
+
 Ik kan geen tekst selecteren en de bewerkmodus vindt niets.
 -----------------------------------------------------------
 De PDF is een scan — een foto van papier. Er zit geen tekst in, alleen

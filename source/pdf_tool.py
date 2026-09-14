@@ -38,7 +38,7 @@ import spell
 from faq import text_for as faq_text
 
 APP_NAME = "PDF Tool"
-APP_VER = "1.2.0"
+APP_VER = "1.2.1"
 # anul vine din ceasul calculatorului, deci se schimba singur
 COPYRIGHT = "Copyright \u00a9 KappaProject %d"
 
@@ -885,6 +885,9 @@ class PDFTool(_ROOT_BASE):
         self.lbl_status.pack(side="left")
         tk.Label(st, text=COPYRIGHT % datetime.date.today().year,
                  bg=BG, fg=MUTED, font=("Segoe UI", 8)).pack(side="right")
+        # ca sa se stie dintr-o privire ce versiune ruleaza
+        tk.Label(st, text="%s %s" % (APP_NAME, APP_VER),
+                 bg=BG, fg=MUTED, font=("Segoe UI", 8)).pack(side="right", padx=(0, 14))
 
     # ---------------------------------------------- corector ortografic
 

@@ -47,6 +47,27 @@ Seite werden blau, so sehen Sie genau, was anklickbar ist. Klicken Sie
 einen an, ändern Sie ihn im Feld rechts und drücken Sie „Änderung
 übernehmen“. Ctrl+Z macht alles rückgängig.
 
+Der neue Text sitzt genau auf der Linie, auf der der alte stand. Lässt ihn
+eine Ersatzschrift dennoch um ein Haar daneben, richten Sie ihn aus: die
+Pfeile unter dem Feld verschieben ihn um einen Viertelpunkt, oder Sie
+fassen ihn mit der Maus und ziehen ihn an seinen Platz.
+
+
+EINEN BEREICH LÖSCHEN — QR-CODE, LOGO, STEMPEL
+----------------------------------------------
+Ein QR-Code ist weder Text noch Bild: er ist aus Tausenden kleiner
+Striche gezeichnet. Darum entfernt ihn weder „Endgültig verbergen“ noch
+das Löschen eines Bildes.
+
+Im Register Bearbeiten, ganz unten, drücken Sie „Bereich zum Löschen
+wählen“ und ziehen im Vorschaufenster ein Rechteck darüber. Alles darin —
+Text, Bilder und Zeichnungen — verlässt die Datei; es wird nicht nur
+überdeckt.
+
+Was den Rand des Rechtecks nur berührt, bleibt unversehrt, damit
+Seitenrahmen und Tabellenlinien nicht zerbrechen. Nehmen Sie den Bereich
+2-3 mm breiter als den Code.
+
 
 ZOOM UND BEWEGEN
 ----------------

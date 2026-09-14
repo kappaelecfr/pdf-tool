@@ -46,6 +46,27 @@ pagina diventano blu, così vedi esattamente cosa è cliccabile. Cliccane
 una, cambiala nella casella a destra, premi «Applica la modifica».
 Ctrl+Z annulla qualsiasi cosa.
 
+Il testo nuovo si posa esattamente sulla riga dove stava il vecchio. Se un
+carattere sostitutivo lo lascia comunque di un soffio fuori posto, puoi
+allinearlo: le frecce sotto il riquadro lo spostano di un quarto di punto,
+oppure lo afferri con il mouse e lo trascini dove serve.
+
+
+CANCELLARE UN'AREA — CODICE QR, LOGO, TIMBRO
+--------------------------------------------
+Un codice QR non è né testo né immagine: è tracciato con migliaia di
+piccoli segni. Per questo non lo tolgono né «Nascondi definitivamente» né
+la cancellazione di un'immagine.
+
+Nella scheda Modifica, in fondo, premi «Scegli un'area da cancellare» e
+traccia un rettangolo sopra di esso nell'anteprima. Tutto ciò che sta
+dentro — testo, immagini e disegni — esce dal file; non viene soltanto
+coperto.
+
+Ciò che sfiora soltanto il bordo del rettangolo resta intatto, così le
+cornici della pagina e le righe delle tabelle non si spezzano. Prendi
+l'area 2-3 mm più larga del codice.
+
 
 ZOOM E SPOSTAMENTO
 ------------------

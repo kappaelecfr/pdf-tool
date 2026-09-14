@@ -45,6 +45,26 @@ Press "Start edit mode" and every text area on the page turns blue,
 so you can see exactly what is clickable. Click one, change it in the
 box on the right, press "Apply change". Ctrl+Z undoes anything.
 
+The new text lands on the very line the old text sat on. If a substitute
+font still leaves it a hair off, you can align it: the arrows under the
+box move it a quarter point at a time, or you take hold of it with the
+mouse and drag it into place.
+
+
+ERASING AN AREA — QR CODE, LOGO, STAMP
+--------------------------------------
+A QR code is neither text nor an image: it is drawn from thousands of
+small strokes. That is why neither "Hide permanently" nor deleting an
+image will remove it.
+
+In the Edit tab, right at the bottom, press "Choose an area to erase" and
+drag a rectangle over it in the preview. Everything inside — text, images
+and drawings alike — leaves the file; it is not merely covered up.
+
+Whatever only touches the edge of the rectangle stays whole, so page
+borders and table rules do not break. Take the area 2-3 mm wider than the
+code.
+
 
 ZOOM AND MOVING AROUND
 ----------------------

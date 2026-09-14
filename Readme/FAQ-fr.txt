@@ -34,6 +34,17 @@ Sur un fond uni le résultat est en général indiscernable. Sur une
 photo ou un dégradé, cela peut se voir. Ctrl+Z annule.
 
 
+Comment enlever un code QR, un logo ou un tampon ?
+--------------------------------------------------
+Pas avec «Masquer définitivement» : cette commande cherche du texte, et
+un code QR n'en est pas. Ce n'est pas non plus une image : ceux des
+factures sont tracés à partir de milliers de petits traits.
+Utilisez «Choisir une zone à effacer», en bas de l'onglet Édition.
+Tracez un rectangle par-dessus dans l'aperçu et tout ce qui s'y trouve
+quitte le fichier. Les cadres et les filets qui ne font qu'effleurer le
+bord restent intacts.
+
+
 Je ne peux sélectionner aucun texte, le mode édition ne trouve rien.
 --------------------------------------------------------------------
 Le PDF est un scan — une photographie de papier. Il n'y a pas de texte

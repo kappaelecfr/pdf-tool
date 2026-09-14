@@ -32,6 +32,16 @@ zwykle nie do odróżnienia. Na zdjęciach lub gradientach może być
 widoczny. Ctrl+Z cofa.
 
 
+Jak usunąć kod QR, logo albo pieczątkę?
+---------------------------------------
+Nie przez „Ukryj trwale”: to szuka tekstu, a kod QR nim nie jest. Nie
+jest też obrazem: te na fakturach rysują tysiące drobnych kresek.
+Użyj „Wybierz obszar do usunięcia”, na dole zakładki Edycja.
+Przeciągnij nad nim prostokąt w podglądzie, a wszystko, co jest w
+środku, zniknie z pliku. Ramki i linie tabel, które tylko dotykają
+krawędzi, pozostaną nienaruszone.
+
+
 Nie mogę zaznaczyć tekstu, a tryb edycji nic nie znajduje.
 ----------------------------------------------------------
 Ten PDF to skan — zdjęcie papieru. Nie ma w nim tekstu, tylko obraz.

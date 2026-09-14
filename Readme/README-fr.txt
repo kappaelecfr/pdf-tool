@@ -46,6 +46,27 @@ la page deviennent bleues, vous voyez donc exactement ce qui est
 cliquable. Cliquez sur l'une, modifiez-la dans la case à droite, puis
 « Appliquer la modification ». Ctrl+Z annule tout.
 
+Le texte nouveau se pose exactement sur la ligne qu'occupait l'ancien. Si
+une police de remplacement le laisse tout de même d'un cheveu à côté, vous
+l'alignez : les flèches sous la case le déplacent d'un quart de point, ou
+vous le saisissez à la souris et le tirez où il faut.
+
+
+EFFACER UNE ZONE — CODE QR, LOGO, TAMPON
+----------------------------------------
+Un code QR n'est ni du texte ni une image : il est tracé à partir de
+milliers de petits traits. C'est pourquoi ni «Masquer définitivement» ni
+la suppression d'une image ne l'enlèvent.
+
+Dans l'onglet Édition, tout en bas, appuyez sur «Choisir une zone à
+effacer» et tracez un rectangle par-dessus dans l'aperçu. Tout ce qui se
+trouve dedans — texte, images et dessins — quitte le fichier ; ce n'est
+pas simplement recouvert.
+
+Ce qui ne fait qu'effleurer le bord du rectangle reste intact : les cadres
+de la page et les filets des tableaux ne se cassent pas. Prenez la zone
+2 à 3 mm plus large que le code.
+
 
 ZOOM ET DÉPLACEMENT
 -------------------
