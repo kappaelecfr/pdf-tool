@@ -1003,6 +1003,84 @@ check(_text18(app18) == _inainte18, "si documentul ramane neatins")
 app18.destroy()
 
 
+# --------------------- [19] doua documente deschise deodata, prin fereastra sursa
+print("[19] Sursa si destinatia deschise in acelasi timp")
+
+_d19 = tempfile.mkdtemp(prefix="pdft_doua_")
+
+
+def _pdf19(nume, randuri):
+    c = os.path.join(_d19, nume)
+    d = pymupdf.open()
+    p = d.new_page()
+    for text, y in randuri:
+        T.textbox(p, pymupdf.Rect(50, y, 420, y + 22), text, 11, (0, 0, 0))
+    d.save(c)
+    d.close()
+    return c
+
+
+_s19 = _pdf19("sursa.pdf", [("ANTET SRL - SIREN 928424589", 50),
+                            ("SECRET DIN SURSA", 400)])
+_d19dest = _pdf19("dest.pdf", [("TEXT DESTINATIE", 500)])
+
+app19 = T.PDFTool()
+app19.update()
+app19.load(_d19dest)          # destinatia in fereastra principala
+app19.update()
+
+win19 = T.SursaViewer(app19, _s19, app19._zona_din_sursa)   # sursa alaturi
+win19.update()
+app19.update()
+
+check(win19.doc is not None, "fereastra sursa si-a deschis documentul")
+check(win19.doc is not app19.doc, "sunt doua documente separate, nu acelasi")
+check(app19.path == _d19dest, "fereastra principala a ramas pe destinatie")
+
+
+class _Ev19:
+    pass
+
+
+def _punct19(x, y):
+    ox, oy = win19.off
+    return ox + x * win19.scara, oy + y * win19.scara
+
+
+_a = _Ev19()
+_a.x, _a.y = _punct19(45, 45)
+_b = _Ev19()
+_b.x, _b.y = _punct19(415, 78)
+win19.apasa(_a)
+win19.lasa(_b)
+app19.update()
+
+check(app19.zona_copiata is not None, "tragerea din fereastra sursa retine zona")
+check(app19.zona_copiata["rect"].y1 < 200, "zona se opreste deasupra liniei secrete")
+
+app19.paste_zone_at(app19.doc.load_page(0), 300, 200)
+app19.update()
+_t19 = T.norm_text(app19.doc.load_page(0).get_text("text"))
+
+check("ANTET SRL" in _t19, "zona a ajuns in destinatie")
+check("SECRET" not in _t19, "ce era in afara zonei nu a plecat")
+check("TEXT DESTINATIE" in _t19, "destinatia si-a pastrat continutul")
+
+# Fereastra sursa nu are voie sa atinga documentul ei.
+_sursa_dupa = pymupdf.open(_s19)
+check("SECRET DIN SURSA" in T.norm_text(_sursa_dupa.load_page(0).get_text("text")),
+      "fisierul sursa a ramas neschimbat pe disc")
+_sursa_dupa.close()
+
+win19.inchide()
+app19.update()
+check(getattr(app19, "fereastra_sursa", None) is None,
+      "inchiderea ferestrei sursa curata referinta")
+check(app19.doc is not None, "fereastra principala functioneaza mai departe")
+
+app19.destroy()
+
+
 app.destroy()
 
 print("\n" + "=" * 58)

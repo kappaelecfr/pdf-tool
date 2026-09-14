@@ -76,6 +76,17 @@
   "pt": "Acrescentar no fim",
   "ru": "Добавить в конец документа"
  },
+ "Alege PDF-ul din care copiezi": {
+  "de": "Wählen Sie das PDF, aus dem Sie kopieren",
+  "en": "Choose the PDF you are copying from",
+  "es": "Elige el PDF del que copias",
+  "fr": "Choisissez le PDF depuis lequel vous copiez",
+  "it": "Scegli il PDF da cui copi",
+  "nl": "Kies de pdf waaruit u kopieert",
+  "pl": "Wybierz PDF, z którego kopiujesz",
+  "pt": "Escolha o PDF de onde está a copiar",
+  "ru": "Выберите PDF, из которого копируете"
+ },
  "Alege o zonă de șters": {
   "de": "Bereich zum Löschen wählen",
   "en": "Choose an area to erase",
@@ -130,6 +141,17 @@
   "pl": "Wyrównanie: przeciągnij tekst myszą albo użyj strzałek na klawiaturze.",
   "pt": "Alinhamento: arraste o texto com o rato, ou use as setas do teclado.",
   "ru": "Выравнивание: перетащите текст мышью или возьмите стрелки на клавиатуре."
+ },
+ "Alt fișier…": {
+  "de": "Eine andere Datei…",
+  "en": "Another file…",
+  "es": "Otro archivo…",
+  "fr": "Un autre fichier…",
+  "it": "Un altro file…",
+  "nl": "Een ander bestand…",
+  "pl": "Inny plik…",
+  "pt": "Outro ficheiro…",
+  "ru": "Другой файл…"
  },
  "Am adăugat %d pagini din %s.": {
   "de": "%d Seiten aus %s hinzugefügt.",
@@ -449,6 +471,17 @@
   "pl": "Otwórz stronę pobierania",
   "pt": "Abrir a página de descarregamento",
   "ru": "Открыть страницу загрузки"
+ },
+ "Deschide sursa într-o fereastră alăturată…": {
+  "de": "Die Quelle in einem Fenster daneben öffnen…",
+  "en": "Open the source in a window alongside…",
+  "es": "Abrir el origen en una ventana al lado…",
+  "fr": "Ouvrir la source dans une fenêtre à côté…",
+  "it": "Apri l'origine in una finestra accanto…",
+  "nl": "De bron in een venster ernaast openen…",
+  "pl": "Otwórz źródło w oknie obok…",
+  "pt": "Abrir a origem numa janela ao lado…",
+  "ru": "Открыть источник в окне рядом…"
  },
  "Deschide-l": {
   "de": "Öffnen",
@@ -791,6 +824,28 @@
   "pt": "Já não encontro o ficheiro de onde copiou:\n\n%s",
   "ru": "Файла, из которого вы копировали, больше нет:\n\n%s"
  },
+ "PDF-ul are parolă. Deschide-l în fereastra principală.": {
+  "de": "Das PDF hat ein Passwort. Öffnen Sie es im Hauptfenster.",
+  "en": "The PDF has a password. Open it in the main window.",
+  "es": "El PDF tiene contraseña. Ábrelo en la ventana principal.",
+  "fr": "Le PDF a un mot de passe. Ouvrez-le dans la fenêtre principale.",
+  "it": "Il PDF ha una password. Aprilo nella finestra principale.",
+  "nl": "De pdf heeft een wachtwoord. Open hem in het hoofdvenster.",
+  "pl": "PDF ma hasło. Otwórz go w oknie głównym.",
+  "pt": "O PDF tem palavra-passe. Abra-o na janela principal.",
+  "ru": "PDF защищён паролем. Откройте его в главном окне."
+ },
+ "Pagina %d din %d": {
+  "de": "Seite %d von %d",
+  "en": "Page %d of %d",
+  "es": "Página %d de %d",
+  "fr": "Page %d sur %d",
+  "it": "Pagina %d di %d",
+  "nl": "Pagina %d van %d",
+  "pl": "Strona %d z %d",
+  "pt": "Página %d de %d",
+  "ru": "Страница %d из %d"
+ },
  "Pagina %d: „%s” → „%s”": {
   "de": "Seite %d: „%s“ → „%s“",
   "en": "Page %d: „%s” → „%s”",
@@ -889,6 +944,17 @@
   "pl": "Anuluj usuwanie",
   "pt": "Cancelar o apagamento",
   "ru": "Отменить удаление"
+ },
+ "Sursă": {
+  "de": "Quelle",
+  "en": "Source",
+  "es": "Origen",
+  "fr": "Source",
+  "it": "Origine",
+  "nl": "Bron",
+  "pl": "Źródło",
+  "pt": "Origem",
+  "ru": "Источник"
  },
  "Textul\n\n    %s\n\ndevine\n\n    %s\n\nAplic modificarea?": {
   "de": "Der Text\n\n    %s\n\nwird zu\n\n    %s\n\nÄnderung übernehmen?",
@@ -1010,6 +1076,17 @@
   "pl": "Obszar jest zapamiętany. Otwórz drugi PDF i kliknij tam, gdzie ma trafić.",
   "pt": "A zona ficou guardada. Abra o outro PDF e clique onde a quer.",
   "ru": "Область запомнена. Откройте другой PDF и щёлкните там, где она нужна."
+ },
+ "Zona e reținută. Dă click în pagină unde o vrei.": {
+  "de": "Der Bereich ist gemerkt. Klicken Sie auf der Seite dorthin, wo er hin soll.",
+  "en": "The area is held. Click on the page where you want it.",
+  "es": "La zona está guardada. Haz clic en la página donde la quieras.",
+  "fr": "La zone est gardée. Cliquez dans la page où vous la voulez.",
+  "it": "L'area è tenuta da parte. Fai clic nella pagina dove la vuoi.",
+  "nl": "De zone is bewaard. Klik op de pagina waar u ze wilt.",
+  "pl": "Obszar jest zapamiętany. Kliknij na stronie tam, gdzie ma trafić.",
+  "pt": "A zona ficou guardada. Clique na página onde a quer.",
+  "ru": "Область запомнена. Щёлкните по странице там, где она нужна."
  },
  "Zonele de text sunt marcate. Dă click pe una ca s-o modifici.": {
   "de": "Die Textbereiche sind markiert. Klicken Sie einen an, um ihn zu ändern.",

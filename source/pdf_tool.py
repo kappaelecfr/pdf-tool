@@ -41,7 +41,7 @@ import update_check
 from faq import text_for as faq_text
 
 APP_NAME = "PDF Tool"
-APP_VER = "1.9.0"
+APP_VER = "1.10.0"
 # anul vine din ceasul calculatorului, deci se schimba singur
 COPYRIGHT = "Copyright \u00a9 KappaProject %d"
 
@@ -1241,6 +1241,8 @@ class PDFTool(_ROOT_BASE):
         self.btn_copy_zone = ttk.Button(b, text=t("Copiază o zonă"),
                                         command=self.toggle_copy_zone)
         self.btn_copy_zone.pack(fill="x")
+        ttk.Button(b, text=t("Deschide sursa într-o fereastră alăturată…"),
+                   command=self.deschide_sursa).pack(fill="x", pady=(6, 0))
         self.lbl_zona = tk.Label(b, text=t("Nicio zonă copiată"), bg=PANEL, fg=MUTED,
                                  font=("Segoe UI", 8), anchor="w", justify="left")
         self.lbl_zona.pack(fill="x", pady=(4, 0))
@@ -2121,6 +2123,30 @@ class PDFTool(_ROOT_BASE):
         if not self.need_doc():
             return
         self.set_click_mode(None if self.click_mode == "erase" else "erase")
+
+    def deschide_sursa(self):
+        """Al doilea PDF, alaturi, numai ca sa copiezi din el."""
+        w = getattr(self, "fereastra_sursa", None)
+        if w is not None and w.winfo_exists():
+            w.lift()
+            w.alege()
+            return
+        p = filedialog.askopenfilename(title=t("Alege PDF-ul din care copiezi"),
+                                       filetypes=[("PDF", "*.pdf")])
+        if not p:
+            return
+        self.fereastra_sursa = SursaViewer(self, p, self._zona_din_sursa)
+
+    def _zona_din_sursa(self, cale, pagina, rect):
+        """Vine din fereastra alaturata: aceeasi zona retinuta ca pana acum."""
+        self.zona_copiata = {"cale": cale, "pagina": pagina, "rect": rect}
+        self.lbl_zona.config(
+            text=t("Zonă copiată: %s, pagina %d, %.0f × %.0f mm")
+            % (os.path.basename(cale), pagina + 1,
+               rect.width / 72 * 25.4, rect.height / 72 * 25.4),
+            fg=INK)
+        self.btn_paste_zone.state(["!disabled"])
+        self.status(t("Zona e reținută. Dă click în pagină unde o vrei."))
 
     def toggle_copy_zone(self):
         if not self.need_doc():
@@ -3815,6 +3841,158 @@ class SimpleAsk:
         e.bind("<Return>", ok)
         win.bind("<Escape>", lambda e: win.destroy())
         parent.wait_window(win)
+
+
+class SursaViewer(tk.Toplevel):
+    """Un al doilea PDF, alaturi, numai ca sa copiezi din el.
+
+    Deliberat sarac: arata o pagina, trece la alta, si lasa sa se traga un
+    dreptunghi. Fara editare, fara anulare, fara miniaturi, fara salvare.
+    Documentul lui e al lui si moare odata cu fereastra.
+    """
+
+    def __init__(self, parent, cale, la_zona):
+        super().__init__(parent)
+        self.parent = parent
+        self.la_zona = la_zona
+        self.doc = None
+        self.pagina = 0
+        self.img = None
+        self.scara = 1.0
+        self.off = (0, 0)
+        self.de_la = None
+
+        self.title("%s — %s" % (t("Sursă"), os.path.basename(cale)))
+        self.configure(bg=BG)
+        sw, sh = self.winfo_screenwidth(), self.winfo_screenheight()
+        w, h = min(760, sw - 80), min(820, sh - 100)
+        self.geometry("%dx%d+%d+%d" % (w, h, max(0, sw - w - 40), max(0, (sh - h) // 3)))
+
+        bar = tk.Frame(self, bg=BG)
+        bar.pack(fill="x", padx=8, pady=6)
+        ttk.Button(bar, text=t("Alt fișier…"), command=self.alege).pack(side="left")
+        ttk.Button(bar, text="\u25c0", width=3, command=lambda: self.mergi(-1)).pack(
+            side="left", padx=(10, 2))
+        self.lbl_pag = tk.Label(bar, text="—", bg=BG, fg=INK, font=("Segoe UI", 9))
+        self.lbl_pag.pack(side="left", padx=4)
+        ttk.Button(bar, text="\u25b6", width=3, command=lambda: self.mergi(1)).pack(side="left")
+        tk.Label(bar, text=t("Trage un dreptunghi peste zona de copiat"), bg=BG, fg=ACCENT,
+                 font=("Segoe UI", 8)).pack(side="right")
+
+        self.canvas = tk.Canvas(self, bg="#6e7684", highlightthickness=0)
+        self.canvas.pack(fill="both", expand=True, padx=8, pady=(0, 8))
+        self.canvas.bind("<Button-1>", self.apasa)
+        self.canvas.bind("<B1-Motion>", self.trage)
+        self.canvas.bind("<ButtonRelease-1>", self.lasa)
+        self.canvas.bind("<Configure>", lambda e: self.deseneaza())
+        self.protocol("WM_DELETE_WINDOW", self.inchide)
+
+        self.deschide(cale)
+
+    # --------------------------------------------------------- documentul
+
+    def deschide(self, cale):
+        try:
+            with open(cale, "rb") as fh:
+                doc = pymupdf.open("pdf", fh.read())
+        except Exception as e:
+            messagebox.showerror(APP_NAME, t("Nu pot deschide fișierul:\n\n%s") % e,
+                                 parent=self)
+            return
+        if doc.needs_pass:
+            messagebox.showinfo(APP_NAME, t("PDF-ul are parolă. Deschide-l în "
+                                          "fereastra principală."), parent=self)
+            doc.close()
+            return
+        self.inchide_doc()
+        self.doc = doc
+        self.cale = cale
+        self.pagina = 0
+        self.title("%s — %s" % (t("Sursă"), os.path.basename(cale)))
+        self.deseneaza()
+
+    def alege(self):
+        p = filedialog.askopenfilename(title=t("Alege PDF-ul din care copiezi"),
+                                       filetypes=[("PDF", "*.pdf")])
+        if p:
+            self.deschide(p)
+
+    def mergi(self, pas):
+        if not self.doc:
+            return
+        self.pagina = max(0, min(self.pagina + pas, self.doc.page_count - 1))
+        self.deseneaza()
+
+    # ----------------------------------------------------------- desenarea
+
+    def deseneaza(self):
+        self.canvas.delete("all")
+        if not self.doc:
+            return
+        try:
+            page = self.doc.load_page(self.pagina)
+            cw = max(50, self.canvas.winfo_width()) - 16
+            ch = max(50, self.canvas.winfo_height()) - 16
+            z = min(cw / page.rect.width, ch / page.rect.height)
+            z = max(0.05, min(z, 4.0))
+            pix = page.get_pixmap(matrix=pymupdf.Matrix(z, z), alpha=False)
+            im = Image.frombytes("RGB", (pix.width, pix.height), pix.samples)
+            self.img = ImageTk.PhotoImage(im, master=self.canvas)
+        except Exception:
+            return
+        ox = max(0, (self.canvas.winfo_width() - pix.width) // 2)
+        oy = max(0, (self.canvas.winfo_height() - pix.height) // 2)
+        self.scara, self.off = z, (ox, oy)
+        self.canvas.create_image(ox, oy, image=self.img, anchor="nw")
+        self.lbl_pag.config(text=t("Pagina %d din %d")
+                            % (self.pagina + 1, self.doc.page_count))
+
+    # ------------------------------------------------- dreptunghiul de copiat
+
+    def apasa(self, e):
+        self.de_la = (e.x, e.y)
+        self.canvas.delete("zona")
+
+    def trage(self, e):
+        if not self.de_la:
+            return
+        self.canvas.delete("zona")
+        self.canvas.create_rectangle(self.de_la[0], self.de_la[1], e.x, e.y,
+                                     outline=ACCENT, width=2, dash=(4, 3), tags="zona")
+
+    def lasa(self, e):
+        if not self.de_la or not self.doc:
+            return
+        x0, y0 = self.de_la
+        self.de_la = None
+        self.canvas.delete("zona")
+        ox, oy = self.off
+        z = self.scara or 1.0
+        page = self.doc.load_page(self.pagina)
+        r = pymupdf.Rect(min(x0, e.x) - ox, min(y0, e.y) - oy,
+                         max(x0, e.x) - ox, max(y0, e.y) - oy) / z
+        r = r & page.rect
+        if r.is_empty or r.width < 3 or r.height < 3:
+            return
+        self.la_zona(self.cale, self.pagina, pymupdf.Rect(r))
+
+    # ------------------------------------------------------------ inchiderea
+
+    def inchide_doc(self):
+        try:
+            if self.doc:
+                self.doc.close()
+        except Exception:
+            pass
+        self.doc = None
+
+    def inchide(self):
+        self.inchide_doc()
+        try:
+            self.parent.fereastra_sursa = None
+        except Exception:
+            pass
+        self.destroy()
 
 
 class TextViewer(tk.Toplevel):
