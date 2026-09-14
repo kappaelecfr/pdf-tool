@@ -46,10 +46,11 @@ pagina diventano blu, così vedi esattamente cosa è cliccabile. Cliccane
 una, cambiala nella casella a destra, premi «Applica la modifica».
 Ctrl+Z annulla qualsiasi cosa.
 
-Il testo nuovo si posa esattamente sulla riga dove stava il vecchio. Se un
-carattere sostitutivo lo lascia comunque di un soffio fuori posto, puoi
-allinearlo: le frecce sotto il riquadro lo spostano di un quarto di punto,
-oppure lo afferri con il mouse e lo trascini dove serve.
+Il testo nuovo si posa esattamente sulla riga dove stava il vecchio. Per
+spostarlo, afferralo con il mouse e trascinalo: due righe mostrano dove
+andrà a cadere, e appena si avvicina alla riga di un testo vicino vi si
+aggancia. Le frecce della tastiera lo spostano a piccoli passi, per
+quando non vuoi allinearti a niente.
 
 
 CANCELLARE UN'AREA — CODICE QR, LOGO, TIMBRO

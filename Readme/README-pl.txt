@@ -45,10 +45,11 @@ zmienią kolor na niebieski, więc widzisz dokładnie, w co można kliknąć.
 Kliknij jeden, zmień go w polu po prawej i naciśnij „Zastosuj zmianę”.
 Ctrl+Z cofa wszystko.
 
-Nowy tekst siada dokładnie na linii, na której stał stary. Jeśli zastępczy
-krój pisma zostawi go mimo to o włos obok, można go wyrównać: strzałki pod
-polem przesuwają go o ćwierć punktu, albo chwytasz go myszą i przeciągasz
-tam, gdzie trzeba.
+Nowy tekst siada dokładnie na linii, na której stał stary. Żeby go
+przesunąć, chwyć go myszą i przeciągnij: dwie linie pokazują, gdzie
+wyląduje, a gdy zbliży się do linii sąsiedniego tekstu, przyczepia się
+do niej. Strzałki na klawiaturze przesuwają go drobnymi krokami, gdy
+nie chcesz się do niczego wyrównywać.
 
 
 USUWANIE OBSZARU — KOD QR, LOGO, PIECZĄTKA

@@ -41,7 +41,7 @@ import update_check
 from faq import text_for as faq_text
 
 APP_NAME = "PDF Tool"
-APP_VER = "1.6.2"
+APP_VER = "1.7.0"
 # anul vine din ceasul calculatorului, deci se schimba singur
 COPYRIGHT = "Copyright \u00a9 KappaProject %d"
 
@@ -1043,6 +1043,9 @@ class PDFTool(_ROOT_BASE):
         self.bind("<Control-z>", self._undo_key)
         self.bind("<Control-y>", self._redo_key)
         self.bind("<Control-a>", self._select_all_key)
+        for tasta, dx, dy in (("<Left>", -1, 0), ("<Right>", 1, 0),
+                              ("<Up>", 0, -1), ("<Down>", 0, 1)):
+            self.bind(tasta, lambda e, a=dx, b=dy: self._key_nudge(a, b))
         self.bind("<Delete>", lambda e: self.op_delete())
         self.bind("<Prior>", lambda e: self.goto(self.current - 1))
         self.bind("<Next>", lambda e: self.goto(self.current + 1))
@@ -1267,18 +1270,10 @@ class PDFTool(_ROOT_BASE):
         ttk.Button(row, text=t("Aruncă"),
                    command=self.discard_edit).pack(side="left", padx=(6, 0))
 
-        row = tk.Frame(b, bg=PANEL)
-        row.pack(fill="x", pady=(6, 0))
-        tk.Label(row, text=t("Aliniere fină"), bg=PANEL, fg=MUTED,
-                 font=("Segoe UI", 8)).pack(side="left", padx=(0, 6))
-        for eticheta, dx, dy in (("\u2190", -0.5, 0), ("\u2192", 0.5, 0),
-                                 ("\u2191", 0, -0.5), ("\u2193", 0, 0.5)):
-            ttk.Button(row, text=eticheta, width=3,
-                       command=lambda a=dx, b2=dy: self.nudge_text(
-                           a * self._pas_aliniere(), b2 * self._pas_aliniere())).pack(
-                           side="left", padx=(0, 3))
-        tk.Label(row, text=t("mută textul scris"), bg=PANEL, fg=MUTED,
-                 font=("Segoe UI", 8)).pack(side="left", padx=(6, 0))
+        tk.Label(b, text=t("Aliniere: trage textul cu mouse-ul, sau folosește "
+                         "săgețile de pe tastatură."),
+                 bg=PANEL, fg=MUTED, font=("Segoe UI", 8),
+                 anchor="w", justify="left").pack(fill="x", pady=(6, 0))
 
         b = self._section(f, t("Caută și înlocuiește"),
                           t("Înlocuiește un text în tot documentul sau doar în paginile selectate."))
@@ -1997,15 +1992,7 @@ class PDFTool(_ROOT_BASE):
             x1, y1 = self.pcanvas.canvasx(e.x), self.pcanvas.canvasy(e.y)
             if abs(x1 - x0) > 3 or abs(y1 - y0) > 3:
                 self.align_drag["mutat"] = True
-            z = self._zona_de_mutat()
-            if z is not None:
-                ox, oy = self.preview_off
-                m = self.preview_scale
-                self.pcanvas.delete("align")
-                self.pcanvas.create_rectangle(
-                    ox + z.x0 * m + (x1 - x0), oy + z.y0 * m + (y1 - y0),
-                    ox + z.x1 * m + (x1 - x0), oy + z.y1 * m + (y1 - y0),
-                    outline=ACCENT, width=2, dash=(3, 2), tags="align")
+            self._deseneaza_tragerea(x1 - x0, y1 - y0)
             return
         if self.erase_from:
             x0, y0 = self.erase_from
@@ -2026,9 +2013,9 @@ class PDFTool(_ROOT_BASE):
                 self.on_preview_click(e)          # a fost doar un click
                 return
             x0, y0 = a["de_la"]
-            m = self.preview_scale or 1
-            self.nudge_text((self.pcanvas.canvasx(e.x) - x0) / m,
-                            (self.pcanvas.canvasy(e.y) - y0) / m)
+            dx, dy = self._mutarea_ceruta(self.pcanvas.canvasx(e.x) - x0,
+                                          self.pcanvas.canvasy(e.y) - y0)
+            self.nudge_text(dx, dy)
             return
         if self.erase_from:
             x0, y0 = self.erase_from
@@ -2953,6 +2940,91 @@ class PDFTool(_ROOT_BASE):
             return pymupdf.Rect(r.x0 - 2, r.y0 - 2, r.x1 + 2, r.y1 + 2)
         return None
 
+    def _mutarea_ceruta(self, dcx, dcy):
+        """Din cati pixeli ai tras, cat se muta de fapt — cu lipire cu tot."""
+        m = self.preview_scale or 1
+        dx, dy = dcx / m, dcy / m
+        g = self._geometria_de_mutat()
+        if g is None:
+            return dx, dy
+        baza, st, dr = g
+        ddy, ddx, _, _ = self._lipeste(baza + dy, st + dx, dr + dx)
+        return dx + ddx, dy + ddy
+
+    def _deseneaza_tragerea(self, dcx, dcy):
+        """Chenarul textului tras si liniile de aliniere, cat tii apasat."""
+        self.pcanvas.delete("align")
+        z = self._zona_de_mutat()
+        g = self._geometria_de_mutat()
+        if z is None or g is None:
+            return
+        ox, oy = self.preview_off
+        m = self.preview_scale or 1
+        baza, st, dr = g
+        dx, dy = dcx / m, dcy / m
+        ddy, ddx, linie_y, linie_x = self._lipeste(baza + dy, st + dx, dr + dx)
+        dx, dy = dx + ddx, dy + ddy
+
+        # chenarul, unde va cadea textul
+        self.pcanvas.create_rectangle(
+            ox + (z.x0 + dx) * m, oy + (z.y0 + dy) * m,
+            ox + (z.x1 + dx) * m, oy + (z.y1 + dy) * m,
+            outline=ACCENT, width=2, dash=(3, 2), tags="align")
+
+        # liniile de aliniere: subtiri cand doar arata, groase cand s-au prins
+        lat = self.doc.load_page(self.current).rect if self.doc else None
+        if lat is None:
+            return
+        y_ecran = oy + (baza + dy) * m
+        x_ecran = ox + (st + dx) * m
+        self.pcanvas.create_line(ox, y_ecran, ox + lat.width * m, y_ecran,
+                                 fill=ACCENT if linie_y is not None else "#9aa8bd",
+                                 width=2 if linie_y is not None else 1,
+                                 dash=None if linie_y is not None else (4, 4),
+                                 tags="align")
+        self.pcanvas.create_line(x_ecran, oy, x_ecran, oy + lat.height * m,
+                                 fill=ACCENT if linie_x is not None else "#9aa8bd",
+                                 width=2 if linie_x is not None else 1,
+                                 dash=None if linie_x is not None else (4, 4),
+                                 tags="align")
+
+    def _geometria_de_mutat(self):
+        """(linia de baza, marginea stanga, marginea dreapta) a textului mutat."""
+        n = getattr(self, "nudge_last", None)
+        if n and n.get("seq") == self.change_seq and n.get("origin"):
+            lat = max(n["rect"].width,
+                      text_width(n["text"], n["size"], font_kind_for(n["font"])))
+            st = n["rect"].x0 + n["dx"]
+            return n["origin"][1] + n["dy"], st, st + lat
+        tgt = getattr(self, "edit_target", None)
+        if tgt and tgt.get("page") == self.current and tgt.get("origin"):
+            return tgt["origin"][1], tgt["rect"].x0, tgt["rect"].x1
+        return None
+
+    def _lipeste(self, baza, st, dr):
+        """Apropie de vecini: ce e la mai putin de cateva fire se prinde.
+
+        Intoarce (dbaza, dst, linia_orizontala, linia_verticala) — cat
+        trebuie corectat si pe unde sa treaca liniile de aliniere.
+        """
+        prag = 3.5 / (self.preview_scale or 1.0)
+        best_y = best_x = None
+        dy = dx = 0.0
+        for sp in self.edit_spans:
+            org = sp.get("origin")
+            if not org:
+                continue
+            if abs(org[1] - baza) < 0.01 and abs(sp["bbox"][0] - st) < 0.01:
+                continue                      # chiar textul pe care il mut
+            d = org[1] - baza
+            if abs(d) < prag and (best_y is None or abs(d) < abs(dy)):
+                best_y, dy = org[1], d
+            for margine, a_mea in ((sp["bbox"][0], st), (sp["bbox"][2], dr)):
+                d2 = margine - a_mea
+                if abs(d2) < prag and (best_x is None or abs(d2) < abs(dx)):
+                    best_x, dx = margine, d2
+        return dy, dx, best_y, best_x
+
     def _peste_ce_pot_muta(self, e):
         """Apasarea cade peste textul pe care il pot muta?"""
         z = self._zona_de_mutat()
@@ -2960,6 +3032,21 @@ class PDFTool(_ROOT_BASE):
             return False
         x, y = self.canvas_to_pdf(self.pcanvas.canvasx(e.x), self.pcanvas.canvasy(e.y))
         return z.contains(pymupdf.Point(x, y))
+
+    def _key_nudge(self, dx, dy):
+        """Sagetile de pe tastatura mut textul ales.
+
+        Numai cand nu scrii: daca esti in caseta de text sau intr-un camp,
+        sagetile isi fac treaba lor obisnuita.
+        """
+        w = self.focus_get()
+        if isinstance(w, (tk.Text, tk.Entry, ttk.Entry, ttk.Combobox, ttk.Spinbox)):
+            return
+        if not (getattr(self, "edit_target", None) or getattr(self, "nudge_last", None)):
+            return
+        pas = self._pas_aliniere()
+        self.nudge_text(dx * pas, dy * pas)
+        return "break"
 
     def _pas_aliniere(self):
         """Cat muta o apasare, in puncte PDF.

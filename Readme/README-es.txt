@@ -46,10 +46,11 @@ se ponen azules, así ves exactamente dónde puedes hacer clic. Haz clic
 en una, cámbiala en la caja de la derecha y pulsa «Aplicar el cambio».
 Ctrl+Z deshace cualquier cosa.
 
-El texto nuevo se asienta justo en la línea donde estaba el viejo. Si una
-fuente sustituta lo deja aun así un pelo desviado, puedes alinearlo: las
-flechas bajo el cuadro lo mueven un cuarto de punto, o lo agarras con el
-ratón y lo arrastras a su sitio.
+El texto nuevo se asienta justo en la línea donde estaba el viejo. Para
+moverlo, agárralo con el ratón y arrástralo: dos líneas muestran dónde
+va a caer, y en cuanto se acerca a la línea de un texto vecino se
+engancha a ella. Las flechas del teclado lo mueven a pasitos, para
+cuando no quieres alinearte con nada.
 
 
 BORRAR UNA ZONA — CÓDIGO QR, LOGOTIPO, SELLO

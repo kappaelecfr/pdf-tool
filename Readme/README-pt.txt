@@ -46,10 +46,11 @@ página ficam azuis, para ver exactamente onde pode clicar. Clique numa,
 altere-a na caixa à direita e carregue em «Aplicar a alteração».
 Ctrl+Z desfaz tudo.
 
-O texto novo assenta exatamente na linha onde estava o antigo. Se um tipo
-de letra substituto o deixar ainda assim um fio ao lado, pode alinhá-lo:
-as setas por baixo da caixa deslocam-no um quarto de ponto, ou agarra-o
-com o rato e arrasta-o para o sítio.
+O texto novo assenta exatamente na linha onde estava o antigo. Para o
+mover, agarre-o com o rato e arraste: duas linhas mostram onde vai
+cair, e assim que se aproxima da linha de um texto vizinho prende-se a
+ela. As setas do teclado deslocam-no em pequenos passos, para quando
+não quer alinhar-se por nada.
 
 
 APAGAR UMA ZONA — CÓDIGO QR, LOGÓTIPO, CARIMBO

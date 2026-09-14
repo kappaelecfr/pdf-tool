@@ -46,10 +46,11 @@ colorează în albastru, ca să vezi exact pe ce poți da click. Dai click
 pe una, o schimbi în caseta din dreapta, apeși „Aplică modificarea”.
 Ctrl+Z anulează orice.
 
-Textul nou se așază exact pe linia pe care stătea cel vechi. Dacă fontul
-înlocuitor îl lasă totuși cu un fir alături, îl aliniezi: săgețile de sub
-casetă îl mută cu un sfert de punct, sau îl apuci cu mouse-ul și îl tragi
-unde trebuie.
+Textul nou se așază exact pe linia pe care stătea cel vechi. Dacă vrei
+să-l muți, îl apuci cu mouse-ul și îl tragi: apar două linii care arată
+unde ajunge, iar când se apropie de rândul unui text vecin se prinde
+singur pe el. Săgețile de pe tastatură îl mută cu pași mici, pentru
+când nu vrei să te aliniezi la nimic.
 
 
 ȘTERGEREA UNEI ZONE — COD QR, SIGLĂ, ȘTAMPILĂ

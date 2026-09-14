@@ -109,6 +109,17 @@
   "pt": "Alinhamento: %+.2f na horizontal, %+.2f na vertical.",
   "ru": "Выравнивание: %+.2f по горизонтали, %+.2f по вертикали."
  },
+ "Aliniere: trage textul cu mouse-ul, sau folosește săgețile de pe tastatură.": {
+  "de": "Ausrichtung: Ziehen Sie den Text mit der Maus, oder nehmen Sie die Pfeiltasten.",
+  "en": "Alignment: drag the text with the mouse, or use the arrow keys.",
+  "es": "Alineación: arrastra el texto con el ratón, o usa las flechas del teclado.",
+  "fr": "Alignement : faites glisser le texte à la souris, ou utilisez les flèches du clavier.",
+  "it": "Allineamento: trascina il testo con il mouse, oppure usa le frecce della tastiera.",
+  "nl": "Uitlijning: sleep de tekst met de muis, of gebruik de pijltjestoetsen.",
+  "pl": "Wyrównanie: przeciągnij tekst myszą albo użyj strzałek na klawiaturze.",
+  "pt": "Alinhamento: arraste o texto com o rato, ou use as setas do teclado.",
+  "ru": "Выравнивание: перетащите текст мышью или возьмите стрелки на клавиатуре."
+ },
  "Am adăugat %d pagini din %s.": {
   "de": "%d Seiten aus %s hinzugefügt.",
   "en": "Added %d pages from %s.",

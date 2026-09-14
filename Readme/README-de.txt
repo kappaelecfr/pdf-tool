@@ -47,10 +47,11 @@ Seite werden blau, so sehen Sie genau, was anklickbar ist. Klicken Sie
 einen an, ändern Sie ihn im Feld rechts und drücken Sie „Änderung
 übernehmen“. Ctrl+Z macht alles rückgängig.
 
-Der neue Text sitzt genau auf der Linie, auf der der alte stand. Lässt ihn
-eine Ersatzschrift dennoch um ein Haar daneben, richten Sie ihn aus: die
-Pfeile unter dem Feld verschieben ihn um einen Viertelpunkt, oder Sie
-fassen ihn mit der Maus und ziehen ihn an seinen Platz.
+Der neue Text sitzt genau auf der Linie, auf der der alte stand. Zum
+Verschieben fassen Sie ihn mit der Maus und ziehen: zwei Linien zeigen,
+wo er landen wird, und sobald er der Linie eines Nachbartextes nahe
+kommt, rastet er darauf ein. Die Pfeiltasten verschieben ihn in kleinen
+Schritten, wenn Sie sich an nichts ausrichten wollen.
 
 
 EINEN BEREICH LÖSCHEN — QR-CODE, LOGO, STEMPEL

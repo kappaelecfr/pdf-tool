@@ -46,10 +46,11 @@ la page deviennent bleues, vous voyez donc exactement ce qui est
 cliquable. Cliquez sur l'une, modifiez-la dans la case à droite, puis
 « Appliquer la modification ». Ctrl+Z annule tout.
 
-Le texte nouveau se pose exactement sur la ligne qu'occupait l'ancien. Si
-une police de remplacement le laisse tout de même d'un cheveu à côté, vous
-l'alignez : les flèches sous la case le déplacent d'un quart de point, ou
-vous le saisissez à la souris et le tirez où il faut.
+Le texte nouveau se pose exactement sur la ligne qu'occupait l'ancien.
+Pour le déplacer, saisissez-le à la souris et faites-le glisser : deux
+lignes montrent où il va tomber, et dès qu'il approche de la ligne d'un
+texte voisin il s'y accroche. Les flèches du clavier le déplacent par
+petits pas, quand vous ne voulez vous aligner sur rien.
 
 
 EFFACER UNE ZONE — CODE QR, LOGO, TAMPON

@@ -45,10 +45,11 @@ Press "Start edit mode" and every text area on the page turns blue,
 so you can see exactly what is clickable. Click one, change it in the
 box on the right, press "Apply change". Ctrl+Z undoes anything.
 
-The new text lands on the very line the old text sat on. If a substitute
-font still leaves it a hair off, you can align it: the arrows under the
-box move it a quarter point at a time, or you take hold of it with the
-mouse and drag it into place.
+The new text lands on the very line the old text sat on. To move it,
+take hold of it with the mouse and drag: two lines show where it will
+land, and when it comes near the line of a neighbouring text it snaps
+onto it. The arrow keys move it in small steps, for when you do not
+want to align with anything.
 
 
 ERASING AN AREA — QR CODE, LOGO, STAMP

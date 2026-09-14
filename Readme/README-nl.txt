@@ -46,10 +46,11 @@ blauw, zodat je precies ziet waarop je kunt klikken. Klik er een aan,
 wijzig hem in het vak rechts en druk op „Wijziging toepassen”.
 Ctrl+Z maakt alles ongedaan.
 
-De nieuwe tekst komt precies op de regel waar de oude stond. Laat een
-vervangend lettertype hem toch een haar ernaast staan, dan lijnt u hem
-uit: de pijlen onder het vak verplaatsen hem een kwart punt, of u pakt
-hem met de muis en sleept hem op zijn plaats.
+De nieuwe tekst komt precies op de regel waar de oude stond. Om hem te
+verplaatsen pakt u hem met de muis en sleept: twee lijnen tonen waar
+hij terechtkomt, en zodra hij bij de regel van een naburige tekst komt,
+klikt hij eraan vast. De pijltjestoetsen verplaatsen hem met kleine
+stapjes, voor als u zich nergens op wilt uitlijnen.
 
 
 EEN ZONE WISSEN — QR-CODE, LOGO, STEMPEL
