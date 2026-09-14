@@ -13,12 +13,12 @@ même ». Cela n'arrive que la première fois.
 Quelque chose part-il sur internet ?
 ------------------------------------
 Vos fichiers, jamais. Rien n'est téléversé nulle part, il n'y a ni
-compte ni serveur.
-Une seule chose part : au démarrage, le programme demande à GitHub si
-une version plus récente est parue, pour pouvoir vous le dire dans la
-barre du bas. C'est tout — une question, sans rien sur vous et sans
-rien sur les fichiers que vous ouvrez. Il ne télécharge ni n'installe
-rien de lui-même.
+compte ni serveur de notre côté.
+Une seule chose part : au démarrage, le logiciel vérifie s'il existe
+une version plus récente, pour pouvoir vous le dire dans la barre du
+bas. C'est tout — une question, sans rien sur vous et sans rien sur les
+fichiers que vous ouvrez. Il ne télécharge ni n'installe rien de
+lui-même.
 Si vous ne voulez même pas cela, cliquez sur le numéro de version en
 bas et décochez «Chercher automatiquement au démarrage». Alors plus
 rien ne part, jamais.

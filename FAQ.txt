@@ -12,11 +12,11 @@ signature costs several hundred euros a year. Click "More info", then
 Does anything get sent over the internet?
 -----------------------------------------
 Your files, never. Nothing is uploaded anywhere, there is no account
-and there is no server.
-One thing does leave: at startup the program asks GitHub whether a
-newer version has come out, so it can tell you in the status bar. That
-is all — one question, with nothing about you and nothing about which
-files you open. It downloads nothing and installs nothing by itself.
+and no server of ours.
+One thing does leave: at startup the program checks whether a newer
+version has come out, so it can tell you in the status bar. That is all
+— one question, with nothing about you and nothing about which files
+you open. It downloads nothing and installs nothing by itself.
 If you do not want even that, click the version number in the status
 bar and clear "Check automatically at startup". Then nothing leaves,
 ever.

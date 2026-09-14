@@ -13,11 +13,11 @@ acontece da primeira vez.
 Vai alguma coisa para a internet?
 ---------------------------------
 Os seus ficheiros, nunca. Não se carrega nada para lado nenhum, não há
-conta e não há servidor.
-Uma coisa sai: ao arrancar, o programa pergunta ao GitHub se saiu uma
-versão mais recente, para lho poder dizer na barra inferior. É tudo —
-uma pergunta, sem nada sobre si e sem nada sobre que ficheiros abre.
-Não descarrega nem instala nada por si próprio.
+conta nem servidor nosso.
+Uma coisa sai: ao arrancar, o programa verifica se saiu uma versão mais
+recente, para lho poder dizer na barra inferior. É tudo — uma pergunta,
+sem nada sobre si e sem nada sobre que ficheiros abre. Não descarrega
+nem instala nada por si próprio.
 Se nem isso quiser, clique no número de versão na barra inferior e
 retire o visto de «Procurar automaticamente ao arrancar». A partir daí
 não sai nada, nunca.

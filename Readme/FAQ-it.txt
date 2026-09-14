@@ -11,12 +11,12 @@ informazioni» e poi «Esegui comunque». Succede solo la prima volta.
 
 Viene mandato qualcosa su internet?
 -----------------------------------
-I tuoi file, mai. Non viene caricato nulla da nessuna parte, non c'è
-un account e non c'è un server.
-Una cosa sola esce: all'avvio il programma chiede a GitHub se è uscita
-una versione più recente, per potertelo dire nella barra in basso.
-Tutto qui — una domanda, senza niente su di te e senza niente su quali
-file apri. Non scarica e non installa nulla da solo.
+I tuoi file, mai. Non viene caricato nulla da nessuna parte, non c'è un
+account né un server nostro.
+Una cosa sola esce: all'avvio il programma verifica se è uscita una
+versione più recente, per potertelo dire nella barra in basso. Tutto
+qui — una domanda, senza niente su di te e senza niente su quali file
+apri. Non scarica e non installa nulla da solo.
 Se non vuoi nemmeno questo, fai clic sul numero di versione in basso e
 togli la spunta a «Cerca automaticamente all'avvio». Allora non esce
 più niente, mai.

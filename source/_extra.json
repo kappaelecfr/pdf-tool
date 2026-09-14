@@ -483,16 +483,16 @@
   "pt": "Sem sugestões",
   "ru": "Нет вариантов"
  },
- "Nu am putut verifica. Ești offline sau GitHub nu răspunde.": {
-  "de": "Die Prüfung war nicht möglich. Sie sind offline, oder GitHub antwortet nicht.",
-  "en": "Could not check. You are offline, or GitHub is not answering.",
-  "es": "No se pudo comprobar. Estás sin conexión, o GitHub no responde.",
-  "fr": "Vérification impossible. Vous êtes hors ligne, ou GitHub ne répond pas.",
-  "it": "Non ho potuto verificare. Sei offline, oppure GitHub non risponde.",
-  "nl": "Kon niet controleren. U bent offline, of GitHub antwoordt niet.",
-  "pl": "Nie udało się sprawdzić. Jesteś offline albo GitHub nie odpowiada.",
-  "pt": "Não foi possível verificar. Está sem ligação, ou o GitHub não responde.",
-  "ru": "Проверить не удалось. Вы не в сети, либо GitHub не отвечает."
+ "Nu am putut verifica. Ești offline sau serverul nu răspunde.": {
+  "de": "Die Prüfung war nicht möglich. Sie sind offline, oder der Server antwortet nicht.",
+  "en": "Could not check. You are offline, or the server is not answering.",
+  "es": "No se pudo comprobar. Estás sin conexión, o el servidor no responde.",
+  "fr": "Vérification impossible. Vous êtes hors ligne, ou le serveur ne répond pas.",
+  "it": "Non ho potuto verificare. Sei offline, oppure il server non risponde.",
+  "nl": "Kon niet controleren. U bent offline, of de server antwoordt niet.",
+  "pl": "Nie udało się sprawdzić. Jesteś offline albo serwer nie odpowiada.",
+  "pt": "Não foi possível verificar. Está sem ligação, ou o servidor não responde.",
+  "ru": "Проверить не удалось. Вы не в сети, либо сервер не отвечает."
  },
  "Pagina %d: „%s” → „%s”": {
   "de": "Seite %d: „%s“ → „%s“",
@@ -538,16 +538,16 @@
   "pt": "Pode arrastar o texto escrito para o alinhar",
   "ru": "Написанный текст можно перетащить, чтобы выровнять"
  },
- "Programul întreabă GitHub dacă a apărut o versiune mai nouă. Atât pleacă de pe calculator: o întrebare. Nimic despre tine și nimic despre fișierele tale. Nu descarcă și nu instalează nimic — hotărăști tu.": {
-  "de": "Das Programm fragt bei GitHub nach, ob eine neuere Version erschienen ist. Mehr verlässt den Rechner nicht: eine Frage. Nichts über Sie und nichts über Ihre Dateien. Es lädt nichts herunter und installiert nichts — Sie entscheiden.",
-  "en": "The program asks GitHub whether a newer version has come out. That is all that leaves the computer: one question. Nothing about you and nothing about your files. It downloads nothing and installs nothing — you decide.",
-  "es": "El programa pregunta a GitHub si ha salido una versión más reciente. Eso es todo lo que sale del ordenador: una pregunta. Nada sobre ti y nada sobre tus archivos. No descarga ni instala nada: decides tú.",
-  "fr": "Le programme demande à GitHub si une version plus récente est parue. C'est tout ce qui quitte l'ordinateur : une question. Rien sur vous et rien sur vos fichiers. Il ne télécharge ni n'installe rien — c'est vous qui décidez.",
-  "it": "Il programma chiede a GitHub se è uscita una versione più recente. È tutto ciò che lascia il computer: una domanda. Niente su di te e niente sui tuoi file. Non scarica e non installa nulla — decidi tu.",
-  "nl": "Het programma vraagt GitHub of er een nieuwere versie is verschenen. Meer verlaat de computer niet: één vraag. Niets over u en niets over uw bestanden. Het downloadt niets en installeert niets — u beslist.",
-  "pl": "Program pyta GitHuba, czy ukazała się nowsza wersja. Tylko tyle opuszcza komputer: jedno pytanie. Nic o tobie i nic o twoich plikach. Niczego nie pobiera ani nie instaluje — decydujesz ty.",
-  "pt": "O programa pergunta ao GitHub se saiu uma versão mais recente. É tudo o que sai do computador: uma pergunta. Nada sobre si e nada sobre os seus ficheiros. Não descarrega nem instala nada — decide você.",
-  "ru": "Программа спрашивает у GitHub, вышла ли более новая версия. Это всё, что покидает компьютер: один вопрос. Ничего о вас и ничего о ваших файлах. Она ничего не скачивает и не устанавливает — решаете вы."
+ "Programul verifică dacă a apărut o versiune mai nouă. Atât pleacă de pe calculator: o întrebare. Nimic despre tine și nimic despre fișierele tale. Nu descarcă și nu instalează nimic — hotărăști tu.": {
+  "de": "Das Programm prüft, ob eine neuere Version erschienen ist. Mehr verlässt den Rechner nicht: eine Frage. Nichts über Sie und nichts über Ihre Dateien. Es lädt nichts herunter und installiert nichts — Sie entscheiden.",
+  "en": "The program checks whether a newer version has come out. That is all that leaves the computer: one question. Nothing about you and nothing about your files. It downloads nothing and installs nothing — you decide.",
+  "es": "El programa comprueba si ha salido una versión más reciente. Eso es todo lo que sale del ordenador: una pregunta. Nada sobre ti y nada sobre tus archivos. No descarga ni instala nada: decides tú.",
+  "fr": "Le logiciel vérifie s'il existe une version plus récente. C'est tout ce qui quitte l'ordinateur : une question. Rien sur vous et rien sur vos fichiers. Il ne télécharge ni n'installe rien — c'est vous qui décidez.",
+  "it": "Il programma verifica se è uscita una versione più recente. È tutto ciò che lascia il computer: una domanda. Niente su di te e niente sui tuoi file. Non scarica e non installa nulla — decidi tu.",
+  "nl": "Het programma controleert of er een nieuwere versie is verschenen. Meer verlaat de computer niet: één vraag. Niets over u en niets over uw bestanden. Het downloadt niets en installeert niets — u beslist.",
+  "pl": "Program sprawdza, czy ukazała się nowsza wersja. Tylko tyle opuszcza komputer: jedno pytanie. Nic o tobie i nic o twoich plikach. Niczego nie pobiera ani nie instaluje — decydujesz ty.",
+  "pt": "O programa verifica se saiu uma versão mais recente. É tudo o que sai do computador: uma pergunta. Nada sobre si e nada sobre os seus ficheiros. Não descarrega nem instala nada — decide você.",
+  "ru": "Программа проверяет, вышла ли более новая версия. Это всё, что покидает компьютер: один вопрос. Ничего о вас и ничего о ваших файлах. Она ничего не скачивает и не устанавливает — решаете вы."
  },
  "Renunță la ștergere": {
   "de": "Löschen abbrechen",

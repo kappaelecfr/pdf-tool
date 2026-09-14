@@ -41,7 +41,7 @@ import update_check
 from faq import text_for as faq_text
 
 APP_NAME = "PDF Tool"
-APP_VER = "1.3.0"
+APP_VER = "1.3.1"
 # anul vine din ceasul calculatorului, deci se schimba singur
 COPYRIGHT = "Copyright \u00a9 KappaProject %d"
 
@@ -2142,8 +2142,8 @@ class PDFTool(_ROOT_BASE):
         tk.Label(f, text=COPYRIGHT % datetime.date.today().year, bg=PANEL,
                  fg=MUTED, font=("Segoe UI", 8)).pack(anchor="w", pady=(2, 12))
 
-        tk.Label(f, text=t("Programul întreabă GitHub dacă a apărut o versiune "
-                         "mai nouă. Atât pleacă de pe calculator: o întrebare. "
+        tk.Label(f, text=t("Programul verifică dacă a apărut o versiune mai "
+                         "nouă. Atât pleacă de pe calculator: o întrebare. "
                          "Nimic despre tine și nimic despre fișierele tale. Nu "
                          "descarcă și nu instalează nimic — hotărăști tu."),
                  bg=PANEL, fg=INK, font=("Segoe UI", 9), justify="left",
@@ -2161,7 +2161,7 @@ class PDFTool(_ROOT_BASE):
                     return
                 if versiune is False:
                     stare.config(text=t("Nu am putut verifica. Ești offline sau "
-                                      "GitHub nu răspunde."), fg=MUTED)
+                                      "serverul nu răspunde."), fg=MUTED)
                 elif versiune is None:
                     stare.config(text=t("Ești la zi. %s e cea mai nouă.") % APP_VER,
                                  fg=MUTED)

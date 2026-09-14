@@ -12,12 +12,12 @@ vez.
 
 ¿Se envía algo por internet?
 ----------------------------
-Tus archivos, nunca. No se sube nada a ninguna parte, no hay cuenta y
-no hay servidor.
-Una sola cosa sale: al arrancar, el programa pregunta a GitHub si ha
-salido una versión más reciente, para poder decírtelo en la barra
-inferior. Eso es todo — una pregunta, sin nada sobre ti y sin nada
-sobre qué archivos abres. No descarga ni instala nada por su cuenta.
+Tus archivos, nunca. No se sube nada a ninguna parte, no hay cuenta ni
+servidor nuestro.
+Una sola cosa sale: al arrancar, el programa comprueba si ha salido una
+versión más reciente, para poder decírtelo en la barra inferior. Eso es
+todo — una pregunta, sin nada sobre ti y sin nada sobre qué archivos
+abres. No descarga ni instala nada por su cuenta.
 Si ni siquiera quieres eso, pulsa el número de versión de la barra
 inferior y quita la casilla «Buscar automáticamente al arrancar».
 Entonces no sale nada, nunca.

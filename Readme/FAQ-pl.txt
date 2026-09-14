@@ -13,10 +13,10 @@ pierwszym razem.
 Czy coś idzie do internetu?
 ---------------------------
 Twoje pliki nigdy. Nic nigdzie się nie wysyła, nie ma konta ani
-serwera.
-Jedno jednak wychodzi: przy uruchomieniu program pyta GitHuba, czy
-ukazała się nowsza wersja, żeby móc ci to pokazać w dolnym pasku. Tyle
-— jedno pytanie, bez niczego o tobie i bez niczego o tym, jakie pliki
+naszego serwera.
+Jedno jednak wychodzi: przy uruchomieniu program sprawdza, czy ukazała
+się nowsza wersja, żeby móc ci to pokazać w dolnym pasku. Tyle — jedno
+pytanie, bez niczego o tobie i bez niczego o tym, jakie pliki
 otwierasz. Sam z siebie niczego nie pobiera ani nie instaluje.
 Jeśli nie chcesz nawet tego, kliknij numer wersji w dolnym pasku i
 odznacz „Sprawdzaj automatycznie przy uruchomieniu”. Wtedy nie wyjdzie
