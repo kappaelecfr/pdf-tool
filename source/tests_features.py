@@ -687,6 +687,51 @@ LG._write_cfg({})
 check(LG.check_updates() is True, "implicit e pornita")
 
 
+# ------------------------- [15] actualizarea nu mosteneste mediul PyInstaller
+print("[15] Ajutorul de actualizare porneste cu mediul curat")
+
+# Un program dezarhivat de PyInstaller isi lasa dosarul temporar in
+# _MEIPASS2. Daca ajutorul mosteneste variabila, programul nou pornit de el
+# isi cauta python3xx.dll in dosarul vechi, intre timp sters, si moare cu
+# "Failed to load Python DLL". S-a intamplat pe calculatorul proprietarului
+# la prima actualizare adevarata.
+import update_check as UC
+
+_vechi_mediu = dict(os.environ)
+os.environ["_MEIPASS2"] = r"C:\Temp\_MEI999"
+os.environ["_PYI_APPLICATION_HOME_DIR"] = r"C:\Temp\_MEI999"
+
+_d = tempfile.mkdtemp(prefix="pdft_env_")
+_raport = os.path.join(_d, "mediu.txt")
+_tinta = os.path.join(_d, "P.exe")
+_nou = os.path.join(_d, "nou.exe")
+io.open(_tinta, "wb").write(b"vechi")
+io.open(_nou, "wb").write(b"nou")
+
+_orig = UC.AJUTOR
+UC.AJUTOR = UC.AJUTOR.replace('start "" "%TINTA%"',
+                              'echo [%_MEIPASS2%][%_PYI_APPLICATION_HOME_DIR%] > "'
+                              + _raport + '"')
+try:
+    UC.inlocuieste_si_reporneste(_tinta, _nou)
+    for _ in range(60):
+        time.sleep(0.25)
+        if os.path.exists(_raport):
+            break
+finally:
+    UC.AJUTOR = _orig
+    os.environ.clear()
+    os.environ.update(_vechi_mediu)
+
+_vazut = io.open(_raport).read().strip() if os.path.exists(_raport) else "(nimic)"
+check("[][]" in _vazut, "ajutorul nu vede _MEIPASS2 si nici _PYI_* (a vazut %s)" % _vazut)
+check(io.open(_tinta, "rb").read() == b"nou", "fisierul a fost totusi schimbat")
+
+# comparatia de versiuni nu se pacaleste la etichete cu litere
+check(UC.mai_noua("1.5.0", "1.5.1") is True, "1.5.0 -> 1.5.1")
+check(UC.mai_noua("1.5.0", "1.10.0") is True, "1.5.0 -> 1.10.0")
+
+
 app.destroy()
 
 print("\n" + "=" * 58)

@@ -180,7 +180,17 @@ def inlocuieste_si_reporneste(tinta, nou):
     ajutor = os.path.join(tempfile.gettempdir(), "pdftool-update.cmd")
     with io.open(ajutor, "w", encoding="ascii", newline="\r\n") as fh:
         fh.write(AJUTOR)
+    # Programul dezarhivat cu PyInstaller isi lasa dosarul temporar intr-o
+    # variabila de mediu. Daca ajutorul o mosteneste, programul nou pornit de
+    # el crede ca e deja dezarhivat si isi cauta python3xx.dll in dosarul
+    # vechi — care intre timp a fost sters. De aici "Failed to load Python
+    # DLL". Pornim ajutorul cu mediul curatat de aceste urme.
+    mediu = dict(os.environ)
+    for cheie in list(mediu):
+        if cheie.startswith("_MEI") or cheie.startswith("_PYI"):
+            mediu.pop(cheie, None)
     subprocess.Popen(["cmd", "/c", ajutor, tinta, nou, vechi],
+                     env=mediu,
                      creationflags=getattr(subprocess, "CREATE_NO_WINDOW", 0)
                      | getattr(subprocess, "DETACHED_PROCESS", 0),
                      close_fds=True)
