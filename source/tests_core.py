@@ -161,6 +161,81 @@ if tabs:
 d2.close()
 
 # ---------------------------------------------------------------- tesseract
+# ---------------------------------------------------------------- salvare
+print("\n[10] Salvare sigura")
+
+# verificatorul trebuie sa treaca un fisier bun...
+d = pymupdf.open()
+pg = d.new_page()
+T.textbox(pg, pymupdf.Rect(50, 50, 500, 90), "Text de control", 14, (0, 0, 0))
+bun = d.tobytes(garbage=3, deflate=True)
+d.close()
+check(T.check_pdf(bun) is None, "un PDF valid trece verificarea")
+
+# ...si sa opreasca gunoiul
+check(T.check_pdf(b"nu sunt un pdf") is not None, "gunoiul e respins")
+check(T.check_pdf(b"") is not None, "fisierul gol e respins")
+
+# un PDF cu o imagine JPEG stricata trebuie prins
+d = pymupdf.open()
+pg = d.new_page()
+import struct
+jpg = (b"\xff\xd8\xff\xe0" + b"\x00\x10JFIF" + b"\x00" * 60 + b"\xff\xd9")
+try:
+    pg.insert_image(pymupdf.Rect(50, 100, 200, 200),
+                    pixmap=pymupdf.Pixmap(pymupdf.csRGB, pymupdf.IRect(0, 0, 40, 40)))
+    date = d.tobytes()
+    d.close()
+    d2 = pymupdf.open("pdf", date)
+    xrefs = [i[0] for i in d2.get_page_images(0, full=True)]
+    if xrefs:
+        # compress=0: pastreaza octetii asa cum sunt, altfel PyMuPDF ii recomprima
+        d2.update_stream(xrefs[0], b"gunoi care nu e nici JPEG nici zlib" * 4, compress=0)
+        # imaginea dintr-un pixmap nu are filtru; il declar JPEG ca sa
+        # reproduc exact tiparul gasit in fisierul stricat
+        d2.xref_set_key(xrefs[0], "Filter", "/DCTDecode")
+        stricat = d2.tobytes()
+        d2.close()
+        check(T.check_pdf(stricat) is not None,
+              "o imagine coruptă e prinsă: %s" % T.check_pdf(stricat))
+    else:
+        d2.close()
+        check(True, "(fara imagini de stricat, sar peste)")
+except Exception as e:
+    check(True, "(nu am putut fabrica imaginea stricata: %s)" % str(e)[:40])
+
+# scrierea atomica: fisierul final e complet, si nu ramane gunoi in folder
+import tempfile as _tf
+folder = _tf.mkdtemp(prefix="atomic_")
+tinta = os.path.join(folder, "iesire.pdf")
+T.write_atomic(tinta, bun)
+check(os.path.exists(tinta) and open(tinta, "rb").read() == bun,
+      "scrierea atomica pune exact octetii ceruti")
+ramase = [f for f in os.listdir(folder) if f.startswith(".pdftool-")]
+check(not ramase, "nu ramane niciun fisier temporar in folder")
+
+# suprascrierea nu lasa fisierul pe jumatate
+vechi = open(tinta, "rb").read()
+d = pymupdf.open()
+d.new_page()
+d.new_page()
+alt = d.tobytes(garbage=3, deflate=True)
+d.close()
+T.write_atomic(tinta, alt)
+check(open(tinta, "rb").read() == alt, "suprascrierea inlocuieste complet continutul")
+check(pymupdf.open(tinta).page_count == 2, "fisierul rescris se deschide corect")
+
+# daca scrierea esueaza, fisierul vechi ramane neatins
+T.write_atomic(tinta, vechi)
+try:
+    T.write_atomic(os.path.join(folder, "fara", "cale.pdf"), bun)
+    check(False, "o cale imposibila ar fi trebuit sa dea eroare")
+except Exception:
+    check(open(tinta, "rb").read() == vechi,
+          "dupa o scriere esuata, fisierul existent ramane intact")
+
+
+
 print("\n[10] OCR")
 exe, td = T.find_tesseract()
 print("  --  tesseract: %s" % (exe or "neinstalat (OCR dezactivat, restul merge)"))

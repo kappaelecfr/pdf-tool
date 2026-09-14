@@ -24,6 +24,7 @@ import os
 import re
 import sys
 import datetime
+import tempfile
 import csv
 import traceback
 import subprocess
@@ -36,7 +37,7 @@ from guide import text_for as guide_text
 from faq import text_for as faq_text
 
 APP_NAME = "PDF Tool"
-APP_VER = "1.0"
+APP_VER = "1.1.0"
 # anul vine din ceasul calculatorului, deci se schimba singur
 COPYRIGHT = "Copyright \u00a9 KappaProject %d"
 
@@ -72,7 +73,7 @@ except Exception:                      # fara drag & drop, restul merge la fel
     HAS_DND = False
 
 try:
-    from PIL import Image, ImageTk
+    from PIL import Image, ImageDraw, ImageTk
 except ImportError:
     _fatal(t("Lipseste biblioteca Pillow.\n\n"
            "Deschide Command Prompt si ruleaza:\n\n"
@@ -259,6 +260,58 @@ def rgb_to_hex(rgb):
     return "#%02x%02x%02x" % tuple(int(round(c * 255)) for c in rgb)
 
 
+def write_atomic(path, data):
+    """Scrie tot, sau nimic. Nu lasa niciodata fisierul pe jumatate scris."""
+    folder = os.path.dirname(os.path.abspath(path)) or "."
+    fd, tmp = tempfile.mkstemp(prefix=".pdftool-", suffix=".tmp", dir=folder)
+    try:
+        with os.fdopen(fd, "wb") as fh:
+            fh.write(data)
+            fh.flush()
+            os.fsync(fh.fileno())
+        os.replace(tmp, path)
+    except Exception:
+        try:
+            os.unlink(tmp)
+        except Exception:
+            pass
+        raise
+
+
+def check_pdf(data):
+    """Verifica un PDF proaspat scris. Returneaza None daca e bun,
+    altfel o descriere scurta a problemei."""
+    try:
+        doc = pymupdf.open("pdf", data)
+    except Exception as e:
+        return "fisierul nu se mai poate deschide (%s)" % e
+    try:
+        if doc.page_count < 1:
+            return "fisierul a ramas fara pagini"
+        for pno in range(doc.page_count):
+            page = doc.load_page(pno)
+            page.get_text("text")
+            for info in doc.get_page_images(pno, full=True):
+                xref = info[0]
+                try:
+                    filt = str(doc.xref_get_key(xref, "Filter")[1])
+                    raw = doc.xref_stream_raw(xref)
+                except Exception:
+                    return "o imagine de pe pagina %d nu se mai poate citi" % (pno + 1)
+                if "DCTDecode" in filt and not raw.startswith(b"\xff\xd8"):
+                    return "o imagine JPEG de pe pagina %d e coruptă" % (pno + 1)
+                if "FlateDecode" in filt and raw[:1] != b"\x78":
+                    return "o imagine comprimată de pe pagina %d e coruptă" % (pno + 1)
+    except Exception as e:
+        return "verificarea a eșuat (%s)" % e
+    finally:
+        try:
+            doc.close()
+        except Exception:
+            pass
+    return None
+
+
 def shrink_fonts(doc):
     """Pastreaza in fisier doar literele chiar folosite. Reduce mult marimea."""
     try:
@@ -325,6 +378,30 @@ def find_tesseract():
                 td = os.path.join(os.path.dirname(p), "tessdata")
             return p, (td if os.path.isdir(td) else None)
     return None, None
+
+
+def arrow_icon(master, spre_dreapta, culoare=(52, 62, 80), marime=17):
+    """O sageata curbata: anulare (spre stanga) sau refacere (spre dreapta).
+
+    Simbolurile Unicode de undo/redo lipsesc din Segoe UI si Windows le
+    inlocuieste cu doua arcuri care arata identic. Desenate aici, arata
+    la fel pe orice calculator.
+    """
+    S = marime * 4
+    im = Image.new("RGBA", (S, S), (0, 0, 0, 0))
+    d = ImageDraw.Draw(im)
+    # gros si cu varf mare: la 17 px o linie subtire dispare
+    gros = max(3, int(S * 0.16))
+    d.arc([S * 0.14, S * 0.22, S * 0.86, S * 0.94], start=185, end=355,
+          fill=culoare + (255,), width=gros)
+    x = S * 0.86 if spre_dreapta else S * 0.14
+    y, h = S * 0.58, S * 0.30
+    if spre_dreapta:
+        varf = [(x + h * 0.45, y - h * 0.75), (x + h * 0.45, y + h * 0.55), (x - h * 0.85, y - h * 0.1)]
+    else:
+        varf = [(x - h * 0.45, y - h * 0.75), (x - h * 0.45, y + h * 0.55), (x + h * 0.85, y - h * 0.1)]
+    d.polygon(varf, fill=culoare + (255,))
+    return ImageTk.PhotoImage(im.resize((marime, marime), Image.LANCZOS), master=master)
 
 
 def human_size(n):
@@ -424,6 +501,7 @@ class PDFTool(_ROOT_BASE):
         self.zoom = None                # None = incadrat in fereastra
         self.edit_spans = []            # zonele de text de pe pagina curenta
         self.pan_from = None
+        self.src_broken = None          # fisierul era deja stricat la deschidere?
         self.stamp_path = None
         self._thumb_job = None
         self._preview_job = None
@@ -519,9 +597,13 @@ class PDFTool(_ROOT_BASE):
 
         ttk.Separator(bar, orient="vertical").pack(side="left", fill="y", padx=10, pady=4)
 
-        self.btn_undo = ttk.Button(bar, text=t("Anulează"), command=self.undo)
+        self.ico_undo = arrow_icon(self, False)
+        self.ico_redo = arrow_icon(self, True)
+        self.btn_undo = ttk.Button(bar, text=t("Anulează"), image=self.ico_undo,
+                                   compound="left", command=self.undo)
         self.btn_undo.pack(side="left")
-        self.btn_redo = ttk.Button(bar, text=t("Refă"), command=self.redo)
+        self.btn_redo = ttk.Button(bar, text=t("Refă"), image=self.ico_redo,
+                                   compound="left", command=self.redo)
         self.btn_redo.pack(side="left", padx=(6, 0))
 
         ttk.Separator(bar, orient="vertical").pack(side="left", fill="y", padx=10, pady=4)
@@ -936,7 +1018,8 @@ class PDFTool(_ROOT_BASE):
         self.btn_apply_text = ttk.Button(row, text=t("Aplică modificarea"),
                                          style="Accent.TButton", command=self.op_apply_text)
         self.btn_apply_text.pack(side="left", fill="x", expand=True)
-        ttk.Button(row, text=t("Renunță"), command=self.clear_edit).pack(side="left", padx=(6, 0))
+        ttk.Button(row, text=t("Aruncă"),
+                   command=self.discard_edit).pack(side="left", padx=(6, 0))
 
         b = self._section(f, t("Caută și înlocuiește"),
                           t("Înlocuiește un text în tot documentul sau doar în paginile selectate."))
@@ -1081,7 +1164,11 @@ class PDFTool(_ROOT_BASE):
         if not self.confirm_discard():
             return
         try:
-            doc = pymupdf.open(path)
+            # citim tot in memorie: documentul nu ramane legat de fisierul
+            # de pe disc, deci salvarea peste el nu-l poate desincroniza
+            with open(path, "rb") as fh:
+                raw = fh.read()
+            doc = pymupdf.open("pdf", raw)
         except Exception as e:
             messagebox.showerror(APP_NAME, t("Nu pot deschide fișierul:\n\n%s") % e)
             return
@@ -1097,6 +1184,7 @@ class PDFTool(_ROOT_BASE):
                 self.doc.close()
             except Exception:
                 pass
+        self.src_broken = check_pdf(raw)
         self.doc = doc
         self.path = path
         self.dirty = False
@@ -1110,6 +1198,13 @@ class PDFTool(_ROOT_BASE):
         self.render_preview()
         self._update_state()
         self.status(t("Deschis: %s — %d pagini") % (os.path.basename(path), self.npages))
+        if self.src_broken:
+            messagebox.showwarning(
+                APP_NAME,
+                t("Fișierul are o problemă încă dinainte de a-l deschide:\n\n%s\n\n"
+                  "Poți lucra pe el, dar unele programe îl pot refuza. "
+                  "Salvează-l sub alt nume, ca să păstrezi originalul.")
+                % self.src_broken)
 
     def cmd_close_doc(self):
         if not self.doc:
@@ -1134,6 +1229,7 @@ class PDFTool(_ROOT_BASE):
     def cmd_save(self):
         if not self.need_doc():
             return
+        self.commit_pending_edit()
         if not self.path:
             return self.cmd_save_as()
         try:
@@ -1143,8 +1239,15 @@ class PDFTool(_ROOT_BASE):
                     fdst.write(fsrc.read())
             shrink_fonts(self.doc)
             data = self.doc.tobytes(garbage=3, deflate=True)
-            with open(self.path, "wb") as fh:
-                fh.write(data)
+            rau = check_pdf(data)
+            if rau and not self.src_broken:
+                # era bun cand l-am deschis: nu scriem ce am stricat noi
+                messagebox.showerror(APP_NAME, t("Nu pot salva:\n\n%s") % rau)
+                return
+            write_atomic(self.path, data)
+        except PermissionError:
+            messagebox.showerror(APP_NAME, t("Fișierul e deschis în alt program (de exemplu Acrobat).\n\nÎnchide-l acolo și încearcă din nou."))
+            return
         except Exception as e:
             messagebox.showerror(APP_NAME, t("Nu pot salva:\n\n%s") % e)
             return
@@ -1156,6 +1259,7 @@ class PDFTool(_ROOT_BASE):
     def cmd_save_as(self):
         if not self.need_doc():
             return
+        self.commit_pending_edit()
         base = os.path.splitext(os.path.basename(self.path or "document.pdf"))[0]
         p = filedialog.asksaveasfilename(
             title=t("Salvează ca"), defaultextension=".pdf",
@@ -1165,7 +1269,15 @@ class PDFTool(_ROOT_BASE):
             return
         try:
             shrink_fonts(self.doc)
-            self.doc.save(p, garbage=3, deflate=True)
+            data = self.doc.tobytes(garbage=3, deflate=True)
+            rau = check_pdf(data)
+            if rau and not self.src_broken:
+                messagebox.showerror(APP_NAME, t("Nu pot salva:\n\n%s") % rau)
+                return
+            write_atomic(p, data)
+        except PermissionError:
+            messagebox.showerror(APP_NAME, t("Fișierul e deschis în alt program (de exemplu Acrobat).\n\nÎnchide-l acolo și încearcă din nou."))
+            return
         except Exception as e:
             messagebox.showerror(APP_NAME, t("Nu pot salva:\n\n%s") % e)
             return
@@ -1290,7 +1402,7 @@ class PDFTool(_ROOT_BASE):
             card = tk.Frame(holder, bg=BORDER, bd=0,
                             highlightthickness=2, highlightbackground=PANEL)
             card.pack()
-            blank = tk.PhotoImage(width=THUMB_W, height=h)
+            blank = tk.PhotoImage(width=THUMB_W, height=h, master=self)
             lbl = tk.Label(card, image=blank, bg="#f4f5f7", width=THUMB_W, height=h,
                            cursor="hand2", bd=0)
             lbl._blank = blank
@@ -1340,7 +1452,7 @@ class PDFTool(_ROOT_BASE):
                 z = THUMB_W / max(1.0, page.rect.width)
                 pix = page.get_pixmap(matrix=pymupdf.Matrix(z, z), alpha=False)
                 img = Image.frombytes("RGB", (pix.width, pix.height), pix.samples)
-                ph = ImageTk.PhotoImage(img)
+                ph = ImageTk.PhotoImage(img, master=self.tcanvas)
                 self.thumb_imgs[i] = ph
                 lbl.config(image=ph, width=pix.width, height=pix.height)
             except Exception:
@@ -1419,6 +1531,7 @@ class PDFTool(_ROOT_BASE):
         i = max(0, min(self.npages - 1, i))
         if i == self.current:
             return
+        self.commit_pending_edit()
         self.current = i
         self.clear_edit()
         self.load_text_spans()
@@ -1464,7 +1577,7 @@ class PDFTool(_ROOT_BASE):
             z = self.zoom or self.fit_scale(page)
             pix = page.get_pixmap(matrix=pymupdf.Matrix(z, z), alpha=False)
             img = Image.frombytes("RGB", (pix.width, pix.height), pix.samples)
-            self.preview_img = ImageTk.PhotoImage(img)
+            self.preview_img = ImageTk.PhotoImage(img, master=self.pcanvas)
         except Exception:
             return
         cw = max(50, self.pcanvas.winfo_width())
@@ -1583,6 +1696,8 @@ class PDFTool(_ROOT_BASE):
                                               outline=ACCENT, width=2, tags="hover")
 
     def set_click_mode(self, mode):
+        if mode != "text" and self.click_mode == "text":
+            self.commit_pending_edit()
         self.click_mode = mode
         if mode == "text":
             self.btn_edit_mode.config(text=t("Oprește modul editare"))
@@ -2070,6 +2185,14 @@ class PDFTool(_ROOT_BASE):
         self.set_click_mode("text")
         self.status(t("Modul editare pornit — dă click pe textul din previzualizare."))
 
+    def discard_edit(self):
+        """Arunca ce e in caseta, fara sa aplice."""
+        avea = self.pending_edit()
+        self.clear_edit()
+        self.render_preview()
+        if avea:
+            self.status(t("Am aruncat modificarea nesalvată."))
+
     def clear_edit(self):
         self.edit_target = None
         try:
@@ -2078,9 +2201,31 @@ class PDFTool(_ROOT_BASE):
         except Exception:
             pass
 
+    def pending_edit(self):
+        """Textul din caseta difera de cel din pagina?"""
+        tgt = getattr(self, "edit_target", None)
+        if not tgt:
+            return False
+        try:
+            acum = self.txt_edit.get("1.0", "end").rstrip("\n")
+        except Exception:
+            return False
+        return acum != tgt["orig"]
+
+    def commit_pending_edit(self):
+        """Aplica modificarea lasata in caseta, daca exista.
+
+        Se cheama cand utilizatorul pleaca de pe textul curent: alt text,
+        alta pagina, iesire din modul editare. Asa nu se mai pierde nimic
+        din neatentie.
+        """
+        if self.pending_edit():
+            self.op_apply_text()
+
     def pick_text_at(self, page, x, y):
-        if not self.edit_spans:
-            self.load_text_spans()
+        # ce era in caseta se aplica, nu se arunca
+        self.commit_pending_edit()
+        self.load_text_spans()
         best = self._span_at(x, y)
         if not best:
             self.status(t("N-am găsit text acolo. Încearcă exact peste litere."))

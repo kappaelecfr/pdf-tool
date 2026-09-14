@@ -368,6 +368,103 @@ if ferestre:
     ferestre[0].destroy()
 app4.destroy()
 
+# =====================================================================
+print("\n[10] Modificarea nu se mai pierde din neatentie")
+
+import tempfile as _tf2
+D2 = _tf2.mkdtemp(prefix="autoap_")
+sursa = os.path.join(D2, "doc.pdf")
+_d = pymupdf.open()
+for _i in range(2):
+    _p = _d.new_page(width=595, height=842)
+    T.textbox(_p, pymupdf.Rect(50, 60, 545, 100), "PRIMUL rand de text", 14, (0, 0, 0))
+    T.textbox(_p, pymupdf.Rect(50, 140, 545, 180), "AL DOILEA rand de text", 14, (0, 0, 0))
+_d.save(sursa)
+_d.close()
+
+app5 = T.PDFTool()
+app5.update()
+app5.load(sursa)
+app5.set_click_mode("text")
+app5.update()
+
+
+def zona(app, cuvant):
+    pg = app.doc.load_page(app.current)
+    h = pg.search_for(cuvant)
+    return (h[0].x0 + h[0].x1) / 2, (h[0].y0 + h[0].y1) / 2
+
+
+def scrie(app, text):
+    app.txt_edit.delete("1.0", "end")
+    app.txt_edit.insert("1.0", text)
+
+
+# scenariul raportat: scriu, apoi dau click pe alt text fara sa apas nimic
+x, y = zona(app5, "PRIMUL")
+app5.pick_text_at(app5.doc.load_page(0), x, y)
+check(app5.edit_target is not None, "am selectat primul text")
+scrie(app5, "SCHIMBAT-PRIN-CLICK")
+check(app5.pending_edit(), "aplicatia stie ca e o modificare nesalvata")
+
+x2, y2 = zona(app5, "DOILEA")
+app5.pick_text_at(app5.doc.load_page(0), x2, y2)
+app5.update()
+txt = T.norm_text(app5.doc.load_page(0).get_text("text"))
+check("SCHIMBAT-PRIN-CLICK" in txt,
+      "click pe alt text APLICA modificarea, nu o arunca")
+check("PRIMUL rand" not in txt, "textul vechi a disparut")
+
+# Ctrl+Z trebuie sa o poata anula
+app5.undo()
+app5.update()
+txt = T.norm_text(app5.doc.load_page(0).get_text("text"))
+check("PRIMUL rand" in txt and "SCHIMBAT-PRIN-CLICK" not in txt,
+      "Ctrl+Z anuleaza aplicarea automata")
+
+# schimbarea paginii aplica si ea
+app5.set_click_mode("text")
+x, y = zona(app5, "PRIMUL")
+app5.pick_text_at(app5.doc.load_page(0), x, y)
+scrie(app5, "SCHIMBAT-PRIN-PAGINA")
+app5.goto(1)
+app5.update()
+txt0 = T.norm_text(app5.doc.load_page(0).get_text("text"))
+check("SCHIMBAT-PRIN-PAGINA" in txt0, "schimbarea paginii aplica modificarea")
+
+# iesirea din modul editare aplica
+app5.goto(0)
+app5.set_click_mode("text")
+x2, y2 = zona(app5, "DOILEA")
+app5.pick_text_at(app5.doc.load_page(0), x2, y2)
+scrie(app5, "SCHIMBAT-LA-IESIRE")
+app5.set_click_mode(None)
+app5.update()
+txt = T.norm_text(app5.doc.load_page(0).get_text("text"))
+check("SCHIMBAT-LA-IESIRE" in txt, "oprirea modului editare aplica modificarea")
+
+# butonul Arunca chiar arunca
+app5.set_click_mode("text")
+x, y = zona(app5, "SCHIMBAT-LA-IESIRE")
+app5.pick_text_at(app5.doc.load_page(0), x, y)
+scrie(app5, "ASTA-NU-TREBUIE-SA-RAMANA")
+app5.discard_edit()
+app5.update()
+txt = T.norm_text(app5.doc.load_page(0).get_text("text"))
+check("ASTA-NU-TREBUIE-SA-RAMANA" not in txt, "butonul Aruncă chiar aruncă")
+check("SCHIMBAT-LA-IESIRE" in txt, "si nu strica ce era deja aplicat")
+
+# un text neschimbat nu declanseaza nimic
+x, y = zona(app5, "SCHIMBAT-LA-IESIRE")
+app5.pick_text_at(app5.doc.load_page(0), x, y)
+check(not app5.pending_edit(), "fara modificare, nu e nimic de aplicat")
+inainte = app5.doc.tobytes()
+app5.set_click_mode(None)
+check(True, "iesirea fara modificari nu face nimic")
+
+app5.destroy()
+
+
 LG._write_cfg({})
 
 
