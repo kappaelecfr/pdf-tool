@@ -38,7 +38,7 @@ import spell
 from faq import text_for as faq_text
 
 APP_NAME = "PDF Tool"
-APP_VER = "1.1.1"
+APP_VER = "1.2.0"
 # anul vine din ceasul calculatorului, deci se schimba singur
 COPYRIGHT = "Copyright \u00a9 KappaProject %d"
 
@@ -224,6 +224,29 @@ def textbox(page, rect, text, fontsize, color=(0, 0, 0), kind="sans", align=0):
     return None
 
 
+def write_baseline(page, point, text, fontsize, color=(0, 0, 0), kind="sans",
+                   maxw=None):
+    """Scrie textul cu picioarele literelor exact pe linia data.
+
+    textbox() aseaza randul dupa inaltimea fontului nou, deci iese cu un
+    fir mai sus sau mai jos decat textul de langa el. Aici pornim de la
+    punctul de baza al textului vechi, asa cum il da PDF-ul, si randul
+    cade la fix. Daca nu incape in latimea ramasa, micsoram fontul.
+    """
+    font, path, name = pick_font(text, kind)
+    if path:
+        name = page_fontname(page, page.parent, name, text)
+    size = float(fontsize)
+    if maxw and maxw > 0:
+        while size > 3 and font.text_length(text, size) > maxw:
+            size *= 0.96
+    kw = {"fontsize": size, "color": color, "fontname": name}
+    if path:
+        kw["fontfile"] = path
+    page.insert_text(pymupdf.Point(point[0], point[1]), text, **kw)
+    return size
+
+
 def write_line(page, point, text, fontsize, color=(0, 0, 0), kind="sans",
                angle=0, opacity=1.0, pivot=None):
     """Scrie o linie de text, cu rotatie si transparenta optionale."""
@@ -373,6 +396,23 @@ def apply_redactions(page):
             page.apply_redactions(images=0)
         except TypeError:
             page.apply_redactions()
+
+
+def erase_area(page, rect):
+    """Scoate din fisier tot ce se afla in dreptunghi.
+
+    Spre deosebire de apply_redactions, aici dispar si imaginile, si
+    desenele vectoriale — pentru coduri QR, sigle, stampile. Desenele
+    care doar ating marginea raman intregi, ca sa nu taiem chenarul
+    paginii sau liniile tabelului de alaturi.
+    """
+    page.add_redact_annot(rect, fill=False)
+    try:
+        page.apply_redactions(images=pymupdf.PDF_REDACT_IMAGE_REMOVE,
+                              graphics=pymupdf.PDF_REDACT_LINE_ART_REMOVE_IF_COVERED,
+                              text=pymupdf.PDF_REDACT_TEXT_REMOVE)
+    except (TypeError, AttributeError):
+        page.apply_redactions()
 
 
 def parse_ranges(s, total):
@@ -541,10 +581,12 @@ class PDFTool(_ROOT_BASE):
         self.preview_img = None
         self.preview_scale = 1.0
         self.preview_off = (0, 0)
-        self.click_mode = None          # None | "text" | "image"
+        self.click_mode = None          # None | "text" | "image" | "erase"
         self.zoom = None                # None = incadrat in fereastra
         self.edit_spans = []            # zonele de text de pe pagina curenta
         self.pan_from = None
+        self.erase_from = None          # coltul de unde trag dreptunghiul de sters
+        self.align_drag = None          # tragerea textului scris, ca sa-l aliniez
         self.src_broken = None          # fisierul era deja stricat la deschidere?
         self.speller = None             # corectorul Windows, daca exista dictionar
         self._spell_job = None
@@ -1184,6 +1226,18 @@ class PDFTool(_ROOT_BASE):
         ttk.Button(row, text=t("Aruncă"),
                    command=self.discard_edit).pack(side="left", padx=(6, 0))
 
+        row = tk.Frame(b, bg=PANEL)
+        row.pack(fill="x", pady=(6, 0))
+        tk.Label(row, text=t("Aliniere fină"), bg=PANEL, fg=MUTED,
+                 font=("Segoe UI", 8)).pack(side="left", padx=(0, 6))
+        for eticheta, dx, dy in (("\u2190", -0.25, 0), ("\u2192", 0.25, 0),
+                                 ("\u2191", 0, -0.25), ("\u2193", 0, 0.25)):
+            ttk.Button(row, text=eticheta, width=3,
+                       command=lambda a=dx, b2=dy: self.nudge_text(a, b2)).pack(
+                           side="left", padx=(0, 3))
+        tk.Label(row, text=t("mută textul scris"), bg=PANEL, fg=MUTED,
+                 font=("Segoe UI", 8)).pack(side="left", padx=(6, 0))
+
         b = self._section(f, t("Caută și înlocuiește"),
                           t("Înlocuiește un text în tot documentul sau doar în paginile selectate."))
         row = tk.Frame(b, bg=PANEL)
@@ -1218,6 +1272,17 @@ class PDFTool(_ROOT_BASE):
         self.e_redact.pack(side="left", fill="x", expand=True)
         ttk.Button(row, text=t("Ascunde"), style="Danger.TButton",
                    command=self.op_redact).pack(side="left", padx=(6, 0))
+
+        b = self._section(
+            f, t("Șterge o zonă din pagină"),
+            t("Pentru ce nu e text: cod QR, siglă, ștampilă. Trage un dreptunghi "
+            "peste zonă în previzualizare și dispare din fișier cu totul — nu e "
+            "doar acoperit."))
+        self.btn_erase = ttk.Button(b, text=t("Alege o zonă de șters"),
+                                    style="Danger.TButton", command=self.toggle_erase)
+        self.btn_erase.pack(fill="x")
+        tk.Label(b, text=t("Ce doar atinge marginea zonei rămâne întreg."),
+                 bg=PANEL, fg=MUTED, font=("Segoe UI", 8)).pack(anchor="w", pady=(4, 0))
 
     # -------------------------------------------------------------- TAB 4
 
@@ -1864,6 +1929,15 @@ class PDFTool(_ROOT_BASE):
             self.pcanvas.yview_scroll(int(-e.delta / 120), "units")
 
     def on_preview_press(self, e):
+        if self.click_mode == "erase":
+            self.erase_from = (self.pcanvas.canvasx(e.x), self.pcanvas.canvasy(e.y))
+            self.pcanvas.delete("erase")
+            return
+        if self.click_mode == "text" and self._peste_scrisul_meu(e):
+            # poate fi tragere, poate fi doar click: decidem la miscare
+            self.align_drag = {"de_la": (self.pcanvas.canvasx(e.x),
+                                         self.pcanvas.canvasy(e.y)), "mutat": False}
+            return
         if self.click_mode:
             self.on_preview_click(e)
             return
@@ -1872,10 +1946,51 @@ class PDFTool(_ROOT_BASE):
             self.pcanvas.scan_mark(e.x, e.y)
 
     def on_preview_drag(self, e):
+        if self.align_drag:
+            x0, y0 = self.align_drag["de_la"]
+            x1, y1 = self.pcanvas.canvasx(e.x), self.pcanvas.canvasy(e.y)
+            if abs(x1 - x0) > 3 or abs(y1 - y0) > 3:
+                self.align_drag["mutat"] = True
+            z = self._zona_scrisului()
+            if z is not None:
+                ox, oy = self.preview_off
+                m = self.preview_scale
+                self.pcanvas.delete("align")
+                self.pcanvas.create_rectangle(
+                    ox + z.x0 * m + (x1 - x0), oy + z.y0 * m + (y1 - y0),
+                    ox + z.x1 * m + (x1 - x0), oy + z.y1 * m + (y1 - y0),
+                    outline=ACCENT, width=2, dash=(3, 2), tags="align")
+            return
+        if self.erase_from:
+            x0, y0 = self.erase_from
+            self.pcanvas.delete("erase")
+            self.pcanvas.create_rectangle(
+                x0, y0, self.pcanvas.canvasx(e.x), self.pcanvas.canvasy(e.y),
+                outline=DANGER, width=2, dash=(4, 3), tags="erase")
+            return
         if self.pan_from:
             self.pcanvas.scan_dragto(e.x, e.y, gain=1)
 
     def on_preview_release(self, e):
+        if self.align_drag:
+            a = self.align_drag
+            self.align_drag = None
+            self.pcanvas.delete("align")
+            if not a["mutat"]:
+                self.on_preview_click(e)          # a fost doar un click
+                return
+            x0, y0 = a["de_la"]
+            m = self.preview_scale or 1
+            self.nudge_text((self.pcanvas.canvasx(e.x) - x0) / m,
+                            (self.pcanvas.canvasy(e.y) - y0) / m)
+            return
+        if self.erase_from:
+            x0, y0 = self.erase_from
+            self.erase_from = None
+            self.pcanvas.delete("erase")
+            self.erase_between(x0, y0, self.pcanvas.canvasx(e.x),
+                               self.pcanvas.canvasy(e.y))
+            return
         self.pan_from = None
 
     def on_preview_motion(self, e):
@@ -1898,6 +2013,38 @@ class PDFTool(_ROOT_BASE):
                                               ox + x1 * z + 2, oy + y1 * z + 2,
                                               outline=ACCENT, width=2, tags="hover")
 
+    def toggle_erase(self):
+        if not self.need_doc():
+            return
+        self.set_click_mode(None if self.click_mode == "erase" else "erase")
+
+    def erase_between(self, cx0, cy0, cx1, cy1):
+        """Sterge tot ce se afla in dreptunghiul tras pe previzualizare."""
+        if not self.doc:
+            return
+        x0, y0 = self.canvas_to_pdf(min(cx0, cx1), min(cy0, cy1))
+        x1, y1 = self.canvas_to_pdf(max(cx0, cx1), max(cy0, cy1))
+        page = self.doc.load_page(self.current)
+        r = pymupdf.Rect(x0, y0, x1, y1) & page.rect
+        if r.is_empty or r.width < 3 or r.height < 3:
+            self.status(t("Zona e prea mică. Trage un dreptunghi peste ce vrei să ștergi."))
+            return
+        if not messagebox.askyesno(
+                APP_NAME, t("Ștergi tot ce se află în zona aleasă?\n\n"
+                          "Dispar din fișier textul, imaginile și desenele dinăuntru — "
+                          "de exemplu un cod QR. Poți reveni cu butonul de anulare.")):
+            return
+        self.snapshot()
+        try:
+            erase_area(page, r)
+        except Exception as ex:
+            self.undo()
+            messagebox.showerror(APP_NAME, t("Eroare la ștergere:\n\n%s") % ex)
+            return
+        self.thumb_imgs.clear()
+        self.set_click_mode(None)
+        self.changed(t("Am șters zona aleasă de pe pagina %d.") % (self.current + 1))
+
     def set_click_mode(self, mode):
         if mode != "text" and self.click_mode == "text":
             self.commit_pending_edit()
@@ -1908,9 +2055,13 @@ class PDFTool(_ROOT_BASE):
         elif mode == "image":
             self.btn_place.config(text=t("Anulează plasarea"))
             self.lbl_hint.config(text=t("Click unde vrei imaginea"))
+        elif mode == "erase":
+            self.btn_erase.config(text=t("Renunță la ștergere"))
+            self.lbl_hint.config(text=t("Trage un dreptunghi peste ce vrei să ștergi"))
         else:
             self.btn_edit_mode.config(text=t("Pornește modul editare"))
             self.btn_place.config(text=t("Plasează prin click pe pagină"))
+            self.btn_erase.config(text=t("Alege o zonă de șters"))
             self.lbl_hint.config(text="")
         self.pcanvas.config(cursor="crosshair" if mode else "")
         self.load_text_spans()
@@ -2472,6 +2623,7 @@ class PDFTool(_ROOT_BASE):
             "font": best.get("font", ""),
             "color": int_color(best.get("color", 0)),
             "orig": norm_text(best.get("text", "")),
+            "origin": tuple(best.get("origin") or ()) or None,
         }
         self.txt_edit.delete("1.0", "end")
         self.txt_edit.insert("1.0", norm_text(best.get("text", "")))
@@ -2502,22 +2654,86 @@ class PDFTool(_ROOT_BASE):
             page.add_redact_annot(rect, fill=bg)
             apply_redactions(page)
             if new.strip():
-                grow = max(6.0, text_width(new, tgt["size"]) - rect.width + 6.0)
-                box = pymupdf.Rect(rect.x0 - 1, rect.y0 - 2,
-                                   min(page.rect.x1 - 2, rect.x1 + grow), rect.y1 + 3)
-                used = textbox(page, box, new, tgt["size"], tgt["color"],
-                               kind=font_kind_for(tgt["font"]))
-                if used is None:
-                    raise RuntimeError(t("Textul nou e prea lung pentru spațiul disponibil."))
+                org = tgt.get("origin")
+                if org:
+                    # exact pe linia de baza a textului vechi
+                    write_baseline(page, org, new, tgt["size"], tgt["color"],
+                                   kind=font_kind_for(tgt["font"]),
+                                   maxw=page.rect.x1 - 2 - org[0])
+                else:
+                    grow = max(6.0, text_width(new, tgt["size"]) - rect.width + 6.0)
+                    box = pymupdf.Rect(rect.x0 - 1, rect.y0 - 2,
+                                       min(page.rect.x1 - 2, rect.x1 + grow), rect.y1 + 3)
+                    used = textbox(page, box, new, tgt["size"], tgt["color"],
+                                   kind=font_kind_for(tgt["font"]))
+                    if used is None:
+                        raise RuntimeError(t("Textul nou e prea lung pentru spațiul disponibil."))
         except Exception as e:
             self.undo()
             messagebox.showerror(APP_NAME, t("Nu am putut înlocui textul:\n\n%s") % e)
             return
         self.thumb_imgs.pop(tgt["page"], None)
+        self.nudge_last = ({"page": tgt["page"], "rect": rect, "origin": tgt.get("origin"),
+                            "text": new, "size": tgt["size"], "color": tgt["color"],
+                            "font": tgt["font"], "dx": 0.0, "dy": 0.0}
+                           if tgt.get("origin") and new.strip() else None)
+        if self.nudge_last:
+            self.lbl_hint.config(text=t("Poți trage textul scris ca să-l aliniezi"))
         vechi_scurt = (tgt.get("orig") or "").strip()[:32]
         nou_scurt = new.strip()[:32] or t("(nimic)")
         self.clear_edit()
         self.changed(t("Pagina %d: „%s” → „%s”") % (tgt["page"] + 1, vechi_scurt, nou_scurt))
+
+    def _zona_scrisului(self):
+        """Dreptunghiul in care sta acum textul scris ultima data.
+
+        Textul nou poate fi mai lat decat cel vechi, deci nu ne luam doar
+        dupa chenarul vechi: masuram si latimea lui adevarata.
+        """
+        n = getattr(self, "nudge_last", None)
+        if not n or n["page"] != self.current:
+            return None
+        r = n["rect"]
+        lat = max(r.width, text_width(n["text"], n["size"], font_kind_for(n["font"])))
+        return pymupdf.Rect(r.x0 + n["dx"] - 2, r.y0 + n["dy"] - 2,
+                            r.x0 + n["dx"] + lat + 2, r.y1 + n["dy"] + 2)
+
+    def _peste_scrisul_meu(self, e):
+        """Apasarea cade peste textul scris ultima data?"""
+        z = self._zona_scrisului()
+        if z is None:
+            return False
+        x, y = self.canvas_to_pdf(self.pcanvas.canvasx(e.x), self.pcanvas.canvasy(e.y))
+        return z.contains(pymupdf.Point(x, y))
+
+    def nudge_text(self, dx, dy):
+        """Mut textul scris ultima data, ca sa cada exact pe rand."""
+        n = getattr(self, "nudge_last", None)
+        if not n or not self.doc:
+            self.status(t("Modifică întâi un text, apoi îl poți alinia."))
+            return
+        if not self.undo_stack:
+            return
+        # inapoi la pagina dinainte de scriere, fara sa umplem stiva de refacere
+        self._restore(self.undo_stack.pop())
+        n["dx"] += dx
+        n["dy"] += dy
+        self.snapshot()
+        page = self.doc.load_page(n["page"])
+        try:
+            page.add_redact_annot(n["rect"], fill=bg_color_at(page, n["rect"]))
+            apply_redactions(page)
+            org = (n["origin"][0] + n["dx"], n["origin"][1] + n["dy"])
+            write_baseline(page, org, n["text"], n["size"], n["color"],
+                           kind=font_kind_for(n["font"]),
+                           maxw=page.rect.x1 - 2 - org[0])
+        except Exception as e:
+            self.undo()
+            messagebox.showerror(APP_NAME, t("Nu am putut înlocui textul:\n\n%s") % e)
+            return
+        self.thumb_imgs.pop(n["page"], None)
+        self.changed(t("Aliniere: %+.2f pe orizontală, %+.2f pe verticală.")
+                     % (n["dx"], n["dy"]))
 
     def _replace_scope(self):
         return self.target_pages(self.v_repl_scope)
@@ -2570,7 +2786,7 @@ class PDFTool(_ROOT_BASE):
                 info = []
                 d = page.get_text("dict")
                 for r in rects:
-                    size, color, font = 11.0, (0, 0, 0), ""
+                    size, color, font, baza = 11.0, (0, 0, 0), "", None
                     for blk in d.get("blocks", []):
                         if blk.get("type") != 0:
                             continue
@@ -2581,17 +2797,26 @@ class PDFTool(_ROOT_BASE):
                                     size = span.get("size", 11)
                                     color = int_color(span.get("color", 0))
                                     font = span.get("font", "")
+                                    org = span.get("origin")
+                                    # acelasi rand, dar de unde incepe potrivirea
+                                    if org:
+                                        baza = (r.x0, org[1])
                                     break
-                    info.append((r, size, color, font, bg_color_at(page, r)))
-                for r, size, color, font, bg in info:
+                    info.append((r, size, color, font, bg_color_at(page, r), baza))
+                for r, size, color, font, bg, baza in info:
                     page.add_redact_annot(r, fill=bg)
                 apply_redactions(page)
-                for r, size, color, font, bg in info:
+                for r, size, color, font, bg, baza in info:
                     if new.strip():
-                        grow = max(4.0, text_width(new, size) - r.width + 4.0)
-                        box = pymupdf.Rect(r.x0 - 1, r.y0 - 2,
-                                           min(page.rect.x1 - 2, r.x1 + grow), r.y1 + 3)
-                        textbox(page, box, new, size, color, kind=font_kind_for(font))
+                        if baza:
+                            write_baseline(page, baza, new, size, color,
+                                           kind=font_kind_for(font),
+                                           maxw=page.rect.x1 - 2 - baza[0])
+                        else:
+                            grow = max(4.0, text_width(new, size) - r.width + 4.0)
+                            box = pymupdf.Rect(r.x0 - 1, r.y0 - 2,
+                                               min(page.rect.x1 - 2, r.x1 + grow), r.y1 + 3)
+                            textbox(page, box, new, size, color, kind=font_kind_for(font))
                     count += 1
         except Exception as e:
             pr.close()
