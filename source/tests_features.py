@@ -709,8 +709,9 @@ io.open(_tinta, "wb").write(b"vechi")
 io.open(_nou, "wb").write(b"nou")
 
 _orig = UC.AJUTOR
-UC.AJUTOR = UC.AJUTOR.replace('start "" "%TINTA%"',
-                              'echo [%_MEIPASS2%][%_PYI_APPLICATION_HOME_DIR%] > "'
+UC.AJUTOR = UC.AJUTOR.replace(':eliberat',
+                              ':eliberat' + chr(10)
+                              + 'echo [%_MEIPASS2%][%_PYI_APPLICATION_HOME_DIR%] > "'
                               + _raport + '"')
 try:
     UC.inlocuieste_si_reporneste(_tinta, _nou)
@@ -726,6 +727,7 @@ finally:
 _vazut = io.open(_raport).read().strip() if os.path.exists(_raport) else "(nimic)"
 check("[][]" in _vazut, "ajutorul nu vede _MEIPASS2 si nici _PYI_* (a vazut %s)" % _vazut)
 check(io.open(_tinta, "rb").read() == b"nou", "fisierul a fost totusi schimbat")
+check("start " not in UC.AJUTOR, "ajutorul nu porneste programul inapoi")
 
 # comparatia de versiuni nu se pacaleste la etichete cu litere
 check(UC.mai_noua("1.5.0", "1.5.1") is True, "1.5.0 -> 1.5.1")

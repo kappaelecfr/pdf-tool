@@ -41,7 +41,7 @@ import update_check
 from faq import text_for as faq_text
 
 APP_NAME = "PDF Tool"
-APP_VER = "1.5.1"
+APP_VER = "1.6.0"
 # anul vine din ceasul calculatorului, deci se schimba singur
 COPYRIGHT = "Copyright \u00a9 KappaProject %d"
 
@@ -1274,7 +1274,8 @@ class PDFTool(_ROOT_BASE):
         for eticheta, dx, dy in (("\u2190", -0.5, 0), ("\u2192", 0.5, 0),
                                  ("\u2191", 0, -0.5), ("\u2193", 0, 0.5)):
             ttk.Button(row, text=eticheta, width=3,
-                       command=lambda a=dx, b2=dy: self.nudge_text(a, b2)).pack(
+                       command=lambda a=dx, b2=dy: self.nudge_text(
+                           a * self._pas_aliniere(), b2 * self._pas_aliniere())).pack(
                            side="left", padx=(0, 3))
         tk.Label(row, text=t("mută textul scris"), bg=PANEL, fg=MUTED,
                  font=("Segoe UI", 8)).pack(side="left", padx=(6, 0))
@@ -2169,9 +2170,10 @@ class PDFTool(_ROOT_BASE):
                                           "gata făcut, nu când îl pornești din sursă."))
             return
         if not messagebox.askyesno(
-                APP_NAME, t("Descarc versiunea %s, apoi programul se închide și "
-                          "se redeschide singur.\n\nSalvează întâi ce ai de "
-                          "salvat. Continui?") % n[0]):
+                APP_NAME, t("Descarc versiunea %s, apoi programul se închide.\n\n"
+                          "După aceea îl deschizi din nou, ca de obicei — va fi "
+                          "versiunea nouă.\n\nSalvează întâi ce ai de salvat. "
+                          "Continui?") % n[0]):
             return
         if self.dirty and not self.confirm_discard():
             return
@@ -2216,6 +2218,9 @@ class PDFTool(_ROOT_BASE):
 
         try:
             update_check.inlocuieste_si_reporneste(sys.executable, catre)
+            messagebox.showinfo(APP_NAME, t("Gata. Programul se închide acum.\n\n"
+                                          "Deschide-l din nou și vei avea "
+                                          "versiunea %s.") % n[0])
         except Exception as e:
             messagebox.showerror(APP_NAME, t("Nu am putut porni actualizarea:"
                                            "\n\n%s") % e)
@@ -2948,6 +2953,16 @@ class PDFTool(_ROOT_BASE):
             return False
         x, y = self.canvas_to_pdf(self.pcanvas.canvasx(e.x), self.pcanvas.canvasy(e.y))
         return z.contains(pymupdf.Point(x, y))
+
+    def _pas_aliniere(self):
+        """Cat muta o apasare, in puncte PDF.
+
+        Doi pixeli de ecran la marirea de acum. Asa apasarea se vede
+        intotdeauna, iar daca vrei mai fin maresti pagina: cu cat te uiti
+        mai de aproape, cu atat pasul e mai mic.
+        """
+        z = getattr(self, "preview_scale", 1.0) or 1.0
+        return max(0.1, min(4.0, 2.0 / z))
 
     def nudge_text(self, dx, dy):
         """Mut textul scris ultima data, ca sa cada exact pe rand."""

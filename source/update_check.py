@@ -162,8 +162,7 @@ if errorlevel 1 (
   move /Y "%VECHI%" "%TINTA%" >nul 2>&1
   exit /b 1
 )
-start "" "%TINTA%"
-ping -n 3 127.0.0.1 >nul
+ping -n 2 127.0.0.1 >nul
 del "%VECHI%" >nul 2>&1
 (goto) 2>nul & del "%~f0"
 """
@@ -174,6 +173,12 @@ def inlocuieste_si_reporneste(tinta, nou):
 
     Se cheama chiar inainte de inchiderea ferestrei. Nu se intoarce cu
     nimic util: ori a pornit ajutorul, ori a crapat si spune de ce.
+
+    Ajutorul schimba fisierul si atat — nu porneste programul inapoi.
+    Repornirea automata cadea cu „Failed to load Python DLL”: programul
+    proaspat pornit isi cauta biblioteca in dosarul temporar al celui
+    care tocmai se inchisese. Mai bine spunem omului sa redeschida decat
+    sa-i aratam o eroare pe care nu o poate intelege.
     """
     dosar = os.path.dirname(os.path.abspath(tinta)) or "."
     vechi = os.path.join(dosar, os.path.basename(tinta) + ".precedent")

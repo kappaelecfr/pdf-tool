@@ -307,16 +307,16 @@
   "pt": "O que faço com\n%s?",
   "ru": "Что сделать с\n%s?"
  },
- "Descarc versiunea %s, apoi programul se închide și se redeschide singur.\n\nSalvează întâi ce ai de salvat. Continui?": {
-  "de": "Version %s wird heruntergeladen, danach schließt sich das Programm und öffnet sich von selbst wieder.\n\nSpeichern Sie zuerst Ihre Arbeit. Fortfahren?",
-  "en": "Version %s will be downloaded, then the program closes and reopens by itself.\n\nSave your work first. Continue?",
-  "es": "Se descargará la versión %s y después el programa se cierra y se vuelve a abrir solo.\n\nGuarda antes tu trabajo. ¿Continuar?",
-  "fr": "La version %s va être téléchargée, puis le logiciel se ferme et se rouvre tout seul.\n\nEnregistrez d'abord votre travail. Continuer ?",
-  "it": "Scarico la versione %s, poi il programma si chiude e si riapre da solo.\n\nSalva prima il tuo lavoro. Continuare?",
-  "nl": "Versie %s wordt gedownload, daarna sluit het programma en gaat het vanzelf weer open.\n\nSla eerst uw werk op. Doorgaan?",
-  "pl": "Pobiorę wersję %s, a potem program zamknie się i sam otworzy ponownie.\n\nZapisz najpierw swoją pracę. Kontynuować?",
-  "pt": "A versão %s vai ser descarregada e depois o programa fecha-se e reabre sozinho.\n\nGuarde primeiro o seu trabalho. Continuar?",
-  "ru": "Версия %s будет загружена, затем программа закроется и сама откроется снова.\n\nСначала сохраните работу. Продолжить?"
+ "Descarc versiunea %s, apoi programul se închide.\n\nDupă aceea îl deschizi din nou, ca de obicei — va fi versiunea nouă.\n\nSalvează întâi ce ai de salvat. Continui?": {
+  "de": "Version %s wird heruntergeladen, danach schließt sich das Programm.\n\nAnschließend öffnen Sie es wie gewohnt wieder — es ist dann die neue Version.\n\nSpeichern Sie zuerst Ihre Arbeit. Fortfahren?",
+  "en": "Version %s will be downloaded, then the program closes.\n\nAfterwards you open it again as usual — it will be the new version.\n\nSave your work first. Continue?",
+  "es": "Se descargará la versión %s y después el programa se cierra.\n\nLuego lo abres de nuevo como siempre: será la versión nueva.\n\nGuarda antes tu trabajo. ¿Continuar?",
+  "fr": "La version %s va être téléchargée, puis le logiciel se ferme.\n\nVous le rouvrez ensuite comme d'habitude — ce sera la nouvelle version.\n\nEnregistrez d'abord votre travail. Continuer ?",
+  "it": "Scarico la versione %s, poi il programma si chiude.\n\nDopo lo riapri come al solito: sarà la versione nuova.\n\nSalva prima il tuo lavoro. Continuare?",
+  "nl": "Versie %s wordt gedownload, daarna sluit het programma.\n\nDaarna opent u het weer zoals gewoonlijk — dat is dan de nieuwe versie.\n\nSla eerst uw werk op. Doorgaan?",
+  "pl": "Pobiorę wersję %s, a potem program się zamknie.\n\nPotem otworzysz go znowu jak zwykle — to będzie nowa wersja.\n\nZapisz najpierw swoją pracę. Kontynuować?",
+  "pt": "A versão %s vai ser descarregada e depois o programa fecha-se.\n\nA seguir abre-o outra vez como de costume — será a versão nova.\n\nGuarde primeiro o seu trabalho. Continuar?",
+  "ru": "Версия %s будет загружена, затем программа закроется.\n\nПосле этого откройте её снова, как обычно, — это будет новая версия.\n\nСначала сохраните работу. Продолжить?"
  },
  "Descarc versiunea %s…": {
   "de": "Version %s wird heruntergeladen…",
@@ -493,6 +493,17 @@
   "pl": "Plik jest otwarty w innym programie (na przykład w Acrobacie).\n\nZamknij go tam i spróbuj ponownie.",
   "pt": "O ficheiro está aberto noutro programa (o Acrobat, por exemplo).\n\nFeche-o aí e tente de novo.",
   "ru": "Файл открыт в другой программе (например, в Acrobat).\n\nЗакройте его там и попробуйте снова."
+ },
+ "Gata. Programul se închide acum.\n\nDeschide-l din nou și vei avea versiunea %s.": {
+  "de": "Fertig. Das Programm schließt sich jetzt.\n\nÖffnen Sie es wieder, dann haben Sie Version %s.",
+  "en": "Done. The program is closing now.\n\nOpen it again and you will have version %s.",
+  "es": "Listo. El programa se cierra ahora.\n\nÁbrelo de nuevo y tendrás la versión %s.",
+  "fr": "Terminé. Le logiciel se ferme maintenant.\n\nRouvrez-le et vous aurez la version %s.",
+  "it": "Fatto. Il programma si chiude ora.\n\nRiaprilo e avrai la versione %s.",
+  "nl": "Klaar. Het programma sluit nu.\n\nOpen het opnieuw en u hebt versie %s.",
+  "pl": "Gotowe. Program się teraz zamyka.\n\nOtwórz go ponownie, a będziesz mieć wersję %s.",
+  "pt": "Pronto. O programa fecha-se agora.\n\nAbra-o de novo e terá a versão %s.",
+  "ru": "Готово. Программа сейчас закроется.\n\nОткройте её снова — у вас будет версия %s."
  },
  "Imaginea e pregătită — dă click pe pagină ca s-o pui.": {
   "de": "Bild bereit — klicken Sie auf die Seite, um es zu setzen.",
