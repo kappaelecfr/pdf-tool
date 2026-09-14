@@ -15,8 +15,12 @@ raspunsul e stricat — se termina in tacere. Verificarea e un lux, nu o
 conditie ca programul sa mearga.
 """
 
+import io
 import json
+import os
 import re
+import subprocess
+import tempfile
 import threading
 import urllib.request
 
@@ -78,3 +82,103 @@ def cauta(actuala, gata, si_daca_e_la_zi=False, timeout=6):
             gata(None, None)
 
     threading.Thread(target=lucreaza, daemon=True).start()
+
+
+# --------------------------------------------------- descarcarea versiunii
+
+def fisierul_nou(actuala, timeout=6):
+    """(versiune, adresa_exe, marime) pentru ultima versiune, sau None."""
+    cerere = urllib.request.Request(API, headers={
+        "Accept": "application/vnd.github+json",
+        "User-Agent": "PDF-Tool/%s" % actuala,
+    })
+    with urllib.request.urlopen(cerere, timeout=timeout) as r:
+        d = json.load(r)
+    eticheta = (d.get("tag_name") or "").lstrip("vV").strip()
+    for a in d.get("assets") or []:
+        if (a.get("name") or "").lower().endswith(".exe"):
+            return eticheta, a.get("browser_download_url"), a.get("size") or 0
+    return None
+
+
+def descarca(adresa, catre, marime=0, progres=None, timeout=30):
+    """Ia fisierul bucata cu bucata, anuntand cat a venit.
+
+    `progres` primeste o valoare intre 0 si 1. Daca intoarce False,
+    descarcarea se opreste si fisierul pe jumatate se sterge.
+    """
+    cerere = urllib.request.Request(adresa, headers={"User-Agent": "PDF-Tool"})
+    luat = 0
+    try:
+        with urllib.request.urlopen(cerere, timeout=timeout) as r:
+            total = marime or int(r.headers.get("Content-Length") or 0)
+            with io.open(catre, "wb") as fh:
+                while True:
+                    bucata = r.read(262144)
+                    if not bucata:
+                        break
+                    fh.write(bucata)
+                    luat += len(bucata)
+                    if progres and progres(luat / total if total else 0.0) is False:
+                        raise RuntimeError("oprit")
+    except Exception:
+        try:
+            os.remove(catre)
+        except Exception:
+            pass
+        raise
+    return luat
+
+
+def pare_program(cale, marime_asteptata=0):
+    """Fisierul descarcat chiar e un program Windows intreg?"""
+    try:
+        if marime_asteptata and os.path.getsize(cale) != marime_asteptata:
+            return False
+        with io.open(cale, "rb") as fh:
+            return fh.read(2) == b"MZ"
+    except Exception:
+        return False
+
+
+AJUTOR = """@echo off
+setlocal
+set "TINTA=%~1"
+set "NOU=%~2"
+set "VECHI=%~3"
+set /a N=0
+:incearca
+set /a N+=1
+move /Y "%TINTA%" "%VECHI%" >nul 2>&1
+if not errorlevel 1 goto eliberat
+if %N% GEQ 90 exit /b 1
+ping -n 2 127.0.0.1 >nul
+goto incearca
+:eliberat
+move /Y "%NOU%" "%TINTA%" >nul 2>&1
+if errorlevel 1 (
+  move /Y "%VECHI%" "%TINTA%" >nul 2>&1
+  exit /b 1
+)
+start "" "%TINTA%"
+ping -n 3 127.0.0.1 >nul
+del "%VECHI%" >nul 2>&1
+(goto) 2>nul & del "%~f0"
+"""
+
+
+def inlocuieste_si_reporneste(tinta, nou):
+    """Lasa in urma un ajutor care schimba programul dupa ce se inchide.
+
+    Se cheama chiar inainte de inchiderea ferestrei. Nu se intoarce cu
+    nimic util: ori a pornit ajutorul, ori a crapat si spune de ce.
+    """
+    dosar = os.path.dirname(os.path.abspath(tinta)) or "."
+    vechi = os.path.join(dosar, os.path.basename(tinta) + ".precedent")
+    ajutor = os.path.join(tempfile.gettempdir(), "pdftool-update.cmd")
+    with io.open(ajutor, "w", encoding="ascii", newline="\r\n") as fh:
+        fh.write(AJUTOR)
+    subprocess.Popen(["cmd", "/c", ajutor, tinta, nou, vechi],
+                     creationflags=getattr(subprocess, "CREATE_NO_WINDOW", 0)
+                     | getattr(subprocess, "DETACHED_PROCESS", 0),
+                     close_fds=True)

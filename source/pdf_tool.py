@@ -41,7 +41,7 @@ import update_check
 from faq import text_for as faq_text
 
 APP_NAME = "PDF Tool"
-APP_VER = "1.3.1"
+APP_VER = "1.4.0"
 # anul vine din ceasul calculatorului, deci se schimba singur
 COPYRIGHT = "Copyright \u00a9 KappaProject %d"
 
@@ -590,6 +590,8 @@ class PDFTool(_ROOT_BASE):
         self.pan_from = None
         self.erase_from = None          # coltul de unde trag dreptunghiul de sters
         self.align_drag = None          # tragerea textului scris, ca sa-l aliniez
+        self.change_seq = 0             # a cata schimbare e cea de acum
+        self.nudge_last = None          # ce am scris ultima data, ca sa pot alinia
         self.src_broken = None          # fisierul era deja stricat la deschidere?
         self.speller = None             # corectorul Windows, daca exista dictionar
         self._spell_job = None
@@ -609,7 +611,7 @@ class PDFTool(_ROOT_BASE):
         if not guide_seen():
             self.after(500, self.first_run_guide)
         # intrebam abia dupa ce fereastra e pe ecran, si pe un fir separat
-        self.after(1500, self._start_update_check)
+        self._update_job = self.after(1500, self._start_update_check)
 
         self.protocol("WM_DELETE_WINDOW", self.on_close)
 
@@ -1245,8 +1247,8 @@ class PDFTool(_ROOT_BASE):
         row.pack(fill="x", pady=(6, 0))
         tk.Label(row, text=t("Aliniere fină"), bg=PANEL, fg=MUTED,
                  font=("Segoe UI", 8)).pack(side="left", padx=(0, 6))
-        for eticheta, dx, dy in (("\u2190", -0.25, 0), ("\u2192", 0.25, 0),
-                                 ("\u2191", 0, -0.25), ("\u2193", 0, 0.25)):
+        for eticheta, dx, dy in (("\u2190", -0.5, 0), ("\u2192", 0.5, 0),
+                                 ("\u2191", 0, -0.5), ("\u2193", 0, 0.5)):
             ttk.Button(row, text=eticheta, width=3,
                        command=lambda a=dx, b2=dy: self.nudge_text(a, b2)).pack(
                            side="left", padx=(0, 3))
@@ -1565,7 +1567,7 @@ class PDFTool(_ROOT_BASE):
 
     def _cancel_jobs(self):
         """Opreste sarcinile programate, ca sa nu se execute dupa inchidere."""
-        for nume in ("_spell_job", "_thumb_job", "_preview_job"):
+        for nume in ("_spell_job", "_thumb_job", "_preview_job", "_update_job"):
             job = getattr(self, nume, None)
             if job:
                 try:
@@ -1635,6 +1637,7 @@ class PDFTool(_ROOT_BASE):
 
     def changed(self, msg=""):
         self.dirty = True
+        self.change_seq += 1
         self.rebuild_thumbs()
         self.render_preview()
         self._update_state()
@@ -1948,7 +1951,9 @@ class PDFTool(_ROOT_BASE):
             self.erase_from = (self.pcanvas.canvasx(e.x), self.pcanvas.canvasy(e.y))
             self.pcanvas.delete("erase")
             return
-        if self.click_mode == "text" and self._peste_scrisul_meu(e):
+        if (self.click_mode == "text" and getattr(self, "nudge_last", None)
+                and self.nudge_last.get("seq") == self.change_seq
+                and self._peste_scrisul_meu(e)):
             # poate fi tragere, poate fi doar click: decidem la miscare
             self.align_drag = {"de_la": (self.pcanvas.canvasx(e.x),
                                          self.pcanvas.canvasy(e.y)), "mutat": False}
@@ -2127,6 +2132,86 @@ class PDFTool(_ROOT_BASE):
         except Exception:
             pass
 
+    def face_actualizarea(self, fereastra=None):
+        """Descarca versiunea noua, apoi inchide programul ca sa fie pusa.
+
+        Programul care ruleaza nu se poate inlocui pe el insusi: lasam
+        in urma un ajutor marunt care asteapta inchiderea, schimba
+        fisierul si porneste versiunea noua.
+        """
+        n = getattr(self, "nou_versiune", None)
+        if not n:
+            return
+        if not getattr(sys, "frozen", False):
+            messagebox.showinfo(APP_NAME, t("Actualizarea merge doar pe programul "
+                                          "gata făcut, nu când îl pornești din sursă."))
+            return
+        if not messagebox.askyesno(
+                APP_NAME, t("Descarc versiunea %s, apoi programul se închide și "
+                          "se redeschide singur.\n\nSalvează întâi ce ai de "
+                          "salvat. Continui?") % n[0]):
+            return
+        if self.dirty and not self.confirm_discard():
+            return
+
+        try:
+            info = update_check.fisierul_nou(APP_VER)
+        except Exception:
+            info = None
+        if not info or not info[1]:
+            messagebox.showerror(APP_NAME, t("Nu am putut lua versiunea nouă. "
+                                           "Încearcă mai târziu."))
+            return
+        _, adresa, marime = info
+
+        pr = Progress(self, t("Descarc versiunea %s…") % n[0], 100)
+        catre = os.path.join(tempfile.gettempdir(), "PDF-Tool-nou.exe")
+
+        def pas(parte):
+            try:
+                return pr.step(int(parte * 100))
+            except Exception:
+                return False
+
+        try:
+            update_check.descarca(adresa, catre, marime, pas)
+        except Exception:
+            pr.close()
+            self.status(t("Descărcarea nu a reușit."))
+            self._ofera_manual()
+            return
+        pr.close()
+
+        if not update_check.pare_program(catre, marime):
+            try:
+                os.remove(catre)
+            except Exception:
+                pass
+            messagebox.showerror(APP_NAME, t("Fișierul descărcat nu e întreg. "
+                                           "Nu l-am pus."))
+            self._ofera_manual()
+            return
+
+        try:
+            update_check.inlocuieste_si_reporneste(sys.executable, catre)
+        except Exception as e:
+            messagebox.showerror(APP_NAME, t("Nu am putut porni actualizarea:"
+                                           "\n\n%s") % e)
+            self._ofera_manual()
+            return
+        if fereastra is not None:
+            try:
+                fereastra.destroy()
+            except Exception:
+                pass
+        self.destroy()
+
+    def _ofera_manual(self):
+        """Doar cand actualizarea din program n-a mers."""
+        if messagebox.askyesno(APP_NAME, t("Vrei să deschid pagina de unde poți "
+                                         "descărca singur versiunea nouă?")):
+            self._deschide_versiunea()
+
     def show_about(self):
         """Ce versiune ruleaza, si ce pleaca de pe calculator."""
         w = tk.Toplevel(self)
@@ -2145,7 +2230,7 @@ class PDFTool(_ROOT_BASE):
         tk.Label(f, text=t("Programul verifică dacă a apărut o versiune mai "
                          "nouă. Atât pleacă de pe calculator: o întrebare. "
                          "Nimic despre tine și nimic despre fișierele tale. Nu "
-                         "descarcă și nu instalează nimic — hotărăști tu."),
+                         "descarcă nimic până nu apeși tu Actualizează."),
                  bg=PANEL, fg=INK, font=("Segoe UI", 9), justify="left",
                  wraplength=380).pack(anchor="w")
 
@@ -2180,8 +2265,9 @@ class PDFTool(_ROOT_BASE):
 
         ttk.Button(rand, text=t("Caută o versiune nouă acum"),
                    command=cauta_acum).pack(side="left")
-        b_desc = ttk.Button(rand, text=t("Deschide pagina de descărcare"),
-                            style="Accent.TButton", command=self._deschide_versiunea)
+        b_desc = ttk.Button(rand, text=t("Actualizează"),
+                            style="Accent.TButton",
+                            command=lambda: self.face_actualizarea(w))
 
         v = tk.BooleanVar(value=check_updates())
         ttk.Checkbutton(f, text=t("Caută automat la pornire"), variable=v,
@@ -2793,10 +2879,14 @@ class PDFTool(_ROOT_BASE):
             messagebox.showerror(APP_NAME, t("Nu am putut înlocui textul:\n\n%s") % e)
             return
         self.thumb_imgs.pop(tgt["page"], None)
+        # pastram chiar instantaneul luat inainte de scriere — aceeasi bucata
+        # de memorie ca in stiva de anulare, nu o a doua copie
         self.nudge_last = ({"page": tgt["page"], "rect": rect, "origin": tgt.get("origin"),
                             "text": new, "size": tgt["size"], "color": tgt["color"],
-                            "font": tgt["font"], "dx": 0.0, "dy": 0.0}
-                           if tgt.get("origin") and new.strip() else None)
+                            "font": tgt["font"], "dx": 0.0, "dy": 0.0,
+                            "snap": self.undo_stack[-1] if self.undo_stack else None,
+                            "seq": self.change_seq + 1}
+                           if tgt.get("origin") and new.strip() and self.undo_stack else None)
         if self.nudge_last:
             self.lbl_hint.config(text=t("Poți trage textul scris ca să-l aliniezi"))
         vechi_scurt = (tgt.get("orig") or "").strip()[:32]
@@ -2832,13 +2922,17 @@ class PDFTool(_ROOT_BASE):
         if not n or not self.doc:
             self.status(t("Modifică întâi un text, apoi îl poți alinia."))
             return
-        if not self.undo_stack:
+        if n.get("seq") != self.change_seq or not n.get("snap"):
+            # s-a mai intamplat ceva de atunci: mai bine spunem, decat sa stricam
+            self.nudge_last = None
+            self.status(t("Pot alinia doar textul scris ultima dată. "
+                        "Modifică-l din nou și apoi aliniază-l."))
             return
-        # inapoi la pagina dinainte de scriere, fara sa umplem stiva de refacere
-        self._restore(self.undo_stack.pop())
+        # inapoi la pagina dinainte de scriere; stiva de anulare ramane intacta,
+        # deci Ctrl+Z duce tot acolo, oricat ai alinia
+        self._restore(n["snap"])
         n["dx"] += dx
         n["dy"] += dy
-        self.snapshot()
         page = self.doc.load_page(n["page"])
         try:
             page.add_redact_annot(n["rect"], fill=bg_color_at(page, n["rect"]))
@@ -2848,12 +2942,14 @@ class PDFTool(_ROOT_BASE):
                            kind=font_kind_for(n["font"]),
                            maxw=page.rect.x1 - 2 - org[0])
         except Exception as e:
-            self.undo()
+            self.nudge_last = None
             messagebox.showerror(APP_NAME, t("Nu am putut înlocui textul:\n\n%s") % e)
             return
         self.thumb_imgs.pop(n["page"], None)
         self.changed(t("Aliniere: %+.2f pe orizontală, %+.2f pe verticală.")
                      % (n["dx"], n["dy"]))
+        n["seq"] = self.change_seq
+        self.nudge_last = n
 
     def _replace_scope(self):
         return self.target_pages(self.v_repl_scope)

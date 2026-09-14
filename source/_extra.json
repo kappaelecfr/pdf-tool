@@ -21,6 +21,28 @@
   "pt": "(nada)",
   "ru": "(ничего)"
  },
+ "Actualizarea merge doar pe programul gata făcut, nu când îl pornești din sursă.": {
+  "de": "Die Aktualisierung funktioniert nur beim fertigen Programm, nicht beim Start aus dem Quelltext.",
+  "en": "Updating works on the built program only, not when you run it from source.",
+  "es": "La actualización solo funciona en el programa compilado, no al ejecutarlo desde el código.",
+  "fr": "La mise à jour ne fonctionne que sur le logiciel compilé, pas lancé depuis les sources.",
+  "it": "L'aggiornamento funziona solo sul programma compilato, non avviandolo dai sorgenti.",
+  "nl": "Bijwerken werkt alleen bij het gebouwde programma, niet bij starten vanuit de broncode.",
+  "pl": "Aktualizacja działa tylko na gotowym programie, nie przy uruchamianiu ze źródeł.",
+  "pt": "A atualização só funciona no programa compilado, não ao executá-lo a partir do código.",
+  "ru": "Обновление работает только для собранной программы, а не при запуске из исходников."
+ },
+ "Actualizează": {
+  "de": "Aktualisieren",
+  "en": "Update",
+  "es": "Actualizar",
+  "fr": "Mettre à jour",
+  "it": "Aggiorna",
+  "nl": "Bijwerken",
+  "pl": "Zaktualizuj",
+  "pt": "Atualizar",
+  "ru": "Обновить"
+ },
  "Adaugă": {
   "de": "Hinzufügen",
   "en": "Add",
@@ -274,6 +296,28 @@
   "pt": "O que faço com\n%s?",
   "ru": "Что сделать с\n%s?"
  },
+ "Descarc versiunea %s, apoi programul se închide și se redeschide singur.\n\nSalvează întâi ce ai de salvat. Continui?": {
+  "de": "Version %s wird heruntergeladen, danach schließt sich das Programm und öffnet sich von selbst wieder.\n\nSpeichern Sie zuerst Ihre Arbeit. Fortfahren?",
+  "en": "Version %s will be downloaded, then the program closes and reopens by itself.\n\nSave your work first. Continue?",
+  "es": "Se descargará la versión %s y después el programa se cierra y se vuelve a abrir solo.\n\nGuarda antes tu trabajo. ¿Continuar?",
+  "fr": "La version %s va être téléchargée, puis le logiciel se ferme et se rouvre tout seul.\n\nEnregistrez d'abord votre travail. Continuer ?",
+  "it": "Scarico la versione %s, poi il programma si chiude e si riapre da solo.\n\nSalva prima il tuo lavoro. Continuare?",
+  "nl": "Versie %s wordt gedownload, daarna sluit het programma en gaat het vanzelf weer open.\n\nSla eerst uw werk op. Doorgaan?",
+  "pl": "Pobiorę wersję %s, a potem program zamknie się i sam otworzy ponownie.\n\nZapisz najpierw swoją pracę. Kontynuować?",
+  "pt": "A versão %s vai ser descarregada e depois o programa fecha-se e reabre sozinho.\n\nGuarde primeiro o seu trabalho. Continuar?",
+  "ru": "Версия %s будет загружена, затем программа закроется и сама откроется снова.\n\nСначала сохраните работу. Продолжить?"
+ },
+ "Descarc versiunea %s…": {
+  "de": "Version %s wird heruntergeladen…",
+  "en": "Downloading version %s…",
+  "es": "Descargando la versión %s…",
+  "fr": "Téléchargement de la version %s…",
+  "it": "Scarico la versione %s…",
+  "nl": "Versie %s wordt gedownload…",
+  "pl": "Pobieram wersję %s…",
+  "pt": "A descarregar a versão %s…",
+  "ru": "Загружаю версию %s…"
+ },
  "Deschide pagina de descărcare": {
   "de": "Die Downloadseite öffnen",
   "en": "Open the download page",
@@ -295,6 +339,17 @@
   "pl": "Otwórz",
   "pt": "Abri-lo",
   "ru": "Открыть его"
+ },
+ "Descărcarea nu a reușit.": {
+  "de": "Der Download ist nicht gelungen.",
+  "en": "The download did not succeed.",
+  "es": "La descarga no se completó.",
+  "fr": "Le téléchargement n'a pas abouti.",
+  "it": "Lo scaricamento non è riuscito.",
+  "nl": "Het downloaden is niet gelukt.",
+  "pl": "Pobieranie się nie powiodło.",
+  "pt": "O descarregamento não resultou.",
+  "ru": "Загрузка не удалась."
  },
  "Despre și actualizări": {
   "de": "Über das Programm und Aktualisierungen",
@@ -383,6 +438,17 @@
   "pl": "Ten plik miał problem już przed otwarciem:\n\n%s\n\nMożesz na nim pracować, ale niektóre programy mogą go odrzucić. Zapisz go pod inną nazwą, żeby zachować oryginał.",
   "pt": "Este ficheiro já tinha um problema antes de o abrir:\n\n%s\n\nPode trabalhar nele, mas alguns programas podem recusá-lo. Guarde-o com outro nome para manter o original.",
   "ru": "У этого файла была проблема ещё до открытия:\n\n%s\n\nРаботать с ним можно, но некоторые программы могут его не принять. Сохраните его под другим именем, чтобы сберечь оригинал."
+ },
+ "Fișierul descărcat nu e întreg. Nu l-am pus.": {
+  "de": "Die heruntergeladene Datei ist nicht vollständig. Sie wurde nicht eingesetzt.",
+  "en": "The downloaded file is not whole. It was not installed.",
+  "es": "El archivo descargado no está completo. No se ha instalado.",
+  "fr": "Le fichier téléchargé n'est pas entier. Il n'a pas été installé.",
+  "it": "Il file scaricato non è integro. Non è stato installato.",
+  "nl": "Het gedownloade bestand is niet compleet. Het is niet geïnstalleerd.",
+  "pl": "Pobrany plik nie jest kompletny. Nie został zainstalowany.",
+  "pt": "O ficheiro descarregado não está inteiro. Não foi instalado.",
+  "ru": "Загруженный файл неполон. Он не был установлен."
  },
  "Fișierul e deschis în alt program (de exemplu Acrobat), așa că NU a fost salvat.\n\nÎl salvez sub alt nume?": {
   "de": "Die Datei ist in einem anderen Programm geöffnet (zum Beispiel Acrobat) und wurde daher NICHT gespeichert.\n\nUnter einem anderen Namen speichern?",
@@ -483,6 +549,28 @@
   "pt": "Sem sugestões",
   "ru": "Нет вариантов"
  },
+ "Nu am putut lua versiunea nouă. Încearcă mai târziu.": {
+  "de": "Die neue Version konnte nicht geholt werden. Versuchen Sie es später.",
+  "en": "The new version could not be fetched. Try again later.",
+  "es": "No se pudo obtener la versión nueva. Inténtalo más tarde.",
+  "fr": "La nouvelle version n'a pas pu être récupérée. Réessayez plus tard.",
+  "it": "Non ho potuto prendere la versione nuova. Riprova più tardi.",
+  "nl": "De nieuwe versie kon niet worden opgehaald. Probeer het later.",
+  "pl": "Nie udało się pobrać nowej wersji. Spróbuj później.",
+  "pt": "Não foi possível obter a versão nova. Tente mais tarde.",
+  "ru": "Не удалось получить новую версию. Попробуйте позже."
+ },
+ "Nu am putut porni actualizarea:\n\n%s": {
+  "de": "Die Aktualisierung konnte nicht gestartet werden:\n\n%s",
+  "en": "The update could not be started:\n\n%s",
+  "es": "No se pudo iniciar la actualización:\n\n%s",
+  "fr": "La mise à jour n'a pas pu démarrer :\n\n%s",
+  "it": "Non ho potuto avviare l'aggiornamento:\n\n%s",
+  "nl": "De update kon niet worden gestart:\n\n%s",
+  "pl": "Nie udało się uruchomić aktualizacji:\n\n%s",
+  "pt": "Não foi possível iniciar a atualização:\n\n%s",
+  "ru": "Не удалось запустить обновление:\n\n%s"
+ },
  "Nu am putut verifica. Ești offline sau serverul nu răspunde.": {
   "de": "Die Prüfung war nicht möglich. Sie sind offline, oder der Server antwortet nicht.",
   "en": "Could not check. You are offline, or the server is not answering.",
@@ -516,6 +604,17 @@
   "pt": "Para o que não é texto: código QR, logótipo, carimbo. Arraste um retângulo sobre a zona na pré-visualização e ela desaparece por completo do ficheiro — não fica apenas tapada.",
   "ru": "Для того, что не является текстом: QR-код, логотип, печать. Выделите область прямоугольником в просмотре, и она полностью исчезнет из файла — а не просто окажется закрытой."
  },
+ "Pot alinia doar textul scris ultima dată. Modifică-l din nou și apoi aliniază-l.": {
+  "de": "Ausrichten lässt sich nur der zuletzt geschriebene Text. Ändern Sie ihn erneut und richten Sie ihn dann aus.",
+  "en": "Only the text written last can be aligned. Change it again, then align it.",
+  "es": "Solo se puede alinear el último texto escrito. Modifícalo de nuevo y luego alinéalo.",
+  "fr": "Seul le dernier texte écrit peut être aligné. Modifiez-le de nouveau, puis alignez-le.",
+  "it": "Si può allineare solo l'ultimo testo scritto. Modificalo di nuovo, poi allinealo.",
+  "nl": "Alleen de laatst geschreven tekst kan worden uitgelijnd. Wijzig hem opnieuw en lijn hem daarna uit.",
+  "pl": "Wyrównać można tylko ostatnio wpisany tekst. Zmień go ponownie, a potem wyrównaj.",
+  "pt": "Só o último texto escrito pode ser alinhado. Altere-o de novo e depois alinhe-o.",
+  "ru": "Выровнять можно только последний написанный текст. Измените его снова, затем выровняйте."
+ },
  "Pot folosi doar fișiere PDF și imagini.": {
   "de": "Ich kann nur PDF-Dateien und Bilder verwenden.",
   "en": "I can only use PDF files and images.",
@@ -538,16 +637,16 @@
   "pt": "Pode arrastar o texto escrito para o alinhar",
   "ru": "Написанный текст можно перетащить, чтобы выровнять"
  },
- "Programul verifică dacă a apărut o versiune mai nouă. Atât pleacă de pe calculator: o întrebare. Nimic despre tine și nimic despre fișierele tale. Nu descarcă și nu instalează nimic — hotărăști tu.": {
-  "de": "Das Programm prüft, ob eine neuere Version erschienen ist. Mehr verlässt den Rechner nicht: eine Frage. Nichts über Sie und nichts über Ihre Dateien. Es lädt nichts herunter und installiert nichts — Sie entscheiden.",
-  "en": "The program checks whether a newer version has come out. That is all that leaves the computer: one question. Nothing about you and nothing about your files. It downloads nothing and installs nothing — you decide.",
-  "es": "El programa comprueba si ha salido una versión más reciente. Eso es todo lo que sale del ordenador: una pregunta. Nada sobre ti y nada sobre tus archivos. No descarga ni instala nada: decides tú.",
-  "fr": "Le logiciel vérifie s'il existe une version plus récente. C'est tout ce qui quitte l'ordinateur : une question. Rien sur vous et rien sur vos fichiers. Il ne télécharge ni n'installe rien — c'est vous qui décidez.",
-  "it": "Il programma verifica se è uscita una versione più recente. È tutto ciò che lascia il computer: una domanda. Niente su di te e niente sui tuoi file. Non scarica e non installa nulla — decidi tu.",
-  "nl": "Het programma controleert of er een nieuwere versie is verschenen. Meer verlaat de computer niet: één vraag. Niets over u en niets over uw bestanden. Het downloadt niets en installeert niets — u beslist.",
-  "pl": "Program sprawdza, czy ukazała się nowsza wersja. Tylko tyle opuszcza komputer: jedno pytanie. Nic o tobie i nic o twoich plikach. Niczego nie pobiera ani nie instaluje — decydujesz ty.",
-  "pt": "O programa verifica se saiu uma versão mais recente. É tudo o que sai do computador: uma pergunta. Nada sobre si e nada sobre os seus ficheiros. Não descarrega nem instala nada — decide você.",
-  "ru": "Программа проверяет, вышла ли более новая версия. Это всё, что покидает компьютер: один вопрос. Ничего о вас и ничего о ваших файлах. Она ничего не скачивает и не устанавливает — решаете вы."
+ "Programul verifică dacă a apărut o versiune mai nouă. Atât pleacă de pe calculator: o întrebare. Nimic despre tine și nimic despre fișierele tale. Nu descarcă nimic până nu apeși tu Actualizează.": {
+  "de": "Das Programm prüft, ob eine neuere Version erschienen ist. Mehr verlässt den Rechner nicht: eine Frage. Nichts über Sie und nichts über Ihre Dateien. Es wird nichts heruntergeladen, bis Sie auf Aktualisieren drücken.",
+  "en": "The program checks whether a newer version has come out. That is all that leaves the computer: one question. Nothing about you and nothing about your files. Nothing is downloaded until you press Update.",
+  "es": "El programa comprueba si ha salido una versión más reciente. Eso es todo lo que sale del ordenador: una pregunta. Nada sobre ti y nada sobre tus archivos. No se descarga nada hasta que pulsas Actualizar.",
+  "fr": "Le logiciel vérifie s'il existe une version plus récente. C'est tout ce qui quitte l'ordinateur : une question. Rien sur vous et rien sur vos fichiers. Rien n'est téléchargé tant que vous n'appuyez pas sur Mettre à jour.",
+  "it": "Il programma verifica se è uscita una versione più recente. È tutto ciò che lascia il computer: una domanda. Niente su di te e niente sui tuoi file. Non viene scaricato nulla finché non premi Aggiorna.",
+  "nl": "Het programma controleert of er een nieuwere versie is verschenen. Meer verlaat de computer niet: één vraag. Niets over u en niets over uw bestanden. Er wordt niets gedownload totdat u op Bijwerken drukt.",
+  "pl": "Program sprawdza, czy ukazała się nowsza wersja. Tylko tyle opuszcza komputer: jedno pytanie. Nic o tobie i nic o twoich plikach. Nic nie jest pobierane, dopóki nie naciśniesz Zaktualizuj.",
+  "pt": "O programa verifica se saiu uma versão mais recente. É tudo o que sai do computador: uma pergunta. Nada sobre si e nada sobre os seus ficheiros. Nada é descarregado enquanto não premir Atualizar.",
+  "ru": "Программа проверяет, вышла ли более новая версия. Это всё, что покидает компьютер: один вопрос. Ничего о вас и ничего о ваших файлах. Ничего не загружается, пока вы не нажмёте «Обновить»."
  },
  "Renunță la ștergere": {
   "de": "Löschen abbrechen",
@@ -625,6 +724,17 @@
   "pl": "Nowa wersja: %s",
   "pt": "Versão nova: %s",
   "ru": "Новая версия: %s"
+ },
+ "Vrei să deschid pagina de unde poți descărca singur versiunea nouă?": {
+  "de": "Soll ich die Seite öffnen, auf der Sie die neue Version selbst herunterladen können?",
+  "en": "Shall I open the page where you can download the new version yourself?",
+  "es": "¿Quieres que abra la página donde descargar tú mismo la versión nueva?",
+  "fr": "Voulez-vous que j'ouvre la page où télécharger vous-même la nouvelle version ?",
+  "it": "Vuoi che apra la pagina da cui scaricare tu stesso la versione nuova?",
+  "nl": "Zal ik de pagina openen waar u de nieuwe versie zelf kunt downloaden?",
+  "pl": "Otworzyć stronę, z której możesz sam pobrać nową wersję?",
+  "pt": "Quer que abra a página onde pode descarregar você mesmo a versão nova?",
+  "ru": "Открыть страницу, где вы сможете сами загрузить новую версию?"
  },
  "Zona e prea mică. Trage un dreptunghi peste ce vrei să ștergi.": {
   "de": "Der Bereich ist zu klein. Ziehen Sie ein Rechteck über das, was gelöscht werden soll.",
