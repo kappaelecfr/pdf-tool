@@ -681,6 +681,17 @@
   "pt": "Imagem pronta — clique na página para a colocar.",
   "ru": "Изображение готово — нажмите на странице, чтобы поставить его."
  },
+ "Instalarea nu a reusit.\n\n%s\n\nDeschide Command Prompt si ruleaza:\n\n    %s": {
+  "de": "Die Installation ist fehlgeschlagen.\n\n%s\n\nÖffnen Sie die Eingabeaufforderung und führen Sie aus:\n\n    %s",
+  "en": "The installation did not succeed.\n\n%s\n\nOpen Command Prompt and run:\n\n    %s",
+  "es": "La instalación no se completó.\n\n%s\n\nAbre el símbolo del sistema y ejecuta:\n\n    %s",
+  "fr": "L'installation n'a pas abouti.\n\n%s\n\nOuvrez l'invite de commandes et lancez :\n\n    %s",
+  "it": "L'installazione non è riuscita.\n\n%s\n\nApri il Prompt dei comandi ed esegui:\n\n    %s",
+  "nl": "De installatie is mislukt.\n\n%s\n\nOpen de opdrachtprompt en voer uit:\n\n    %s",
+  "pl": "Instalacja się nie powiodła.\n\n%s\n\nOtwórz Wiersz polecenia i uruchom:\n\n    %s",
+  "pt": "A instalação não foi concluída.\n\n%s\n\nAbra a Linha de Comandos e execute:\n\n    %s",
+  "ru": "Установка не удалась.\n\n%s\n\nОткройте командную строку и выполните:\n\n    %s"
+ },
  "Limbă": {
   "de": "Sprache",
   "en": "Language",
@@ -713,6 +724,39 @@
   "pl": "Wklej, klikając na stronie",
   "pt": "Colar clicando na página",
   "ru": "Вставить щелчком по странице"
+ },
+ "Lipseste biblioteca %s.": {
+  "de": "Die Bibliothek %s fehlt.",
+  "en": "%s library is missing.",
+  "es": "Falta la biblioteca %s.",
+  "fr": "La bibliothèque %s est absente.",
+  "it": "Manca la libreria %s.",
+  "nl": "De bibliotheek %s ontbreekt.",
+  "pl": "Brakuje biblioteki %s.",
+  "pt": "Falta a biblioteca %s.",
+  "ru": "Отсутствует библиотека %s."
+ },
+ "Lipseste biblioteca %s.\n\nDeschide Command Prompt si ruleaza:\n\n    %s": {
+  "de": "Die Bibliothek %s fehlt.\n\nÖffnen Sie die Eingabeaufforderung und führen Sie aus:\n\n    %s",
+  "en": "%s library is missing.\n\nOpen Command Prompt and run:\n\n    %s",
+  "es": "Falta la biblioteca %s.\n\nAbre el símbolo del sistema y ejecuta:\n\n    %s",
+  "fr": "La bibliothèque %s est absente.\n\nOuvrez l'invite de commandes et lancez :\n\n    %s",
+  "it": "Manca la libreria %s.\n\nApri il Prompt dei comandi ed esegui:\n\n    %s",
+  "nl": "De bibliotheek %s ontbreekt.\n\nOpen de opdrachtprompt en voer uit:\n\n    %s",
+  "pl": "Brakuje biblioteki %s.\n\nOtwórz Wiersz polecenia i uruchom:\n\n    %s",
+  "pt": "Falta a biblioteca %s.\n\nAbra a Linha de Comandos e execute:\n\n    %s",
+  "ru": "Отсутствует библиотека %s.\n\nОткройте командную строку и выполните:\n\n    %s"
+ },
+ "Lipseste biblioteca %s.\n\nO instalez acum? E nevoie de internet, o singura data, cam un minut. Programul porneste singur dupa aceea.": {
+  "de": "Die Bibliothek %s fehlt.\n\nJetzt installieren? Dafür wird einmalig das Internet gebraucht, etwa eine Minute. Danach startet das Programm von selbst.",
+  "en": "%s library is missing.\n\nInstall it now? It needs the internet, once, for about a minute. The program starts again by itself afterwards.",
+  "es": "Falta la biblioteca %s.\n\n¿La instalo ahora? Hace falta internet, una sola vez, cerca de un minuto. El programa se abre solo después.",
+  "fr": "La bibliothèque %s est absente.\n\nL'installer maintenant ? Il faut Internet, une seule fois, environ une minute. Le programme redémarre tout seul ensuite.",
+  "it": "Manca la libreria %s.\n\nLa installo ora? Serve internet, una sola volta, circa un minuto. Poi il programma si riavvia da solo.",
+  "nl": "De bibliotheek %s ontbreekt.\n\nNu installeren? Daarvoor is eenmalig internet nodig, ongeveer een minuut. Daarna start het programma vanzelf.",
+  "pl": "Brakuje biblioteki %s.\n\nZainstalować teraz? Potrzebny jest internet, jednorazowo, około minuty. Potem program uruchomi się sam.",
+  "pt": "Falta a biblioteca %s.\n\nInstalar agora? É preciso internet, uma única vez, cerca de um minuto. Depois o programa abre sozinho.",
+  "ru": "Отсутствует библиотека %s.\n\nУстановить сейчас? Нужен интернет, один раз, около минуты. Потом программа запустится сама."
  },
  "Micșorează": {
   "de": "Verkleinern",
