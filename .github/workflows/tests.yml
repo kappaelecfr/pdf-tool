@@ -16,7 +16,7 @@ jobs:
         with:
           python-version: "3.12"
       - name: Install libraries
-        run: python -m pip install pymupdf pillow
+        run: python -m pip install "pymupdf<2" pillow
       - name: Core
         run: python source/tests_core.py
       - name: Features
