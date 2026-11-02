@@ -69,8 +69,11 @@ def _lipsa(nume):
     Executabilul (PyInstaller) are bibliotecile incluse si nu ajunge aici;
     daca ar ajunge, nu are pip, deci doar spune ce lipseste.
     """
-    comanda = [sys.executable, "-m", "pip", "install", "pymupdf", "pillow"]
-    manual = '"%s" -m pip install pymupdf pillow' % sys.executable
+    comanda = [sys.executable, "-m", "pip", "install", "pymupdf<2", "pillow"]
+    # PyMuPDF 2.x schimba rezultatul find_tables() (spatii pierdute, zecimale
+    # sparte); aplicatia e dezvoltata si testata pe 1.x. Ghilimelele sunt
+    # necesare: in Command Prompt "<" ar fi redirectare.
+    manual = '"%s" -m pip install "pymupdf<2" pillow' % sys.executable
     if getattr(sys, "frozen", False):
         _fatal(t("Lipseste biblioteca %s.") % nume)
     # Deja instalata si repornita, dar tot nu se incarca: nu mai intrebam,
