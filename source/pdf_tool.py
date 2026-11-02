@@ -40,6 +40,10 @@ import spell
 import update_check
 from faq import text_for as faq_text
 
+# limba se alege acum, nu mai tarziu: mesajele de pornire (biblioteca lipsa)
+# apar inainte de fereastra principala si trebuie sa fie in limba utilizatorului
+set_lang(load_pref())
+
 APP_NAME = "PDF Tool"
 APP_VER = "1.10.0"
 # anul vine din ceasul calculatorului, deci se schimba singur
