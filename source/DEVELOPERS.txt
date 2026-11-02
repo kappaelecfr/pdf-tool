@@ -110,7 +110,7 @@ LIBRARIES
   tkinterdnd2  drag & drop (optional: without it the app still runs, you
                just cannot drop files into the window)
 
-  python -m pip install pymupdf pillow fonttools tkinterdnd2
+  python -m pip install "pymupdf<2" pillow fonttools tkinterdnd2
 
 
 THINGS WORTH KNOWING

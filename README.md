@@ -75,7 +75,7 @@ with the `?` and `FAQ` buttons.
 ## Building it yourself
 
 ```
-python -m pip install pymupdf pillow fonttools tkinterdnd2 pyinstaller
+python -m pip install "pymupdf<2" pillow fonttools tkinterdnd2 pyinstaller
 cd source
 python -m PyInstaller --noconfirm --clean --onefile --windowed ^
   --name "PDF Tool" --icon icon.ico --collect-all tkinterdnd2 pdf_tool.py
