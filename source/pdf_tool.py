@@ -57,15 +57,64 @@ def _fatal(msg):
     sys.exit(1)
 
 
+def _lipsa(nume):
+    """O biblioteca lipseste: propune instalarea, cu Python-ul care ruleaza.
+
+    Mesajul de dinainte spunea doar "python -m pip install ...". Pe un
+    calculator cu doua instalari de Python, comanda din Command Prompt
+    instala biblioteca in celalalt Python, iar programul repornea cu
+    aceeasi eroare. sys.executable este exact interpretorul care ruleaza
+    acum, deci instalarea ajunge acolo unde e cautata.
+
+    Executabilul (PyInstaller) are bibliotecile incluse si nu ajunge aici;
+    daca ar ajunge, nu are pip, deci doar spune ce lipseste.
+    """
+    comanda = [sys.executable, "-m", "pip", "install", "pymupdf", "pillow"]
+    manual = '"%s" -m pip install pymupdf pillow' % sys.executable
+    if getattr(sys, "frozen", False):
+        _fatal(t("Lipseste biblioteca %s.") % nume)
+    # Deja instalata si repornita, dar tot nu se incarca: nu mai intrebam,
+    # altfel programul ar reporni si ar intreba la nesfarsit.
+    if os.environ.get("PDFTOOL_DUPA_INSTALARE"):
+        _fatal(t("Lipseste biblioteca %s.\n\n"
+                 "Deschide Command Prompt si ruleaza:\n\n    %s") % (nume, manual))
+    try:
+        r = tk.Tk()
+        r.withdraw()
+        da = messagebox.askyesno(APP_NAME, t(
+            "Lipseste biblioteca %s.\n\n"
+            "O instalez acum? E nevoie de internet, o singura data, "
+            "cam un minut. Programul porneste singur dupa aceea.") % nume)
+        r.destroy()
+    except Exception:
+        da = False
+    if not da:
+        _fatal(t("Lipseste biblioteca %s.\n\n"
+                 "Deschide Command Prompt si ruleaza:\n\n    %s") % (nume, manual))
+    try:
+        rez = subprocess.run(comanda, capture_output=True, text=True,
+                             creationflags=getattr(subprocess, "CREATE_NO_WINDOW", 0))
+        ok = rez.returncode == 0
+        detaliu = (rez.stderr or rez.stdout or "").strip()[-600:]
+    except Exception as e:
+        ok, detaliu = False, str(e)
+    if not ok:
+        _fatal(t("Instalarea nu a reusit.\n\n%s\n\n"
+                 "Deschide Command Prompt si ruleaza:\n\n    %s") % (detaliu, manual))
+    # Un proces nou vede bibliotecile abia instalate; acesta nu le-ar vedea
+    # mereu (dosarul de utilizator al pip nu e in sys.path daca nu exista la pornire).
+    subprocess.Popen([sys.executable] + sys.argv,
+                     env=dict(os.environ, PDFTOOL_DUPA_INSTALARE="1"))
+    sys.exit(0)
+
+
 try:
     import pymupdf
 except ImportError:
     try:
         import fitz as pymupdf
     except ImportError:
-        _fatal(t("Lipseste biblioteca PyMuPDF.\n\n"
-               "Deschide Command Prompt si ruleaza:\n\n"
-               "    python -m pip install pymupdf pillow"))
+        _lipsa("PyMuPDF")
 
 try:
     from tkinterdnd2 import TkinterDnD, DND_FILES
@@ -79,9 +128,7 @@ except Exception:                      # fara drag & drop, restul merge la fel
 try:
     from PIL import Image, ImageDraw, ImageTk
 except ImportError:
-    _fatal(t("Lipseste biblioteca Pillow.\n\n"
-           "Deschide Command Prompt si ruleaza:\n\n"
-           "    python -m pip install pymupdf pillow"))
+    _lipsa("Pillow")
 
 
 # --------------------------------------------------------------------------
