@@ -4,7 +4,7 @@ import os
 import sys
 import pymupdf
 
-sys.path.insert(0, r"C:\Users\kappa\Documents\PDF-Tool\source")
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import pdf_tool as T
 
 import tempfile

@@ -1,5 +1,6 @@
 # executabilul se publica la Releases, nu in depozit
 *.exe
+*.exe.*
 *.bak
 
 # rezultate de compilare
