@@ -1081,6 +1081,125 @@ check(app19.doc is not None, "fereastra principala functioneaza mai departe")
 app19.destroy()
 
 
+# =====================================================================
+print("\n[20] Problema sau sugestie")
+import urllib.parse as _up
+import webbrowser as _wb
+
+app20 = T.PDFTool()
+app20.update()
+LG.set_lang("ro")
+
+# 1. In subsol exista un text scurt, in limba curenta, care deschide fereastra.
+for _cod in LG.LANG_ORDER:
+    LG.set_lang(_cod)
+    _scurt = LG.t("Problemă sau sugestie?")
+    check(len(_scurt) <= 28, "%s: textul din subsol e scurt: %r" % (_cod, _scurt))
+    check(_cod == "ro" or _scurt != "Problemă sau sugestie?",
+          "%s: textul din subsol e tradus" % _cod)
+LG.set_lang("fr")
+check(LG.t("Problemă sau sugestie?") == "Problème ou suggestion ?",
+      "franceza: Problème ou suggestion ?")
+LG.set_lang("ro")
+
+# 2. Fereastra se deschide; butonul "Deschide e-mailul" face un mailto catre
+#    adresa de contact, cu subiectul si textul, si nu trimite nimic singur.
+_deschise = []
+_wb_vechi = _wb.open
+_wb.open = lambda url, *a, **k: (_deschise.append(url), True)[1]
+
+
+def _gaseste(radacina, clasa, text=None):
+    for c in radacina.winfo_children():
+        if isinstance(c, clasa) and (text is None or c.cget("text") == text):
+            return c
+        r = _gaseste(c, clasa, text)
+        if r is not None:
+            return r
+    return None
+
+
+def _ferestre_noi(app, inainte):
+    return [w for w in app.winfo_children()
+            if isinstance(w, T.tk.Toplevel) and w not in inainte]
+
+
+_inainte = list(app20.winfo_children())
+app20.show_feedback()
+app20.update()
+_noi = _ferestre_noi(app20, _inainte)
+check(len(_noi) == 1, "show_feedback deschide o fereastra")
+_w = _noi[0]
+_text = _gaseste(_w, T.tk.Text)
+_btn = _gaseste(_w, T.ttk.Button, "Deschide e-mailul")
+check(_text is not None and _btn is not None, "fereastra are mesajul si butonul de e-mail")
+
+# gol: nu se deschide nimic
+_btn.invoke()
+app20.update()
+check(not _deschise, "mesaj gol: nu se deschide e-mailul")
+
+_text.insert("1.0", "Nu merge salvarea cu diacritice: Ștefan")
+_btn.invoke()
+app20.update()
+check(len(_deschise) == 1, "un mesaj scris deschide e-mailul o singura data")
+_u = _deschise[0] if _deschise else ""
+check(_u.startswith("mailto:" + T.CONTACT + "?"), "mailto catre %s" % T.CONTACT)
+_q = _up.parse_qs(_up.urlparse(_u).query)
+check(_q.get("subject", [""])[0] == "[%s %s] Problem" % (T.APP_NAME, T.APP_VER),
+      "subiectul are versiunea: %r" % _q.get("subject"))
+_corp = _q.get("body", [""])[0]
+check("Ștefan" in _corp, "diacriticele ajung intacte in mesaj")
+check("Windows:" in _corp and T.APP_VER in _corp, "informatiile tehnice sunt adaugate")
+check(str(src) not in _corp and D not in _corp, "nicio cale de fisier in mesaj")
+check(not _w.winfo_exists(), "fereastra se inchide dupa ce s-a deschis e-mailul")
+
+# 3. Sugestie, fara informatii tehnice.
+_deschise.clear()
+_inainte = list(app20.winfo_children())
+app20.show_feedback()
+app20.update()
+_w = _ferestre_noi(app20, _inainte)[0]
+_gaseste(_w, T.ttk.Radiobutton, "Sugestie").invoke()
+_gaseste(_w, T.ttk.Checkbutton).invoke()
+_gaseste(_w, T.tk.Text).insert("1.0", "O idee")
+_gaseste(_w, T.ttk.Button, "Deschide e-mailul").invoke()
+app20.update()
+_q = _up.parse_qs(_up.urlparse(_deschise[0]).query) if _deschise else {}
+check(_q.get("subject", [""])[0].endswith("Suggestion"),
+      "sugestia are subiect Suggestion: %r" % (_deschise,))
+check("Windows:" not in _q.get("body", [""])[0], "fara bifa, nu se adauga informatii tehnice")
+
+# 4. Mesaj foarte lung: adresa ar fi prea lunga, deci textul merge pe clipboard.
+_deschise.clear()
+_inainte = list(app20.winfo_children())
+app20.show_feedback()
+app20.update()
+_w = _ferestre_noi(app20, _inainte)[0]
+_lung = "x" * 3000
+_gaseste(_w, T.tk.Text).insert("1.0", _lung)
+_gaseste(_w, T.ttk.Button, "Deschide e-mailul").invoke()
+app20.update()
+check(len(_deschise) == 1 and len(_deschise[0]) < 400,
+      "mesaj lung: mailto scurt, fara corp")
+check(_lung in app20.clipboard_get(), "mesaj lung: textul intreg e pe clipboard")
+
+# 5. Fara program de e-mail: adresa se copiaza, fereastra ramane.
+_wb.open = lambda url, *a, **k: False
+_inainte = list(app20.winfo_children())
+app20.show_feedback()
+app20.update()
+_w = _ferestre_noi(app20, _inainte)[0]
+_gaseste(_w, T.tk.Text).insert("1.0", "ceva")
+_gaseste(_w, T.ttk.Button, "Deschide e-mailul").invoke()
+app20.update()
+check(app20.clipboard_get() == T.CONTACT, "fara program de e-mail: adresa e pe clipboard")
+check(_w.winfo_exists(), "fara program de e-mail: fereastra ramane deschisa")
+_w.destroy()
+
+_wb.open = _wb_vechi
+app20.destroy()
+
 app.destroy()
 
 print("\n" + "=" * 58)
