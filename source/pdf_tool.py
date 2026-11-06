@@ -28,6 +28,8 @@ import tempfile
 import csv
 import traceback
 import subprocess
+import platform
+import urllib.parse
 import webbrowser
 import tkinter as tk
 from tkinter import ttk, filedialog, messagebox, colorchooser
@@ -48,6 +50,8 @@ APP_NAME = "PDF Tool"
 APP_VER = "1.10.0"
 # anul vine din ceasul calculatorului, deci se schimba singur
 COPYRIGHT = "Copyright \u00a9 KappaProject %d"
+# unde ajung problemele si sugestiile; aceeasi adresa ca pe site-ul KappaProject
+CONTACT = "support.kappaproject@gmail.com"
 
 
 def _fatal(msg):
@@ -986,6 +990,13 @@ class PDFTool(_ROOT_BASE):
                                 bg=BG, fg=MUTED, font=("Segoe UI", 8), cursor="hand2")
         self.lbl_ver.pack(side="right", padx=(0, 14))
         self.lbl_ver.bind("<Button-1>", lambda e: self.show_about())
+        # contact: o problema sau o sugestie, la un click distanta; textul e
+        # scurt ca sa incapa in subsol si pe ecrane inguste
+        self.lbl_feedback = tk.Label(st, text=t("Problemă sau sugestie?"),
+                                     bg=BG, fg=MUTED, font=("Segoe UI", 8, "underline"),
+                                     cursor="hand2")
+        self.lbl_feedback.pack(side="right", padx=(0, 14))
+        self.lbl_feedback.bind("<Button-1>", lambda e: self.show_feedback())
         # anuntul unei versiuni noi, cand exista; altfel nu se vede
         self.lbl_nou = tk.Label(st, text="", bg=BG, fg=ACCENT,
                                 font=("Segoe UI", 8, "bold"), cursor="hand2")
@@ -2562,6 +2573,119 @@ class PDFTool(_ROOT_BASE):
             b_desc.pack(side="left", padx=(8, 0))
 
         ttk.Button(f, text=t("Închide"), command=w.destroy).pack(anchor="e", pady=(16, 0))
+        w.update_idletasks()
+        sw, sh = self.winfo_screenwidth(), self.winfo_screenheight()
+        w.geometry("+%d+%d" % (max(0, (sw - w.winfo_width()) // 2),
+                               max(0, (sh - w.winfo_height()) // 3)))
+
+    # ------------------------------------------- problema sau sugestie
+
+    def _info_tehnice(self):
+        """Ce versiune si ce sistem, ca sa se poata reproduce o problema.
+
+        Nimic despre fisierele deschise si nimic despre utilizator.
+        """
+        return "\n".join([
+            "%s %s (%s)" % (APP_NAME, APP_VER,
+                            "exe" if getattr(sys, "frozen", False) else "source"),
+            "Windows: %s" % platform.platform(),
+            "Python: %s" % platform.python_version(),
+            "Language: %s" % current(),
+        ])
+
+    def _copiaza(self, text):
+        try:
+            self.clipboard_clear()
+            self.clipboard_append(text)
+            self.update()
+            return True
+        except Exception:
+            return False
+
+    def show_feedback(self):
+        """O problema sau o sugestie: pregateste un e-mail, nu trimite nimic.
+
+        Se deschide programul de e-mail al utilizatorului cu mesajul gata
+        scris. Il citeste si il trimite el; programul nu atinge reteaua.
+        """
+        w = tk.Toplevel(self)
+        w.title(t("Raportează o problemă sau o sugestie"))
+        w.configure(bg=PANEL)
+        w.transient(self)
+        w.resizable(False, False)
+        f = tk.Frame(w, bg=PANEL)
+        f.pack(fill="both", expand=True, padx=18, pady=16)
+
+        gen = tk.StringVar(master=w, value="problem")
+        rand = tk.Frame(f, bg=PANEL)
+        rand.pack(anchor="w")
+        ttk.Radiobutton(rand, text=t("Problemă"), value="problem",
+                        variable=gen).pack(side="left")
+        ttk.Radiobutton(rand, text=t("Sugestie"), value="suggestion",
+                        variable=gen).pack(side="left", padx=(14, 0))
+
+        tk.Label(f, text=t("Scrie mesajul aici. Nu pune parole sau date personale."),
+                 bg=PANEL, fg=MUTED, font=("Segoe UI", 9), justify="left",
+                 wraplength=420).pack(anchor="w", pady=(10, 4))
+        mesaj = tk.Text(f, width=56, height=8, wrap="word", font=("Segoe UI", 10),
+                        relief="solid", bd=1)
+        mesaj.pack(fill="x")
+        mesaj.focus_set()
+
+        tech = tk.BooleanVar(master=w, value=True)
+        ttk.Checkbutton(f, text=t("Adaugă informații tehnice: versiunea programului, "
+                                  "Windows și limba. Nimic despre fișierele tale."),
+                        variable=tech).pack(anchor="w", pady=(10, 0))
+        tk.Label(f, text=t("Programul nu trimite nimic singur. Se deschide programul "
+                           "tău de e-mail cu mesajul gata scris; îl citești și îl "
+                           "trimiți tu."),
+                 bg=PANEL, fg=MUTED, font=("Segoe UI", 9), justify="left",
+                 wraplength=420).pack(anchor="w", pady=(8, 0))
+
+        def deschide():
+            text = mesaj.get("1.0", "end").strip()
+            if not text:
+                messagebox.showinfo(APP_NAME, t("Scrie mai întâi câteva cuvinte."),
+                                    parent=w)
+                return
+            corp = text
+            if tech.get():
+                corp += "\r\n\r\n--\r\n" + self._info_tehnice().replace("\n", "\r\n")
+            subiect = "[%s %s] %s" % (APP_NAME, APP_VER,
+                                      "Problem" if gen.get() == "problem" else "Suggestion")
+            q = urllib.parse.quote
+            url = "mailto:%s?subject=%s&body=%s" % (CONTACT, q(subiect), q(corp))
+            if len(url) > 1900:
+                # o adresa prea lunga nu se deschide: mesajul merge pe clipboard
+                self._copiaza(corp)
+                url = "mailto:%s?subject=%s" % (CONTACT, q(subiect))
+                messagebox.showinfo(APP_NAME, t("Mesajul e lung. L-am copiat; "
+                                                "lipește-l în e-mail cu Ctrl+V."),
+                                    parent=w)
+            try:
+                ok = webbrowser.open(url)
+            except Exception:
+                ok = False
+            if ok:
+                w.destroy()
+            else:
+                self._copiaza(CONTACT)
+                messagebox.showinfo(APP_NAME, t("Nu am putut deschide programul de "
+                                                "e-mail. Adresa a fost copiată: %s")
+                                    % CONTACT, parent=w)
+
+        def copiaza_adresa():
+            if self._copiaza(CONTACT):
+                self.status(t("Adresa a fost copiată: %s") % CONTACT)
+
+        butoane = tk.Frame(f, bg=PANEL)
+        butoane.pack(fill="x", pady=(14, 0))
+        ttk.Button(butoane, text=t("Deschide e-mailul"), style="Accent.TButton",
+                   command=deschide).pack(side="left")
+        ttk.Button(butoane, text=t("Copiază adresa"),
+                   command=copiaza_adresa).pack(side="left", padx=(8, 0))
+        ttk.Button(butoane, text=t("Închide"), command=w.destroy).pack(side="right")
+        w.bind("<Escape>", lambda e: w.destroy())
         w.update_idletasks()
         sw, sh = self.winfo_screenwidth(), self.winfo_screenheight()
         w.geometry("+%d+%d" % (max(0, (sw - w.winfo_width()) // 2),

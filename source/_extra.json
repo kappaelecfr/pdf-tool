@@ -65,6 +65,17 @@
   "pt": "Acrescentar",
   "ru": "Добавить"
  },
+ "Adaugă informații tehnice: versiunea programului, Windows și limba. Nimic despre fișierele tale.": {
+  "de": "Technische Angaben anhängen: Programmversion, Windows und Sprache. Nichts über Ihre Dateien.",
+  "en": "Add technical details: program version, Windows and language. Nothing about your files.",
+  "es": "Añadir datos técnicos: versión del programa, Windows e idioma. Nada sobre sus archivos.",
+  "fr": "Ajouter les infos techniques : version du programme, Windows et langue. Rien sur vos fichiers.",
+  "it": "Aggiungi dati tecnici: versione del programma, Windows e lingua. Niente sui tuoi file.",
+  "nl": "Technische gegevens toevoegen: programmaversie, Windows en taal. Niets over uw bestanden.",
+  "pl": "Dołącz dane techniczne: wersję programu, Windows i język. Nic o Twoich plikach.",
+  "pt": "Adicionar dados técnicos: versão do programa, Windows e idioma. Nada sobre os seus ficheiros.",
+  "ru": "Добавить технические данные: версию программы, Windows и язык. Ничего о ваших файлах."
+ },
  "Adaugă la finalul documentului": {
   "de": "Ans Ende anhängen",
   "en": "Append to the document",
@@ -75,6 +86,17 @@
   "pl": "Dodaj na końcu",
   "pt": "Acrescentar no fim",
   "ru": "Добавить в конец документа"
+ },
+ "Adresa a fost copiată: %s": {
+  "de": "Adresse kopiert: %s",
+  "en": "Address copied: %s",
+  "es": "Dirección copiada: %s",
+  "fr": "Adresse copiée : %s",
+  "it": "Indirizzo copiato: %s",
+  "nl": "Adres gekopieerd: %s",
+  "pl": "Adres skopiowany: %s",
+  "pt": "Endereço copiado: %s",
+  "ru": "Адрес скопирован: %s"
  },
  "Alege PDF-ul din care copiezi": {
   "de": "Wählen Sie das PDF, aus dem Sie kopieren",
@@ -395,6 +417,17 @@
   "pt": "Clique onde quer a zona copiada",
   "ru": "Щёлкните там, где нужна скопированная область"
  },
+ "Copiază adresa": {
+  "de": "Adresse kopieren",
+  "en": "Copy address",
+  "es": "Copiar la dirección",
+  "fr": "Copier l'adresse",
+  "it": "Copia l'indirizzo",
+  "nl": "Adres kopiëren",
+  "pl": "Kopiuj adres",
+  "pt": "Copiar o endereço",
+  "ru": "Копировать адрес"
+ },
  "Copiază o zonă": {
   "de": "Bereich kopieren",
   "en": "Copy an area",
@@ -460,6 +493,17 @@
   "pl": "Pobieram wersję %s…",
   "pt": "A descarregar a versão %s…",
   "ru": "Загружаю версию %s…"
+ },
+ "Deschide e-mailul": {
+  "de": "E-Mail öffnen",
+  "en": "Open email",
+  "es": "Abrir el correo",
+  "fr": "Ouvrir l'e-mail",
+  "it": "Apri l'e-mail",
+  "nl": "E-mail openen",
+  "pl": "Otwórz e-mail",
+  "pt": "Abrir o e-mail",
+  "ru": "Открыть письмо"
  },
  "Deschide pagina de descărcare": {
   "de": "Die Downloadseite öffnen",
@@ -758,6 +802,17 @@
   "pt": "Falta a biblioteca %s.\n\nInstalar agora? É preciso internet, uma única vez, cerca de um minuto. Depois o programa abre sozinho.",
   "ru": "Отсутствует библиотека %s.\n\nУстановить сейчас? Нужен интернет, один раз, около минуты. Потом программа запустится сама."
  },
+ "Mesajul e lung. L-am copiat; lipește-l în e-mail cu Ctrl+V.": {
+  "de": "Die Nachricht ist lang. Ich habe sie kopiert; fügen Sie sie mit Strg+V in die E-Mail ein.",
+  "en": "The message is long. I copied it; paste it into the email with Ctrl+V.",
+  "es": "El mensaje es largo. Lo he copiado; péguelo en el correo con Ctrl+V.",
+  "fr": "Le message est long. Je l'ai copié ; collez-le dans l'e-mail avec Ctrl+V.",
+  "it": "Il messaggio è lungo. L'ho copiato; incollalo nell'e-mail con Ctrl+V.",
+  "nl": "Het bericht is lang. Ik heb het gekopieerd; plak het in de e-mail met Ctrl+V.",
+  "pl": "Wiadomość jest długa. Została skopiowana; wklej ją do e-maila przez Ctrl+V.",
+  "pt": "A mensagem é longa. Copiei-a; cole-a no e-mail com Ctrl+V.",
+  "ru": "Сообщение длинное. Я скопировал его; вставьте в письмо клавишами Ctrl+V."
+ },
  "Micșorează": {
   "de": "Verkleinern",
   "en": "Zoom out",
@@ -812,6 +867,17 @@
   "pl": "Nie skopiowano obszaru",
   "pt": "Nenhuma zona copiada",
   "ru": "Область не скопирована"
+ },
+ "Nu am putut deschide programul de e-mail. Adresa a fost copiată: %s": {
+  "de": "Das E-Mail-Programm konnte nicht geöffnet werden. Die Adresse wurde kopiert: %s",
+  "en": "I could not open the email program. The address was copied: %s",
+  "es": "No pude abrir el programa de correo. La dirección se ha copiado: %s",
+  "fr": "Impossible d'ouvrir la messagerie. L'adresse a été copiée : %s",
+  "it": "Non sono riuscito ad aprire il programma di posta. L'indirizzo è stato copiato: %s",
+  "nl": "Het e-mailprogramma kon niet worden geopend. Het adres is gekopieerd: %s",
+  "pl": "Nie udało się otworzyć programu pocztowego. Adres został skopiowany: %s",
+  "pt": "Não consegui abrir o programa de e-mail. O endereço foi copiado: %s",
+  "ru": "Не удалось открыть почтовую программу. Адрес скопирован: %s"
  },
  "Nu am putut lipi zona:\n\n%s": {
   "de": "Der Bereich konnte nicht eingefügt werden:\n\n%s",
@@ -956,6 +1022,39 @@
   "pt": "Pode arrastar o texto escrito para o alinhar",
   "ru": "Написанный текст можно перетащить, чтобы выровнять"
  },
+ "Problemă": {
+  "de": "Problem",
+  "en": "Problem",
+  "es": "Problema",
+  "fr": "Problème",
+  "it": "Problema",
+  "nl": "Probleem",
+  "pl": "Problem",
+  "pt": "Problema",
+  "ru": "Проблема"
+ },
+ "Problemă sau sugestie?": {
+  "de": "Problem oder Vorschlag?",
+  "en": "Problem or suggestion?",
+  "es": "¿Problema o sugerencia?",
+  "fr": "Problème ou suggestion ?",
+  "it": "Problema o suggerimento?",
+  "nl": "Probleem of suggestie?",
+  "pl": "Problem lub sugestia?",
+  "pt": "Problema ou sugestão?",
+  "ru": "Проблема или предложение?"
+ },
+ "Programul nu trimite nimic singur. Se deschide programul tău de e-mail cu mesajul gata scris; îl citești și îl trimiți tu.": {
+  "de": "Das Programm sendet nichts von selbst. Ihr E-Mail-Programm öffnet sich mit der fertigen Nachricht; Sie lesen sie und senden sie selbst ab.",
+  "en": "The program sends nothing by itself. Your email program opens with the message ready; you read it and send it yourself.",
+  "es": "El programa no envía nada por sí solo. Se abre su programa de correo con el mensaje listo; usted lo lee y lo envía.",
+  "fr": "Le programme n'envoie rien tout seul. Votre messagerie s'ouvre avec le message prêt ; vous le relisez et l'envoyez vous-même.",
+  "it": "Il programma non invia nulla da solo. Si apre il tuo programma di posta con il messaggio pronto; lo leggi e lo invii tu.",
+  "nl": "Het programma verstuurt niets zelf. Uw e-mailprogramma opent met het bericht klaar; u leest het en verstuurt het zelf.",
+  "pl": "Program niczego nie wysyła sam. Otworzy się Twój program pocztowy z gotową wiadomością; sam ją sprawdzasz i wysyłasz.",
+  "pt": "O programa não envia nada sozinho. O seu programa de e-mail abre com a mensagem pronta; é você que a lê e a envia.",
+  "ru": "Программа ничего не отправляет сама. Откроется ваша почтовая программа с готовым письмом; вы читаете и отправляете его сами."
+ },
  "Programul verifică dacă a apărut o versiune mai nouă. Atât pleacă de pe calculator: o întrebare. Nimic despre tine și nimic despre fișierele tale. Nu descarcă nimic până nu apeși tu Actualizează.": {
   "de": "Das Programm prüft, ob eine neuere Version erschienen ist. Mehr verlässt den Rechner nicht: eine Frage. Nichts über Sie und nichts über Ihre Dateien. Es wird nichts heruntergeladen, bis Sie auf Aktualisieren drücken.",
   "en": "The program checks whether a newer version has come out. That is all that leaves the computer: one question. Nothing about you and nothing about your files. Nothing is downloaded until you press Update.",
@@ -966,6 +1065,17 @@
   "pl": "Program sprawdza, czy ukazała się nowsza wersja. Tylko tyle opuszcza komputer: jedno pytanie. Nic o tobie i nic o twoich plikach. Nic nie jest pobierane, dopóki nie naciśniesz Zaktualizuj.",
   "pt": "O programa verifica se saiu uma versão mais recente. É tudo o que sai do computador: uma pergunta. Nada sobre si e nada sobre os seus ficheiros. Nada é descarregado enquanto não premir Atualizar.",
   "ru": "Программа проверяет, вышла ли более новая версия. Это всё, что покидает компьютер: один вопрос. Ничего о вас и ничего о ваших файлах. Ничего не загружается, пока вы не нажмёте «Обновить»."
+ },
+ "Raportează o problemă sau o sugestie": {
+  "de": "Ein Problem oder einen Vorschlag melden",
+  "en": "Report a problem or suggestion",
+  "es": "Informar de un problema o sugerencia",
+  "fr": "Signaler un problème ou une suggestion",
+  "it": "Segnala un problema o un suggerimento",
+  "nl": "Een probleem of suggestie melden",
+  "pl": "Zgłoś problem lub sugestię",
+  "pt": "Comunicar um problema ou sugestão",
+  "ru": "Сообщить о проблеме или предложении"
  },
  "Renunță la copiere": {
   "de": "Kopieren abbrechen",
@@ -988,6 +1098,39 @@
   "pl": "Anuluj usuwanie",
   "pt": "Cancelar o apagamento",
   "ru": "Отменить удаление"
+ },
+ "Scrie mai întâi câteva cuvinte.": {
+  "de": "Schreiben Sie zuerst ein paar Worte.",
+  "en": "Write a few words first.",
+  "es": "Escriba primero unas palabras.",
+  "fr": "Écrivez d'abord quelques mots.",
+  "it": "Scrivi prima qualche parola.",
+  "nl": "Schrijf eerst een paar woorden.",
+  "pl": "Napisz najpierw kilka słów.",
+  "pt": "Escreva primeiro algumas palavras.",
+  "ru": "Сначала напишите несколько слов."
+ },
+ "Scrie mesajul aici. Nu pune parole sau date personale.": {
+  "de": "Schreiben Sie Ihre Nachricht hier. Geben Sie keine Passwörter oder persönlichen Daten an.",
+  "en": "Write your message here. Do not include passwords or personal data.",
+  "es": "Escriba aquí su mensaje. No incluya contraseñas ni datos personales.",
+  "fr": "Écrivez votre message ici. N'y mettez ni mot de passe ni données personnelles.",
+  "it": "Scrivi qui il tuo messaggio. Non inserire password o dati personali.",
+  "nl": "Schrijf hier uw bericht. Vermeld geen wachtwoorden of persoonlijke gegevens.",
+  "pl": "Napisz tutaj wiadomość. Nie podawaj haseł ani danych osobowych.",
+  "pt": "Escreva aqui a sua mensagem. Não inclua palavras-passe nem dados pessoais.",
+  "ru": "Напишите сообщение здесь. Не указывайте пароли и личные данные."
+ },
+ "Sugestie": {
+  "de": "Vorschlag",
+  "en": "Suggestion",
+  "es": "Sugerencia",
+  "fr": "Suggestion",
+  "it": "Suggerimento",
+  "nl": "Suggestie",
+  "pl": "Sugestia",
+  "pt": "Sugestão",
+  "ru": "Предложение"
  },
  "Sursă": {
   "de": "Quelle",
