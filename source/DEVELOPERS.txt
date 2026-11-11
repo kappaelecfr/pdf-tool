@@ -97,7 +97,7 @@ REBUILDING THE EXECUTABLE
 -------------------------
   python -m pip install pyinstaller
   python -m PyInstaller --noconfirm --clean --onefile --windowed ^
-    --name "PDF Tool" --icon icon.ico --collect-all tkinterdnd2 pdf_tool.py
+    --name "PDF Tool" --icon icon.ico --add-data "icon.ico;." --collect-all tkinterdnd2 pdf_tool.py
 
 The result is dist\PDF Tool.exe
 

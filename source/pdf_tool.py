@@ -47,7 +47,7 @@ from faq import text_for as faq_text
 set_lang(load_pref())
 
 APP_NAME = "PDF Tool"
-APP_VER = "1.11.0"
+APP_VER = "1.11.1"
 # anul vine din ceasul calculatorului, deci se schimba singur
 COPYRIGHT = "Copyright \u00a9 KappaProject %d"
 # unde ajung problemele si sugestiile; aceeasi adresa ca pe site-ul KappaProject
@@ -626,6 +626,15 @@ class PDFTool(_ROOT_BASE):
     def __init__(self):
         super().__init__()
         self.title(APP_NAME)
+        # iconita ferestrei (bara de titlu, bara de activitati): fara asta
+        # tkinter pune pana lui implicita, nu logo-ul din exe
+        try:
+            ico = os.path.join(getattr(sys, "_MEIPASS", os.path.dirname(
+                os.path.abspath(__file__))), "icon.ico")
+            if os.path.exists(ico):
+                self.iconbitmap(default=ico)
+        except Exception:
+            pass
         self.configure(bg=BG)
         # porneste incadrat in ecran, chiar si pe laptopuri mici
         sw, sh = self.winfo_screenwidth(), self.winfo_screenheight()
