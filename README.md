@@ -9,7 +9,7 @@ Free and open source. Windows, single `.exe`, nothing to install.
 
 ## Download
 
-**[Download the latest version](../../releases/latest)** — one file, about 42 MB.
+**[Download the latest version](../../releases/latest)** — one file, about 55 MB.
 
 Windows will warn you that the program is not digitally signed. Click
 **More info → Run anyway**. It only happens once. A signing certificate costs
