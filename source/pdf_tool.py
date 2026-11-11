@@ -47,7 +47,7 @@ from faq import text_for as faq_text
 set_lang(load_pref())
 
 APP_NAME = "PDF Tool"
-APP_VER = "1.10.0"
+APP_VER = "1.11.0"
 # anul vine din ceasul calculatorului, deci se schimba singur
 COPYRIGHT = "Copyright \u00a9 KappaProject %d"
 # unde ajung problemele si sugestiile; aceeasi adresa ca pe site-ul KappaProject
